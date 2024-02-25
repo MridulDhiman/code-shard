@@ -118,6 +118,10 @@ export const PATCH = auth(async (req, {params}) => {
         return NextResponse.json({message: "Unauthenticated request"}, {status: 401});
     }
     
+    const {mode, type} = await req.json();
+
+    console.log("Shard Mode: ", mode);
+    console.log("shard type: ", type);
     const user =session?.user;
     console.log("Slug: ", slug);
     console.log("User: ", user);
@@ -139,7 +143,9 @@ export const PATCH = auth(async (req, {params}) => {
             return NextResponse.json({message: "User not found"}, {status: 404})
         }
     
-        existingShard.type = existingShard.type === 'public' ? 'private': "public";
+        // existingShard.type = existingShard.type === 'public' ? 'private': "public";
+        if(type) existingShard.type = type;
+        if(mode) existingShard.mode = mode;
 
         await existingShard.save();
         console.log("Shard: ", existingShard);

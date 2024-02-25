@@ -15,7 +15,7 @@ const shards =existingUser.shards;
 console.log("Shards: ", shards);
 
 const shardsCollection = shards.map((shard, index) => {
-return <WorkCard key={index} type={shard.type} html={shard.html} css={shard.css} js={shard.js} title={shard.title} id={shard._id}/>
+return <WorkCard key={index} mode={shard.mode} type={shard.type} html={shard.html} css={shard.css} js={shard.js} title={shard.title} id={shard._id}/>
 });
 
 

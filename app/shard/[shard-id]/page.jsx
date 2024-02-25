@@ -14,14 +14,16 @@ export default async function NewShardPage({params}) {
 
 let content = null;
 if(shardDetails) {
-    const {html, css, js, title, _id} = shardDetails;
+    const {html, css, js, title, type, _id, mode} = shardDetails;
 
     content = {
        html,
        css,
        js,
        title,
-       _id
+       id: _id,
+       mode,
+       type
    }
 }
 

@@ -6,11 +6,11 @@ import { FaHeart } from "react-icons/fa";
 import { FaCommentAlt } from "react-icons/fa";
 import { IoEyeSharp } from "react-icons/io5";
 import { SlSizeFullscreen } from "react-icons/sl";
-import { MdDelete } from "react-icons/md";
-import { RiCollageFill, RiDeleteBack2Fill, RiDeleteBin2Fill, RiDeleteBin5Fill } from "react-icons/ri";
+import { RiCollageFill, RiDeleteBin2Fill } from "react-icons/ri";
 import {  FaLock } from "react-icons/fa6";
 import { FaUnlock } from "react-icons/fa";
 import Button from "./ui/Button";
+
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import clsx from "clsx";
@@ -82,7 +82,13 @@ const WorkCard = ({html, css, js, title, id, type}) => {
       const isConfirmed = confirm("Are you sure you want to proceed with this action?");
       if(isConfirmed) {
         fetch(`/api/shard/${id}`, {
-          method: "PATCH"
+          method: "PATCH", 
+          body : JSON.stringify({
+           'type' : type === 'private' ? "public": 'private'
+          }),
+          headers: {
+            "Content-Type":"application/json"
+          }
         })
         .then((res)=> res.json())
         .then((data) => {

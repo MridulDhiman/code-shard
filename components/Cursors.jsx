@@ -4,21 +4,11 @@ import {
 } from "@/liveblocks.config";
 
 
-export default function Cursors ({yProvider, resetFlag}) {
+export default function Cursors ({yProvider}) {
     const [awarenessUsers, setAwarenessUsers] = useState([]);
     const userInfo = useSelf((me) => me.info);
 
-   
-
-    useEffect(()=> {
-
-      if(resetFlag) {
-        setAwarenessUsers([]);
-      }
-
-      
-    }, [resetFlag])
-
+  
 
  
     useEffect(() => {

@@ -29,7 +29,11 @@ const shardSchema = new Schema({
         default: 'public',
         enum: ['public', 'private', 'forked']
     },
-
+    mode: {
+   type: String,
+   default: "normal",
+   enum: ['normal',"collaboration"]
+    },
     likes: {
         type: Number,
         default: 0
