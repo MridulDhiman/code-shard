@@ -23,13 +23,7 @@ export default function CollaborativeShard({roomId}) {
     const shardDetails = useSelector((state) => state.shard.current);
 
 
-    useEffect(()=> {
-       if(shardDetails) {
-        setHtml(shardDetails.html);
-        setCss(shardDetails.css);
-        setJs(shardDetails.js);
-       }
-    }, [shardDetails]);
+   
 
 
 
