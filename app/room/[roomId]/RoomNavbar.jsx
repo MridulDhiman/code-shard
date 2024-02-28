@@ -6,7 +6,8 @@ import { RiPencilFill } from "react-icons/ri";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setShard } from "@/store/slices/shard";
-import { CiExport, CiShare1 } from "react-icons/ci";
+import { CiExport } from "react-icons/ci";
+import { CiStop1 } from "react-icons/ci";
 import { FaRegShareSquare } from "react-icons/fa";
 import { setModal } from "@/store/slices/modal";
 import { IoMdClose } from "react-icons/io";
@@ -39,11 +40,7 @@ const RoomNavbar = ({ roomId }) => {
     };
   }, [isModalOpen]);
 
-  useEffect(() => {
-    if (shardDetails) {
-      setTitle(shardDetails.title);
-    }
-  }, [shardDetails]);
+
 
   useEffect(() => {
     dispatch(setShard({ title }));
@@ -123,11 +120,11 @@ const RoomNavbar = ({ roomId }) => {
                 <button
                   onClick={stopSession}
                   className={clsx(
-                    "p-8 text-white border border-white rounded-md flex items-center gap-2 text-sm",
+                    "p-4 py-2 text-white border border-white rounded-md flex items-center gap-2 text-sm",
                     "hover:border-red-600 hover:text-red-600"
                   )}
                 >
-                  <CiShare1 /> Stop Session
+                  <CiStop1 /> Stop Session
                 </button>
               </div>
             </div>

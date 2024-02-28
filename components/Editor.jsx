@@ -5,6 +5,8 @@ import { useRoom } from "@/liveblocks.config";
 import { Editor } from "@monaco-editor/react";
 import { MonacoBinding } from "y-monaco";
 import { useCallback, useEffect, useState } from "react";
+import Cursors from "./Cursors";
+
 
 
 const  CollaborativeEditor = ({ setCode, lang }) => {
@@ -21,7 +23,7 @@ const  CollaborativeEditor = ({ setCode, lang }) => {
         let binding;
     
         if (editorRef) {  
-          yDoc = Doc();
+          yDoc = new Doc();
           const yText = yDoc.getText("monaco");
           yProvider = new LiveblocksProvider(room, yDoc);
           setProvider(yProvider);
@@ -71,3 +73,4 @@ setEditorRef(editor);
 
 
 
+export default CollaborativeEditor;

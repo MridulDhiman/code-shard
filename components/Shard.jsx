@@ -8,7 +8,6 @@ import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { setPrev, setShard } from "@/store/slices/shard";
 import NormalEditor from "./NormalEditor";
-import { Editor as CollaborativeEditor } from "./EditorNoSSR";
 import { setModal } from "@/store/slices/modal";
 
 

@@ -1,9 +1,12 @@
+"use client";
 import { FaCodepen } from "react-icons/fa";
 
 import Svg1 from "./Svg1";
 import Card from "./Card";
+import { useRouter } from "next/navigation";
 
 const Main = () => {
+  const router = useRouter();
 
 
   const cardContainer = [{
@@ -39,7 +42,9 @@ const Main = () => {
               designers and developers. Build and test , show off
               your work, and find inspiration.
             </p>
-            <button className="my-5 bg-[#47cf73] hover:bg-[#248C46] text-black py-3 p-4 rounded-md" >Signup for free</button>
+            <button
+            onClick={()=> { router.push("/register")}}
+            className="my-5 bg-[#47cf73] hover:bg-[#248C46] text-black py-3 p-4 rounded-md" >Signup for free</button>
           </div>
 
           {/* right container  */}

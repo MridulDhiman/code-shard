@@ -23,12 +23,12 @@ const shardSlice = createSlice({
   reducers: {
     setShard(state, action) {
       const input = action.payload;
-      if (input.title) state.title = input.title;
-      if (input.html) state.html = input.html;
-      if (input.css) state.css = input.css;
-      if (input.js) state.js = input.js;
-      if (input.id) state.id = input.id;
-      if (input.mode) state.mode = input.mode;
+      if (input.title) state.current.title = input.title;
+      if (input.html) state.current.html = input.html;
+      if (input.css) state.current.css = input.css;
+      if (input.js) state.current.js = input.js;
+      if (input.id) state.current.id = input.id;
+      if (input.mode) state.current.mode = input.mode;
     },
 
     setPrev(state, action) {

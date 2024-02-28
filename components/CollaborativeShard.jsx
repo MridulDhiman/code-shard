@@ -1,12 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Room from "./Room";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { setShard } from "@/store/slices/shard";
-import { Editor as CollaborativeEditor } from "./EditorNoSSR";
+import CollaborativeEditor from "./Editor";
+import SubRoom from "./SubRoom";
+
 
 
 
@@ -77,12 +78,20 @@ useEffect(()=> {
 
   return (
     <>
-   
-        <Room roomId={roomId}>
+       
+          <div className="flex justify-center">
+          <SubRoom roomId={roomId} id={"html"}>
                <CollaborativeEditor setCode={setHtml} lang="html"/>
+        </SubRoom>
+        <SubRoom roomId={roomId} id={"css"}>
                <CollaborativeEditor setCode={setCss} lang="css"/>
+        </SubRoom>
+        <SubRoom roomId={roomId} id={"js"}>
                <CollaborativeEditor setCode={setJs} lang="js"/>
-            </Room>
+        </SubRoom>
+          </div>
+        
+           
     <div  style={{ height: "42vh", overflow: "auto" }} className="bg-white">
  
   <iframe

@@ -7,7 +7,7 @@ import {  useRouter } from "next/navigation";
 import { RiPencilFill } from "react-icons/ri";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setShard } from "@/store/slices/shard";
+import { setPrev, setShard } from "@/store/slices/shard";
 import { VscDebugStart } from "react-icons/vsc";
 import { FaRegShareSquare } from "react-icons/fa";
 import { setModal } from "@/store/slices/modal";
