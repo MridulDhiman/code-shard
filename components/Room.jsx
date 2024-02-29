@@ -3,8 +3,10 @@ import { ClientSideSuspense } from "@liveblocks/react";
 
 export default function Room({roomId, children}) {
     const x = `${roomId}` ?? "nextjs-liveblocks";
+
+
   return (
-    <div>
+    <>
     <RoomProvider
     id={x}
     initialPresence={{
@@ -15,6 +17,6 @@ export default function Room({roomId, children}) {
             {()=> children}
         </ClientSideSuspense>
     </RoomProvider>
-    </div>
+    </>
   )
 }

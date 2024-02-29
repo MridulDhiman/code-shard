@@ -1,15 +1,12 @@
-import CollaborativeShard from "@/components/CollaborativeShard";
-import RoomNavbar from "./RoomNavbar";
-import RoomContextProvider from "./RoomContextProvider";
+import RoomPage from "./RoomPage";
+
 
 export default function CollaborativeRoomPage ({params}) {
 const roomId = params['room-id'];
+
   return (
     <>
-    <RoomContextProvider roomId={roomId}>
-    <RoomNavbar roomId={roomId}/>
-    <CollaborativeShard roomId={roomId}/>
-    </RoomContextProvider>
+    <RoomPage roomId={roomId}/>
     </>
   )
 }

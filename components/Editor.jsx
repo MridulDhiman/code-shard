@@ -58,6 +58,7 @@ setEditorRef(editor);
     
   return (
     <div className="w-1/3">
+      {provider ? <Cursors yProvider={provider} /> : null}
         <Editor
         onMount={handleMount}
         onChange={handleChange}

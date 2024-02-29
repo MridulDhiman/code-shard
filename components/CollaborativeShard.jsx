@@ -23,34 +23,13 @@ export default function CollaborativeShard({roomId}) {
     const shardDetails = useSelector((state) => state.shard.current);
 
 
-   
-
-
-
+  
     useEffect(()=> {
       if(!session) {
         router.replace("/register");
       }
     }, []);
 
-
-    // useEffect(()=> {
-
-    //   if(!shardDetails) {
-    //     fetch("/api/shard", {
-    //       method: "POST",
-    //       body: JSON.stringify({roomId}),
-    //       headers :{
-    //         "Content-Type" : "application/json"
-    //       }
-    //     }).
-    //     then((res) => res.json())
-    //     .then((data) => console.log("Response success: ", data))
-    //     .catch((error) => console.log("Response error: ", error))
-    //   }   
-
-
-    // }, [shardDetails]);
 
    
     const outputDoc = `
