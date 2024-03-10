@@ -48,5 +48,11 @@ return NextResponse.next();
 
 
 export const config = {
+    runtime: "edge",
+    unstable_allowDynamic: [
+         "./node_modules/mongoose/dist/browser.umd.js",
+         "./models/User.js",
+         "./auth.js"
+    ],
     matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"]
 }
