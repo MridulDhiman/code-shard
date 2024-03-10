@@ -6,13 +6,13 @@ import { auth } from "@/auth";
 
 
 export default async function NewShardPage({params}) {
-const {data} = auth();
+const session = await auth();
    const roomId = params['shard-id'];
    console.log("Room id: ", roomId);
    connectToDB();
    const shardDetails = await Shard.findById(roomId);
    console.log("Shard details: ", shardDetails);
-   console.log("shardId page: ", data);
+   console.log("shardId page: ", session);
 
 let content = null;
 if(shardDetails) {
@@ -31,7 +31,7 @@ if(shardDetails) {
 
 
     return <>
-       {data && <ShardNavbar shardDetails={content} roomId={roomId}/>} 
+       {session && <ShardNavbar shardDetails={content} roomId={roomId}/>} 
        <ShardComponent shardDetails={content} roomId={roomId}/>
     </>
 }   
