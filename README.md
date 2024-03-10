@@ -18,3 +18,5 @@
 - Collaborative whiteboard
 - Realtime comments
 - Live Avatar, Cursors
+- Search, like, comment Shards
+- View profile
