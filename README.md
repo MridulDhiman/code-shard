@@ -7,10 +7,11 @@
 - Create new Shard
 
 ![alt text](image-2.png)
-- View/Update/Delete Shards on Profile
+- View/Update/Delete Shards on Profile.
 
 ![alt text](image-3.png)
-- Collaborate by creating room with live cursors
+- Collaborate by creating room and sharing the room link with users.
 
 ![alt text](image-6.png)
 - Change Visibility of Shards
+- Try Editor feature (without signup)
