@@ -13,7 +13,7 @@ export default auth((req) => {
     console.log("IS LOGGED IN: ", isLoggedIn)
     const urlPath = nextUrl.pathname;
 const isApiAuthRoute = urlPath.startsWith(apiAuthPrefix);
-const isPublicRoute = publicRoutes.includes(urlPath);
+const isPublicRoute = publicRoutes.includes(urlPath) || urlPath.startsWith("/shard");
 const isAuthRoute = authRoutes.includes(urlPath);
 
 // let the next auth do it's work

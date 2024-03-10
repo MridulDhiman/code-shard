@@ -1,6 +1,6 @@
 import React from 'react';
-import { IoSettingsSharp } from "react-icons/io5";
-import { IoIosArrowDown } from "react-icons/io";
+import Settings from './ui/icons/Settings';
+import ArrowDown from './ui/icons/ArrowDown';
 
 const Card = ({lang, content}) => {
   return (
@@ -9,12 +9,12 @@ const Card = ({lang, content}) => {
     <div className="flex items-center justify-between h-[]">
         <div className='flex items-center gap-2'>
         <span>
-        <IoSettingsSharp className='text-[#474A54]' />
+        <Settings className='fill-[#474A54] size-4' />
       </span>
       <h3>{lang}</h3>
         </div>  
       <span>
-        <IoIosArrowDown  className='text-[#474A54]'/>
+        <ArrowDown  className='fill-[#474A54] size-4'/>
       </span>
     </div>
     {/* code content */}

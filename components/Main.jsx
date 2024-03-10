@@ -1,5 +1,5 @@
 "use client";
-import { FaCodepen } from "react-icons/fa";
+
 
 import Svg1 from "./Svg1";
 import Card from "./Card";

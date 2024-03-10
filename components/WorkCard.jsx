@@ -1,20 +1,21 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import {  BsThreeDots } from "react-icons/bs";
-import { FaHeart } from "react-icons/fa";
-import { FaCommentAlt } from "react-icons/fa";
-import { IoEyeSharp } from "react-icons/io5";
-import { SlSizeFullscreen } from "react-icons/sl";
-import { RiCollageFill, RiDeleteBin2Fill } from "react-icons/ri";
-import {  FaLock } from "react-icons/fa6";
-import { FaUnlock } from "react-icons/fa";
 import Button from "./ui/Button";
 
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import { revalidatePath } from "next/cache";
+import Heart from "./ui/icons/Heart";
+import Comment from "./ui/icons/Comment";
+import View from "./ui/icons/View";
+import Delete from "./ui/icons/Delete";
+import Lock from "./ui/icons/Lock";
+import Unlock from "./ui/icons/Unlock";
+import Collection from "./ui/icons/Collection";
+import FullScreen from "./ui/icons/FullScreen";
+import HorizontalThreeDots from "./ui/icons/HorizontalThreeDots";
 
 const WorkCard = ({html, css, js, title, id, type}) => {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
@@ -108,12 +109,11 @@ const WorkCard = ({html, css, js, title, id, type}) => {
       <div
        
        className="group relative w-full h-full">
-        <span onClick={handleClick} className="text-slate-200 hidden group-hover:block  bg-[#252830] hover:bg-slate-700 absolute right-0 m-1 rounded-md text-lg p-2 cursor-pointer"><SlSizeFullscreen/></span>
+        <span onClick={handleClick} className="text-slate-200 hidden group-hover:block  bg-[#252830] hover:bg-slate-700 absolute right-0 m-1 rounded-md text-lg p-2 cursor-pointer"><FullScreen className="size-5"/></span>
       <iframe
           className="pointer-events-none bg-white bg-cover rounded-lg"
           srcDoc={outputDoc}
           title="output"
-          scrolling="no"
           sandbox="allow-scripts"
           height="100%"
           width="100%"
@@ -130,36 +130,36 @@ const WorkCard = ({html, css, js, title, id, type}) => {
                className="text-xs p-2 w-[12rem] rounded-md absolute right-0 bottom-5 bg-[#131417]">
                 <li 
                 
-                className="cursor-pointer flex items-center gap-2 hover:bg-blue-500 p-1"><RiCollageFill className="text-sm"/> Add to Collection</li>
+                className="cursor-pointer flex items-center gap-2 hover:bg-blue-500 p-1"><Collection className="size-4"/> Add to Collection</li>
                 {type === 'public' && <li
                 onClick={toggleType}
-                 className="cursor-pointer flex items-center gap-2 hover:bg-green-500 p-1"><FaLock className="text-xs"/> Make Private </li> }
+                 className="cursor-pointer flex items-center gap-2 hover:bg-green-500 p-1"><Lock className="size-4 fill-white"/> Make Private </li> }
                  {type === 'private' && 
                  <li
                  onClick={toggleType}
                   className="cursor-pointer flex items-center gap-2 hover:bg-green-500 p-1">
-                  <FaUnlock className="text-xs"/> Make Public
+                  <Unlock className="size-4 fill-white"/> Make Public
                   </li>}
                 
                 <li
                 onClick={handleDelete}
-                className="cursor-pointer flex items-center gap-2 hover:bg-red-500 p-1"> <RiDeleteBin2Fill  className="text-md"/> Delete</li>
+                className="cursor-pointer flex items-center gap-2 hover:bg-red-500 p-1"> <Delete className="size-4 fill-white"/> Delete</li>
                 </ul>}
                 
-                <BsThreeDots
+                <HorizontalThreeDots
                 onClick={()=> setIsPopoverOpen(true)}
                 className={clsx(
-                  "text-[#5A5F73] text-2xl cursor-pointer",
-                  isPopoverOpen && "text-slate-200"
+                  "fill-[#5A5F73] size-5 cursor-pointer hover:fill-slate-200",
+                  isPopoverOpen && "fill-slate-200"
                   )}/>
                 
              
             </div>
            </div>
            <div className="flex gap-2">
-             <Button className="flex items-center" id="likes"><FaHeart/> <span>0</span></Button>
-             <Button className="flex items-center" id="comments"><FaCommentAlt/> <span>0</span></Button>
-             <Button className="flex items-center" id="views"><IoEyeSharp/> <span>0</span></Button>
+             <Button className="flex items-center" id="likes"><Heart className="size-5"/> <span>0</span></Button>
+             <Button className="flex items-center" id="comments"><Comment className="size-4"/> <span>0</span></Button>
+             <Button className="flex items-center" id="views"><View className="size-4"/> <span>0</span></Button>
            </div>
 
     </div>

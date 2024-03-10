@@ -3,10 +3,10 @@
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-
-import { RiSearchLine } from "react-icons/ri";
 import { signOutHandler } from "@/lib/actions";
 import {v4 as uuidV4} from "uuid";
+import Search from "@/components/ui/icons/Search";
+
 import { useEffect } from "react";
 
 
@@ -24,7 +24,7 @@ router.refresh();
     <div className="flex mx-2 my-4  gap-4 items-center text-sm">
     <h1 className="text-2xl tracking-widest"><Link href="/">CODESHARD</Link></h1>
     <div className="flex gap-3 items-center">
-          <div className="flex items-center gap-2 bg-[#252830] p-2 rounded-lg"><RiSearchLine className="text-[#717790]"/><input className="w-[65vw] outline-none caret-white text-white bg-[#252830]" placeholder="Search Shards..."/> </div> 
+          <div className="flex items-center gap-2 bg-[#252830] p-2 rounded-lg"><Search  className=" size-4 fill-[#717790]" /><input className="w-[65vw] outline-none caret-white text-white bg-[#252830]" placeholder="Search Shards..."/> </div> 
           <button
           className="text-sm hover:text-slate-300"
            onClick={
@@ -32,7 +32,7 @@ router.refresh();
             const uuid = uuidV4();
             router.push(`/shard/${uuid}`); 
           }
-        }>Start Coding</button>
+        }>{ session ? "Start Coding" : "Try Editor"}</button>
 
         {session ?
          <>

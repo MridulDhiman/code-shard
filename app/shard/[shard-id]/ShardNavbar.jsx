@@ -2,18 +2,19 @@
 
 import Button from "@/components/ui/Button";
 import { useSession } from "next-auth/react";
-import { FaCloud } from "react-icons/fa";
 import {  useRouter } from "next/navigation";
-import { RiPencilFill } from "react-icons/ri";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPrev, setShard } from "@/store/slices/shard";
-import { VscDebugStart } from "react-icons/vsc";
-import { FaRegShareSquare } from "react-icons/fa";
 import { setModal } from "@/store/slices/modal";
-import { IoMdClose } from "react-icons/io";
-import { FaLink } from "react-icons/fa6";
 import { v4 as uuidV4 } from "uuid";
+import Pencil from "@/components/ui/icons/Pencil";
+import Cloud from "@/components/ui/icons/Cloud";
+import Start from "@/components/ui/icons/Start";
+import Close from "@/components/ui/icons/Close";
+import Share from "@/components/ui/icons/Share";
+import CopyLink from "@/components/ui/icons/Link";
+
 
 const ShardNavbar = ({roomId, shardDetails}) => {
     const {data} = useSession();
@@ -129,14 +130,14 @@ const startSession = () => {
                 startEditing ? <>
                 <input className="bg-transparent outline-none caret-white text-xl w-[50vw]" value={title} onChange={(e) => setTitle(e.target.value)} />
                 </> : <h1 className="flex items-center gap text-xl">{title}
-                <RiPencilFill
+                <Pencil
                 onClick={editTitle}
-                className="cursor-pointer hover:text-slate-500"/></h1>
+                className="cursor-pointer fill-white size-6 hover:fill-slate-500"/></h1>
             }
                   
         </div>
         <div className="flex items-center gap-4">
-        <button onClick={openModal}  className="text-white flex items-center gap-2 hover:text-slate-300"> <FaRegShareSquare/> Share</button>
+        <button onClick={openModal}  className="text-white flex items-center gap-2 hover:text-slate-300"> <Share className="size-4 text-white"/> Share</button>
           {isModalOpen && 
           <dialog 
           ref={modal} 
@@ -146,7 +147,7 @@ const startSession = () => {
                 <h1 className="text-[#47cf73] text-lg">Live Collaboration</h1>
                 <div className="flex flex-col items-center gap-4">
                 <p className=""> Invite people to collaborate on your code.</p>
-                <Button onClick={startSession}> <VscDebugStart/> Start Session</Button>
+                <Button onClick={startSession}> <Start className="size-4"/> Start Session</Button>
                 </div>
             </div>
             <div className="flex items-center justify-center gap-2"><hr className="w-[40%]"/><span>Or</span><hr className="w-[40%]"/></div>
@@ -154,14 +155,14 @@ const startSession = () => {
                 <h1 className="text-[#47cf73] text-lg">Sharable Link</h1>
                 <div className="flex flex-col items-center gap-4">
                 <p className=""> Export as read-only link.</p>
-                <Button> <FaLink/> Export to Link</Button>
+                <Button> <CopyLink className="size-4"/> Export to Link</Button>
                 </div>
             </div>
             <button 
             className="absolute right-0 top-0 m-2 text-xl"
-            onClick={()=>dispatch(setModal(false))}><IoMdClose/></button>
+            onClick={()=>dispatch(setModal(false))}><Close className="size-4 fill-white"/></button>
             </dialog>} 
-        <Button onClick={handleSave}><FaCloud/>SAVE</Button>
+        <Button onClick={handleSave}><Cloud className="size-4"/>SAVE</Button>
         <p className="cursor-pointer hover:text-slate-300" onClick={()=> router.push("/your-work") }>{data?.user.name}</p>
         </div>
     </div>

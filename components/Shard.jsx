@@ -1,8 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-// import CollaborativeEditor from "./Editor";
-import Room from "./Room";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,7 +15,7 @@ export default function ShardComponent({roomId, shardDetails}) {
     const [css, setCss] = useState("");
     const [js, setJs] = useState("");
     const [mode, setMode] = useState("normal");
-    const session = useSession();
+    const {data: session} = useSession();
     const router = useRouter();
     const dispatch = useDispatch();
     const iframeRef = useRef();
@@ -44,15 +42,8 @@ export default function ShardComponent({roomId, shardDetails}) {
 
 
     useEffect(()=> {
-      if(!session) {
-        router.replace("/register");
-      }
-    }, []);
 
-
-    useEffect(()=> {
-
-      if(!shardDetails) {
+      if(session && !shardDetails) {
         fetch("/api/shard", {
           method: "POST",
           body: JSON.stringify({roomId}),

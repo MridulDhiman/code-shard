@@ -2,17 +2,17 @@
 
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { RiPencilFill } from "react-icons/ri";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setShard } from "@/store/slices/shard";
-import { CiExport } from "react-icons/ci";
-import { CiStop1 } from "react-icons/ci";
-import { FaRegShareSquare } from "react-icons/fa";
 import { setModal } from "@/store/slices/modal";
-import { IoMdClose } from "react-icons/io";
 import clsx from "clsx";
 import Button from "@/components/ui/Button";
+import Close from "@/components/ui/icons/Close";
+import Share from "@/components/ui/icons/Share";
+import Pencil from "@/components/ui/icons/Pencil";
+import Export from "@/components/ui/icons/Export";
+import Stop from "@/components/ui/icons/Stop";
 
 
 const RoomNavbar = ({ roomId }) => {
@@ -92,9 +92,9 @@ const RoomNavbar = ({ roomId }) => {
         ) : (
           <h1 className="flex items-center gap text-xl">
             {title}
-            <RiPencilFill
+            <Pencil
               onClick={editTitle}
-              className="cursor-pointer hover:text-slate-500"
+              className="cursor-pointer fill-white hover:fill-slate-500"
             />
           </h1>
         )}
@@ -104,9 +104,9 @@ const RoomNavbar = ({ roomId }) => {
           onClick={openModal}
           className="text-white flex items-center gap-2 hover:text-slate-300"
         >
-          <FaRegShareSquare /> Share
+          <Share className="size-4 fill-white" /> Share
         </button>
-        <Button onClick={handleExport}><CiExport/>Export</Button>
+        <Button onClick={handleExport}><Export className="size-4"/>Export</Button>
         {isModalOpen && (
           <dialog
             ref={modal}
@@ -124,7 +124,7 @@ const RoomNavbar = ({ roomId }) => {
                     "hover:border-red-600 hover:text-red-600"
                   )}
                 >
-                  <CiStop1 /> Stop Session
+                  <Stop className="size-4" /> Stop Session
                 </button>
               </div>
             </div>
@@ -132,7 +132,7 @@ const RoomNavbar = ({ roomId }) => {
               className="absolute right-0 top-0 m-2 text-xl"
               onClick={() => dispatch(setModal(false))}
             >
-              <IoMdClose />
+              <Close className="size-4" />
             </button>
           </dialog>
         )}

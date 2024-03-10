@@ -22,7 +22,9 @@ setEditorRef(editor);
     
   return (
     <div className="w-1/3">
-        <Editor
+      <div className="flex flex-col bg-black ">
+        <p className="text-black  w-fit p-1 text-sm px-2 my-2 rounded-md bg-green-500">{lang.toUpperCase()}</p>
+      <Editor
         onMount={handleMount}
         onChange={handleChange}
         height="50vh"
@@ -30,6 +32,8 @@ setEditorRef(editor);
         defaultLanguage={lang}
         defaultValue={value}
         />
+      </div>
+       
     </div>
   )
 }
