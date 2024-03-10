@@ -64,9 +64,7 @@ export default function ShardComponent({roomId, shardDetails}) {
 <html lang="en">
 <body>${html}</body>
 <style>${css}</style>
-<script>
-${js}
-</script>
+<script>${js}</script>
 </html>`;
 
 
@@ -85,7 +83,7 @@ useEffect(()=> {
      <div className="flex justify-center">
         <NormalEditor setCode={setHtml} lang="html" value={shardDetails?.html}/>
         <NormalEditor setCode={setCss} lang="css" value={shardDetails?.css}/>
-        <NormalEditor setCode={setJs} lang="js"  value={shardDetails?.js}/>  
+        <NormalEditor setCode={setJs} lang="javascript"  value={shardDetails?.js}/>  
     </div>
 
     <div  style={{ height: "42vh", overflow: "auto" }} className="bg-white">

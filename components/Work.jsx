@@ -3,14 +3,19 @@ import connectToDB from "@/lib/database";
 import { User } from "@/models/User";
 import WorkCard from "./WorkCard";
 import {cache} from "react";
+import { redirect } from "next/navigation";
 
 
 
 // server component
-const Work = async () => {
-const {user} = await auth();
+ async function Work ()  {
+const session = await auth();
   connectToDB();
-const existingUser = await User.findOne({email: user.email}).populate('shards');
+
+  if(!session) {
+    redirect("/login");
+  }
+const existingUser = await User.findOne({email: session?.user.email}).populate('shards');
 const shards =existingUser.shards;
 console.log("Shards: ", shards);
 

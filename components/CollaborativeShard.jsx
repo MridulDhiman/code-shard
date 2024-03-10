@@ -60,7 +60,7 @@ useEffect(()=> {
                <CollaborativeEditor setCode={setCss} lang="css"/>
         </SubRoom>
         <SubRoom roomId={roomId} id={"js"}>
-               <CollaborativeEditor setCode={setJs} lang="js"/>
+               <CollaborativeEditor setCode={setJs} lang="javascript"/>
         </SubRoom>
           </div>
         

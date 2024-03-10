@@ -28,8 +28,11 @@ const Login = () => {
         await signIn("credentials", {
           email,
           password,
-          redirectTo: DEFAULT_LOGIN_REDIRECT
+          callbackUrl: `http://localhost:3000/your-work`
           });
+
+          // router.push("/your-work");
+
       } catch (error) {
         
         setError("Invalid Credentials!");
