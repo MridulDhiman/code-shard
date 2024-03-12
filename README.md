@@ -13,6 +13,7 @@
 - Collaborate by creating room and sharing the room link with users.
 - Change Visibility of Shards
 - Try Editor feature (without signup)
+- User cannot leave without saving, if shard content altered.
 
 ## 👩‍💻 Upcoming:
 - Collaborative whiteboard
