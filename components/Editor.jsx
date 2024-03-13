@@ -17,6 +17,8 @@ const  CollaborativeEditor = ({ setCode, lang }) => {
 
 
 
+
+
     useEffect(() => {
         let yProvider;
         let yDoc;
@@ -24,7 +26,7 @@ const  CollaborativeEditor = ({ setCode, lang }) => {
     
         if (editorRef) {  
           yDoc = new Doc();
-          const yText = yDoc.getText("monaco");
+          const yText = yDoc.getText(`monaco-${lang}`);
           yProvider = new LiveblocksProvider(room, yDoc);
           setProvider(yProvider);
     
@@ -58,7 +60,7 @@ setEditorRef(editor);
     
   return (
     <div className="w-1/3">
-      {provider ? <Cursors yProvider={provider} /> : null}
+      {/* {provider ? <Cursors yProvider={provider} /> : null} */}
         <Editor
         onMount={handleMount}
         onChange={handleChange}

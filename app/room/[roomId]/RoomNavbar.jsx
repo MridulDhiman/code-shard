@@ -94,7 +94,7 @@ const RoomNavbar = ({ roomId }) => {
             {title}
             <Pencil
               onClick={editTitle}
-              className="cursor-pointer fill-white hover:fill-slate-500"
+              className="cursor-pointer fill-white size-6 hover:fill-slate-500"
             />
           </h1>
         )}

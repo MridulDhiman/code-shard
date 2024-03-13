@@ -1,10 +1,11 @@
 import cn from '@/utils'
 import React from 'react'
 
-const Search = ({className}) => {
+const Search = ({className, onClick}) => {
   return (
     <svg
     className={cn("", className)}
+    onClick={onClick}
       fill="#000000"
       height="5px"
       width="5px"

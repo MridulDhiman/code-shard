@@ -16,6 +16,7 @@
     "@liveblocks/yjs": "^1.9.7",
     "@monaco-editor/react": "^4.6.0",
     "@reduxjs/toolkit": "^2.2.1",
+    "@upstash/redis": "^1.28.4",
     "bcryptjs": "^2.4.3",
     "clsx": "^2.1.0",
     "framer-motion": "^11.0.6",

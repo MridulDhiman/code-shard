@@ -14,6 +14,7 @@ import Start from "@/components/ui/icons/Start";
 import Close from "@/components/ui/icons/Close";
 import Share from "@/components/ui/icons/Share";
 import CopyLink from "@/components/ui/icons/Link";
+import { writeToClipboard } from "@/utils";
 
 
 const ShardNavbar = ({roomId, shardDetails}) => {
@@ -26,6 +27,7 @@ const ShardNavbar = ({roomId, shardDetails}) => {
     const prevState = useSelector((state) => state.shard.prev);
     const modal = useRef();
     const isModalOpen = useSelector((state) => state.modal.isOpen);
+    const [linkCopied, setLinkcopied] = useState(false);
 
     useEffect(()=> {
 
@@ -51,6 +53,10 @@ if(shardDetails) {
 }
     }, [shardDetails]);
 
+
+
+
+
     useEffect(()=> {
 
         const handleBeforeUnload = (e) => {
@@ -66,12 +72,15 @@ if(shardDetails) {
              }
         }
 
+  
+
         window.addEventListener('beforeunload', handleBeforeUnload);
 
         return () => {
+
             window.removeEventListener('beforeunload', handleBeforeUnload)
         }
-    }, [shardState, prevState]);
+    }, [router, shardState, prevState]);
 
 
 
@@ -122,6 +131,12 @@ const startSession = () => {
     router.replace(`/room/${id}`);
 }
 
+const copyLinkHandler = () => {
+    writeToClipboard(roomId);
+}
+
+
+
   return (
     <div onKeyDown={handleEnter}
      className='bg-[#010101] flex p-4 py-2  justify-between items-center'>
@@ -155,7 +170,11 @@ const startSession = () => {
                 <h1 className="text-[#47cf73] text-lg">Sharable Link</h1>
                 <div className="flex flex-col items-center gap-4">
                 <p className=""> Export as read-only link.</p>
-                <Button> <CopyLink className="size-4"/> Export to Link</Button>
+                <Button
+                 onClick={copyLinkHandler}
+                > <CopyLink
+               
+                 className="size-4"/> Export to Link</Button>
                 </div>
             </div>
             <button 
@@ -163,7 +182,23 @@ const startSession = () => {
             onClick={()=>dispatch(setModal(false))}><Close className="size-4 fill-white"/></button>
             </dialog>} 
         <Button onClick={handleSave}><Cloud className="size-4"/>SAVE</Button>
-        <p className="cursor-pointer hover:text-slate-300" onClick={()=> router.push("/your-work") }>{data?.user.name}</p>
+        <p className="cursor-pointer hover:text-slate-300" onClick={()=> {
+                  const isSaved = JSON.stringify(shardState) === JSON.stringify(prevState);
+                  if(!isSaved) {
+                    const wantToLeave = confirm('You have unsaved changes. Are you sure you want to leave?');
+                    if(wantToLeave) {
+                        router.push("/your-work");
+                    }
+
+                    return;
+            
+                  }
+     
+                  if(isSaved) {
+                     console.log("saved and tab closed successfully...")
+                     router.push("/your-work");
+                  }
+            } }>{data?.user.name}</p>
         </div>
     </div>
   )

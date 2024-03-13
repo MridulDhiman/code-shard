@@ -1,5 +1,6 @@
 import mongoose, { Schema, model, models } from "mongoose";
 import { User } from "./User";
+import connectToDB from "@/lib/database";
 
 const shardSchema = new Schema({
     _id : Schema.Types.UUID,
@@ -66,3 +67,19 @@ export const Shard =  models?.Shard || model("Shard", shardSchema);
 
 // export const ForkedShard = models?.ForkedShard || Shard.discriminator("ForkedShard",  forkedShardSchema);
 
+export const getShardBySearchQuery = async (query) => {
+        try {
+            connectToDB();
+            const shards = await Shard?.find({$or: [ 
+                {title: {$regex: new RegExp(query, "i")}},
+                {html: {$regex: new RegExp(query, "i")}},
+                {css: {$regex: new RegExp(query, "i")}},
+                {js: {$regex: new RegExp(query, "i")}}
+            ]});
+
+        return shards;
+        } catch (error) {
+            console.log("error in geeting shards from database: ", error.message);
+            return [];
+        }
+}

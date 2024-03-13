@@ -56,7 +56,7 @@ const WorkCard = ({html, css, js, title, id, type}) => {
     </html>`;
 
     const handleClick = () => {
-         router.push(`/shard/${id}`);
+         router.replace(`/shard/${id}`);
     }
 
 
@@ -157,7 +157,7 @@ const WorkCard = ({html, css, js, title, id, type}) => {
             </div>
            </div>
            <div className="flex gap-2">
-             <Button className="flex items-center" id="likes"><Heart className="size-5"/> <span>0</span></Button>
+             <Button  className="flex items-center" id="likes"><Heart className="size-5"/> <span>0</span></Button>
              <Button className="flex items-center" id="comments"><Comment className="size-4"/> <span>0</span></Button>
              <Button className="flex items-center" id="views"><View className="size-4"/> <span>0</span></Button>
            </div>

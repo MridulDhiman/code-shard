@@ -2,7 +2,7 @@ import RoomPage from "./RoomPage";
 
 
 export default function CollaborativeRoomPage ({params}) {
-const roomId = params['room-id'];
+const roomId = params['roomId'];
 
   return (
     <>

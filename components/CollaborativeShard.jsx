@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setShard } from "@/store/slices/shard";
 import CollaborativeEditor from "./Editor";
 import SubRoom from "./SubRoom";
+import Room from "./Room";
 
 
 
@@ -23,11 +24,12 @@ export default function CollaborativeShard({roomId}) {
     const shardDetails = useSelector((state) => state.shard.current);
 
 
-  
+  console.log("roomId: ", roomId);
     useEffect(()=> {
       if(!session) {
         router.replace("/register");
       }
+      
     }, []);
 
 
@@ -36,9 +38,7 @@ export default function CollaborativeShard({roomId}) {
 <html lang="en">
 <body>${html}</body>
 <style>${css}</style>
-<script>
-${js}
-</script>
+<script>${js}</script>
 </html>`;
 
 
@@ -53,15 +53,13 @@ useEffect(()=> {
     <>
        
           <div className="flex justify-center">
-          <SubRoom roomId={roomId} id={"html"}>
-               <CollaborativeEditor setCode={setHtml} lang="html"/>
-        </SubRoom>
-        <SubRoom roomId={roomId} id={"css"}>
-               <CollaborativeEditor setCode={setCss} lang="css"/>
-        </SubRoom>
-        <SubRoom roomId={roomId} id={"js"}>
+            <Room roomId={roomId}>
+               <CollaborativeEditor  setCode={setHtml} lang="html"/>
+               <CollaborativeEditor  setCode={setCss} lang="css"/>
                <CollaborativeEditor setCode={setJs} lang="javascript"/>
-        </SubRoom>
+       
+            </Room>
+       
           </div>
         
            
