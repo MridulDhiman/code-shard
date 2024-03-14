@@ -2,6 +2,7 @@ import { auth } from "@/auth";
 import connectToDB from "@/lib/database";
 import { User } from "@/models/User";
 import { Liveblocks } from "@liveblocks/node";
+import randomColor from "randomcolor";
 // import { unstable_getServerSession } from "next-auth/next";
 // import { authOptions } from "@/auth";
 
@@ -48,7 +49,7 @@ user = {
   id: existingUser._id.toString(),
   info: {
     name: userSession.user.name,
-    color: "#D583F0",
+    color: randomColor(),
     picture: "https://liveblocks.io/avatars/avatar-1.png",
   }
 };

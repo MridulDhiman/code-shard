@@ -23,6 +23,8 @@ export default function CollaborativeShard({roomId}) {
     const dispatch = useDispatch();
     const shardDetails = useSelector((state) => state.shard.current);
 
+   
+
 
   console.log("roomId: ", roomId);
     useEffect(()=> {
@@ -33,6 +35,7 @@ export default function CollaborativeShard({roomId}) {
     }, []);
 
 
+    
    
     const outputDoc = `
 <html lang="en">
@@ -51,15 +54,10 @@ useEffect(()=> {
 
   return (
     <>
-       
           <div className="flex justify-center">
-            <Room roomId={roomId}>
                <CollaborativeEditor  setCode={setHtml} lang="html"/>
-               <CollaborativeEditor  setCode={setCss} lang="css"/>
-               <CollaborativeEditor setCode={setJs} lang="javascript"/>
-       
-            </Room>
-       
+               <CollaborativeEditor   setCode={setCss} lang="css"/>
+               <CollaborativeEditor  setCode={setJs} lang="javascript"/>
           </div>
         
            
@@ -74,6 +72,8 @@ useEffect(()=> {
           width="100%"
            />
       </div>
+
+  
     </>
    
   )

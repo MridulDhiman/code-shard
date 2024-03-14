@@ -13,6 +13,8 @@ import Share from "@/components/ui/icons/Share";
 import Pencil from "@/components/ui/icons/Pencil";
 import Export from "@/components/ui/icons/Export";
 import Stop from "@/components/ui/icons/Stop";
+import { Avatars } from "@/components/Avatars";
+import { useOthers } from "@/liveblocks.config";
 
 
 const RoomNavbar = ({ roomId }) => {
@@ -75,6 +77,7 @@ const RoomNavbar = ({ roomId }) => {
   }
  
 
+  const users = useOthers();
   return (
     <div
       onKeyDown={handleEnter}
@@ -100,6 +103,7 @@ const RoomNavbar = ({ roomId }) => {
         )}
       </div>
       <div className="flex items-center gap-4">
+        <Avatars users={users}/>
         <button
           onClick={openModal}
           className="text-white flex items-center gap-2 hover:text-slate-300"

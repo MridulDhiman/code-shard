@@ -1,7 +1,7 @@
 "use client";
 import { Doc } from "yjs";
 import LiveblocksProvider from "@liveblocks/yjs";
-import { useRoom } from "@/liveblocks.config";
+import { useOthers, useRoom } from "@/liveblocks.config";
 import { Editor } from "@monaco-editor/react";
 import { MonacoBinding } from "y-monaco";
 import { useCallback, useEffect, useState } from "react";
@@ -9,11 +9,10 @@ import Cursors from "./Cursors";
 
 
 
-const  CollaborativeEditor = ({ setCode, lang }) => {
+const  CollaborativeEditor = ({  setCode, lang }) => {
     const room = useRoom();
     const [provider, setProvider] = useState();
     const [editorRef, setEditorRef] = useState();
-
 
 
 
@@ -26,7 +25,7 @@ const  CollaborativeEditor = ({ setCode, lang }) => {
     
         if (editorRef) {  
           yDoc = new Doc();
-          const yText = yDoc.getText(`monaco-${lang}`);
+          const yText = yDoc.getText(`monaco-${lang}`);  
           yProvider = new LiveblocksProvider(room, yDoc);
           setProvider(yProvider);
     
