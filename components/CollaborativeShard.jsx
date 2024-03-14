@@ -55,9 +55,15 @@ useEffect(()=> {
   return (
     <>
           <div className="flex justify-center">
+            <SubRoom roomId={roomId} id="html">
                <CollaborativeEditor  setCode={setHtml} lang="html"/>
+            </SubRoom>
+            <SubRoom roomId={roomId} id="css">
                <CollaborativeEditor   setCode={setCss} lang="css"/>
+            </SubRoom>
+            <SubRoom roomId={roomId} id="js">
                <CollaborativeEditor  setCode={setJs} lang="javascript"/>
+            </SubRoom>
           </div>
         
            
