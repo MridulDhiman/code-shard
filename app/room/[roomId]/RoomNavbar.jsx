@@ -47,6 +47,10 @@ const RoomNavbar = ({ roomId, title: initialTitle }) => {
   }, [isModalOpen]);
 
 
+  useEffect(()=> {
+    dispatch(setShard({ title: "", html: "", css: "", js: "", mode: "", id: roomId}));
+    dispatch(setPrev({title: "" ,html: "", css: "", js: "", mode: "", id: roomId}));
+  }, []);
 
   useEffect(() => {
     dispatch(setShard({ title }));
@@ -68,13 +72,23 @@ const RoomNavbar = ({ roomId, title: initialTitle }) => {
   };
 
   const stopSession = () => {
-    const isConfirmed = confirm(
-      "Are you sure, you want to proceed with this action?"
-    );
-    if (isConfirmed) {
-      
-      handleRoomRouteShift();
-    }
+
+    const isSaved = JSON.stringify(shardState) === JSON.stringify(prevState);
+                if(!isSaved) {
+                  const wantToLeave = confirm('You have unsaved changes. Are you sure you want to leave?');
+                  if(wantToLeave) {
+                      router.push("/rooms-list");
+                  }
+
+                  return;
+          
+                }
+   
+                if(isSaved) {
+                   console.log("saved and tab closed successfully...")
+                   handleRoomRouteShift();
+                }
+   
   };
 
  
