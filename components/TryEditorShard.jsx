@@ -11,13 +11,19 @@ import NormalEditor from "./NormalEditor";
 
 
 export default function TryEditorShard({}) {
-    const [html, setHtml] = useState(localStorage.getItem('html') ?? "");
-    const [css, setCss] = useState(localStorage.getItem('css') ?? "");
-    const [js, setJs] = useState(localStorage.getItem('js') ?? "");
+    const [html, setHtml] = useState("");
+    const [css, setCss] = useState("");
+    const [js, setJs] = useState("");
     const iframeRef = useRef();
 
 
+useEffect(()=> {
 
+
+  setHtml(localStorage.getItem('html') ?? "");
+  setCss(localStorage.getItem('css') ?? "");
+  setJs(localStorage.getItem('js') ?? "");
+}, []);
 
    
     const outputDoc = `
