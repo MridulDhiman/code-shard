@@ -28,7 +28,7 @@ const Login = () => {
         await signIn("credentials", {
           email,
           password,
-          callbackUrl: `http://localhost:3000/your-work`
+          callbackUrl: `/your-work`
           });
 
           // router.push("/your-work");

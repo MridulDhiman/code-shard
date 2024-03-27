@@ -4,7 +4,7 @@ import Navbar from "../Navbar";
 
 
 export const fetchUserDetails = async (username) => {
-    const response = await fetch(`http://localhost:3000/api/${username}`, {
+    const response = await fetch(`${process.env.HOST_URL}/api/${username}`, {
         cache: "no-cache",
         next: {
             tags: [`${username}`]

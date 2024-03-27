@@ -8,7 +8,7 @@ import { Fragment } from "react";
 
 
 const fetchShards = async (email) => {
-  const res = await fetch(`http://localhost:3000/api/shard?email=${email}`, {
+  const res = await fetch(`${process.env.HOST_URL}/api/shard?email=${email}`, {
     cache: "no-cache",
     next: {tags: ['shards']}
   });

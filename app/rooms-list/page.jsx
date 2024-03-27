@@ -3,7 +3,7 @@ import Navbar from "../Navbar";
 
 
 const fetchRooms = async () => {
-const res = await fetch(`http://localhost:3000/api/room`, {
+const res = await fetch(`${process.env.HOST_URL}/api/room`, {
     cache: "no-cache",
     next: {
         tags: ['rooms']
