@@ -2,32 +2,54 @@ import { auth } from "@/auth"
 import connectToDB from "@/lib/database";
 import { User } from "@/models/User";
 import WorkCard from "./WorkCard";
-import {cache} from "react";
 import { redirect } from "next/navigation";
+import { Fragment } from "react";
 
 
+
+const fetchShards = async (email) => {
+  const res = await fetch(`http://localhost:3000/api/shard?email=${email}`, {
+    cache: "no-cache",
+    next: {tags: ['shards']}
+  });
+
+  const shards = await res.json();
+
+  return shards;
+}
 
 // server component
  async function Work ()  {
 const session = await auth();
-  connectToDB();
+  // connectToDB();
 
   if(!session) {
     redirect("/login");
   }
-const existingUser = await User.findOne({email: session?.user.email}).populate('shards');
-const shards =existingUser.shards;
+// const existingUser = await User.findOne({email: session?.user.email}).populate('shards');
+
+
+
+const shards = await fetchShards(session?.user.email);
+
+
+// const shards =exreistingUser.shards;
 console.log("Shards: ", shards);
 
-const shardsCollection = shards.map((shard, index) => {
-return <WorkCard key={index} mode={shard.mode} type={shard.type} html={shard.html} css={shard.css} js={shard.js} title={shard.title} id={shard._id}/>
-});
+const shardsCollection =  shards.length > 0 ? shards.map((shard, index) => {
+
+  if(shard.mode === "collaboration") {
+    return <Fragment key={index}></Fragment>
+  }
+
+return <WorkCard key={index} likes={shard.likes} mode={shard.mode} type={shard.type} html={shard.html} css={shard.css} js={shard.js} title={shard.title} id={shard._id.toString()}/>
+}) : [];
 
 
 
   return (
     <div className="grid grid-cols-4 gap-2">
-      { shards ? shardsCollection : <p className="text-white">"No Shards Yet..."</p>}
+      { shards.length > 0 ? shardsCollection : <p className="text-white p-2">No Shards Yet...</p>}
     </div>
   )
 }

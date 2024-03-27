@@ -8,11 +8,11 @@ title: {
 },
 description: String,
 creator: {
-    type: Schema.Types.ObjectId,
-    ref: "User"
+    type: String,
+    required: true
 },
 shards: {
-type: [Schema.Types.UUID],
+type: [String],
 ref: "Shard",
 default: []
 },

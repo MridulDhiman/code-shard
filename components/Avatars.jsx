@@ -1,9 +1,8 @@
 
 "use client";
 import { useOthers, useSelf } from "@/liveblocks.config"
-import Avatar from "boring-avatars";
-import "react-tooltip/dist/react-tooltip.css";
-import { Tooltip } from "react-tooltip";
+
+import Avatar from "react-avatar";
 import { useState } from "react";
 
 
@@ -56,11 +55,10 @@ return (
   
     onClick={()=> setIsHovered(true)}
     >
+      
     <Avatar 
-    size={40} 
- variant="marble"
- name={name}
- colors={[`${color}`]}
+    name={name}
+  round={true} size="40"
   />
 
     </div>

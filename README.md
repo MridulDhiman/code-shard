@@ -12,12 +12,21 @@
 ![alt text](image-3.png)
 - Collaborate by creating room and sharing the room link with users.
 - Change Visibility of Shards
-- Try Editor feature (without signup)
+- Try Editor feature (code will get saved locally) (without signup)
 - User cannot leave without saving, if shard content altered.
+- Follow/Unfollow User
 
-## 👩‍💻 Upcoming:
-- Collaborative whiteboard
-- Realtime comments
-- Live Avatar, Cursors
-- Search, like, comment Shards
-- View profile
+![alt text](image-4.png)
+
+- Read Only Shards for Guest Users
+
+![alt text](image-5.png)
+
+- Join Rooms from Room List
+
+![alt text](image-7.png)
+
+- Emmet abbreviation support for Editors
+
+![alt text](image-8.png)
+![alt text](image-9.png)

@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setShard } from "@/store/slices/shard";
+import { setPrev, setShard } from "@/store/slices/shard";
 import { setModal } from "@/store/slices/modal";
 import clsx from "clsx";
 import Button from "@/components/ui/Button";
@@ -15,15 +15,19 @@ import Export from "@/components/ui/icons/Export";
 import Stop from "@/components/ui/icons/Stop";
 import { Avatars } from "@/components/Avatars";
 import { useOthers } from "@/liveblocks.config";
+import { Toaster, toast } from "sonner";
+import Cloud from "@/components/ui/icons/Cloud";
+import { updateRoomsList } from "@/lib/actions";
 
 
-const RoomNavbar = ({ roomId }) => {
+const RoomNavbar = ({ roomId, title: initialTitle }) => {
   const { data } = useSession();
   const router = useRouter();
-  const [title, setTitle] = useState("Untitled");
+  const [title, setTitle] = useState(initialTitle ?? "Untitled");
   const [startEditing, setStartEditing] = useState(false);
   const dispatch = useDispatch();
   const shardState = useSelector((state) => state.shard.current);
+  const prevState = useSelector((state) => state.shard.prev);
   const modal = useRef();
   const isModalOpen = useSelector((state) => state.modal.isOpen);
 
@@ -72,10 +76,40 @@ const RoomNavbar = ({ roomId }) => {
     }
   };
 
-  const handleExport = () => {
-
-  }
  
+  const handleSave = async  () => {
+    console.log("Save Clicked");
+
+    if(prevState !== shardState) {
+        dispatch(setPrev({...shardState}));
+        const saveShard = async () => {
+            const myPromise = await fetch(`/api/shard/${roomId}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({title, mode: "collaboration"})
+            });
+    
+            return myPromise;   
+        }
+    
+        toast.promise(saveShard, {
+            loading: "Saving...",
+            success: () => {
+                return `Saved Successfully`;
+              },
+              error: 'Could not save Shard',
+        })
+
+        updateRoomsList();
+    }
+  
+    
+   
+   
+}
+
 
   const users = useOthers();
   return (
@@ -102,6 +136,7 @@ const RoomNavbar = ({ roomId }) => {
           </h1>
         )}
       </div>
+      <Toaster position="top-center" richColors/>
       <div className="flex items-center gap-4">
         <Avatars users={users}/>
         <button
@@ -110,7 +145,8 @@ const RoomNavbar = ({ roomId }) => {
         >
           <Share className="size-4 fill-white" /> Share
         </button>
-        <Button onClick={handleExport}><Export className="size-4"/>Export</Button>
+ 
+        <Button onClick={handleSave}><Cloud className="size-4"/>SAVE</Button>
         {isModalOpen && (
           <dialog
             ref={modal}

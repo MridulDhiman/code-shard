@@ -4,9 +4,8 @@ import { useRouter } from "next/navigation";
 import Button from "./ui/Button";
 
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
-import { revalidatePath } from "next/cache";
 import Heart from "./ui/icons/Heart";
 import Comment from "./ui/icons/Comment";
 import View from "./ui/icons/View";
@@ -17,9 +16,19 @@ import Collection from "./ui/icons/Collection";
 import FullScreen from "./ui/icons/FullScreen";
 import HorizontalThreeDots from "./ui/icons/HorizontalThreeDots";
 
-const WorkCard = ({html, css, js, title, id, type}) => {
+
+const WorkCard = ({html, css, js, title, id, type: initialType, profile}) => {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+  const [isDeleted, setIsDeleted] = useState(false);
+  const [type, setType] = useState(initialType);
   const modal = useRef();
+
+
+  useEffect(()=>{
+setType(type);
+  }, [type])
+
+  console.log("shard ids : ", id);
  
   
 
@@ -39,8 +48,9 @@ const WorkCard = ({html, css, js, title, id, type}) => {
   }, [isPopoverOpen]);
 
 
+  // library hooks 
+  const router = useRouter();
 
-    const router = useRouter();
     const outputDoc = `
     <html lang="en">
     <head>
@@ -56,6 +66,8 @@ const WorkCard = ({html, css, js, title, id, type}) => {
     </html>`;
 
     const handleClick = () => {
+
+     
          router.replace(`/shard/${id}`);
     }
 
@@ -64,24 +76,31 @@ const WorkCard = ({html, css, js, title, id, type}) => {
       setIsPopoverOpen(false);
       const isConfirmed = confirm("Are you sure you want to proceed with this action?");
       if(isConfirmed) {
+        setIsDeleted(true);
         fetch(`/api/shard/${id}`, {
           method: "DELETE"
         })
         .then((res)=> res.json())
         .then((data) => {
           console.log("response success: ", data);
-          //  revalidatePath("/your-work");
           router.refresh();
         })
-        .catch((error) => console.log("response error: ", error.message))
+        .catch((error) => {
+          setIsDeleted(false);
+          console.log("response error: ", error.message)})
       }
     }
 
 
     const toggleType = () => {
       setIsPopoverOpen(false);
-      const isConfirmed = confirm("Are you sure you want to proceed with this action?");
-      if(isConfirmed) {
+         
+      setType((prev) => {
+        if(prev === 'private') {
+          return "public"
+        }
+        return "private";
+      });
         fetch(`/api/shard/${id}`, {
           method: "PATCH", 
           body : JSON.stringify({
@@ -94,15 +113,20 @@ const WorkCard = ({html, css, js, title, id, type}) => {
         .then((res)=> res.json())
         .then((data) => {
           console.log("response success: ", data);
-          //  revalidatePath("/your-work");
           router.refresh();
         })
-        .catch((error) => console.log("response error: ", error.message))
-      }
+        .catch((error) => {
+          setType(initialType);
+          console.log("response error: ", error.message);
+        })
+      
       
     }
   return (
-    <div className="flex flex-col bg-[#1E1F26] rounded-xl  p-4 gap-3" 
+    <div className={clsx(
+      "flex flex-col bg-[#1E1F26] rounded-xl  p-4 gap-3",
+      isDeleted && "hidden"
+      )} 
    
     >
  
@@ -146,7 +170,7 @@ const WorkCard = ({html, css, js, title, id, type}) => {
                 className="cursor-pointer flex items-center gap-2 hover:bg-red-500 p-1"> <Delete className="size-4 fill-white"/> Delete</li>
                 </ul>}
                 
-                <HorizontalThreeDots
+                 <HorizontalThreeDots
                 onClick={()=> setIsPopoverOpen(true)}
                 className={clsx(
                   "fill-[#5A5F73] size-5 cursor-pointer hover:fill-slate-200",
@@ -156,11 +180,11 @@ const WorkCard = ({html, css, js, title, id, type}) => {
              
             </div>
            </div>
-           <div className="flex gap-2">
+           {/* <div className="flex gap-2">
              <Button  className="flex items-center" id="likes"><Heart className="size-5"/> <span>0</span></Button>
              <Button className="flex items-center" id="comments"><Comment className="size-4"/> <span>0</span></Button>
              <Button className="flex items-center" id="views"><View className="size-4"/> <span>0</span></Button>
-           </div>
+           </div> */}
 
     </div>
   )

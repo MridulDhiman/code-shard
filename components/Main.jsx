@@ -4,9 +4,18 @@
 import Svg1 from "./Svg1";
 import Card from "./Card";
 import { useRouter } from "next/navigation";
+import Button from "./ui/Button";
+import Image from "next/image";
+import laptopImage from "@/public/laptop2.svg";
+import { useSession } from "next-auth/react";
+import ObjectID from "bson-objectid";
+import sideDots from "@/public/side-dots.png"
+import darkCube from "@/public/dark_cube.png"
+
 
 const Main = () => {
   const router = useRouter();
+  const {data: session} = useSession();
 
 
   const cardContainer = [{
@@ -26,30 +35,50 @@ const Main = () => {
 }]
   return (
     <>
-      <div className="flex justify-center p-10 py-20">  
+    <div className="absolute -z-10 -top-[28rem] right-[36rem] rotate-90">
+      <Image width="200" height={"200"} src={sideDots}/>
+    </div>
+    
+      <div className="flex justify-center items-center  h-[85vh] ">  
 
       {/* left container  */}
-          <div className="w-1/2 flex-col m-10 gap-20">
+          <div className="w-1/2 flex flex-col m-10 gap-2 relative">
             {/* heading  */}
-            <h1 className="text-4xl font-semibold flex gap-2">
-              {/* <span>
-                <FaCodepen />
-              </span>{" "} */}
-              The best place to build, test and discover front-end code.
+            <h1 className="text-6xl font-semibold flex gap-2">
+             Code.
             </h1>
-            <p className="my-5">
-              CodeShard is a social development environment for front-end
-              designers and developers. Build and test , show off
-              your work, and find inspiration.
+            <h1 className="text-6xl font-semibold flex gap-2">
+              Share.
+            </h1>
+            <h1 className="text-6xl font-semibold flex gap-2 mb-9">
+              Collaborate.
+            </h1>
+            <p>
+              Social Development Environment for building HTML/CSS/JS Snippets,
+              allowing collaboration in rooms.
             </p>
+           
             <button
-            onClick={()=> { router.push("/register")}}
-            className="my-5 bg-[#47cf73] hover:bg-[#248C46] text-black py-3 p-4 rounded-md" >Signup for free</button>
+            onClick={()=> { 
+              if(session) {
+               const id =  ObjectID();
+                router.push(`/shard/${id.toHexString()}`);
+                return;
+              }
+              router.push("/register");
+            }}
+            className="my-5 bg-primary border border-transparent  hover:bg-secondary text-md  p-2 text-black rounded-lg " >{session ? "START CODING" : "Signup for free"}</button>
+            <div className="absolute top-[48vh] right-0 z-10">
+              <Image width="200" height={"200"} src={darkCube}/>
+            </div>
           </div>
 
           {/* right container  */}
-        <div className="bg-[#454751] p-5 rounded-xl  flex flex-col justify-center gap-2">
-          {cardContainer.map((card,index) => <Card key={index} {...card}/>)}
+        <div className="" >
+          {/* {cardContainer.map((card,index) => <Card key={index} {...card}/>)} */}
+          <Image width="500" height="500" src={laptopImage}
+          />
+        
         </div>
       </div>
 

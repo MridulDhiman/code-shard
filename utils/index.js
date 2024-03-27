@@ -9,5 +9,8 @@ export default function cn (...inputs) {
 
 
 export const writeToClipboard = (text) => {
-navigator.clipboard.writeText(text);
+navigator.clipboard.writeText(`${text}`);
 }
+
+export const FOLLOWED = "followed";
+export const NOT_FOLLOWED = "not followed";

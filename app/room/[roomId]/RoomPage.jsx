@@ -7,13 +7,13 @@ import Room from "@/components/Room";
 import { useRef } from "react";
 import LiveCursors from "@/components/LiveCursors";
 
-const RoomPage = ({ roomId }) => {
+const RoomPage = ({ roomId, title }) => {
   const cursorPanel = useRef(null);
   return (
     <Room roomId={roomId}>
       <div ref={cursorPanel}>
         {/* <LiveCursors cursorPanel={cursorPanel} /> */}
-          <RoomNavbar roomId={roomId} />
+          <RoomNavbar title={title} roomId={roomId} />
           <CollaborativeShard roomId={roomId} />
       </div>
     </Room>

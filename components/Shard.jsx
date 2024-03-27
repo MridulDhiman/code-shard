@@ -10,7 +10,8 @@ import { setModal } from "@/store/slices/modal";
 
 
 
-export default function ShardComponent({roomId, shardDetails}) {
+
+export default function ShardComponent({newShard, roomId, shardDetails, readOnly}) {
     const [html, setHtml] = useState("");
     const [css, setCss] = useState("");
     const [js, setJs] = useState("");
@@ -40,25 +41,6 @@ export default function ShardComponent({roomId, shardDetails}) {
     //html, css, js, title
 
 
-
-    useEffect(()=> {
-
-      if(session && !shardDetails) {
-        fetch("/api/shard", {
-          method: "POST",
-          body: JSON.stringify({roomId}),
-          headers :{
-            "Content-Type" : "application/json"
-          }
-        }).
-        then((res) => res.json())
-        .then((data) => console.log("Response success: ", data))
-        .catch((error) => console.log("Response error: ", error))
-      }   
-
-
-    }, [shardDetails]);
-
    
     const outputDoc = `
 <html lang="en">
@@ -81,9 +63,9 @@ useEffect(()=> {
     <>
     {/* <button>Save</button> */}
      <div className="flex justify-center">
-        <NormalEditor setCode={setHtml} lang="html" value={shardDetails?.html}/>
-        <NormalEditor setCode={setCss} lang="css" value={shardDetails?.css}/>
-        <NormalEditor setCode={setJs} lang="javascript"  value={shardDetails?.js}/>  
+        <NormalEditor readOnly={readOnly} setCode={setHtml} lang="html" value={shardDetails?.html}/>
+        <NormalEditor readOnly={readOnly} setCode={setCss} lang="css" value={shardDetails?.css}/>
+        <NormalEditor readOnly={readOnly} setCode={setJs} lang="javascript"  value={shardDetails?.js}/>  
     </div>
 
     <div  style={{ height: "42vh", overflow: "auto" }} className="bg-white">

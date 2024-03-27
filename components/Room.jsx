@@ -1,5 +1,6 @@
 import { RoomProvider } from "@/liveblocks.config";
 import { ClientSideSuspense } from "@liveblocks/react";
+import { ScaleLoader } from "react-spinners";
 
 export default function Room({roomId, children}) {
     const x = `${roomId}` ?? "nextjs-liveblocks";
@@ -13,7 +14,14 @@ export default function Room({roomId, children}) {
         cursor:null
     }}
     >
-        <ClientSideSuspense fallback={<p className="text-black">Loading...</p>}>
+        <ClientSideSuspense fallback={<p className="text-black flex h-screen w-screen items-center justify-center">
+          <ScaleLoader
+         
+           size={150}
+           aria-label="Loading Spinner"
+           data-testid="loader"
+          />
+        </p>}>
             {()=> children}
         </ClientSideSuspense>
     </RoomProvider>

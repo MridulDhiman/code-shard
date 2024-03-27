@@ -49,7 +49,26 @@ useEffect(()=> {
   dispatch(setShard({html, css, js}));
 }, [html, css, js]);
 
+useEffect(()=> {
 
+  if(session) {
+    fetch("/api/shard", {
+      method: "POST",
+      body: JSON.stringify({roomId, mode: "collaboration"}),
+      headers :{
+        "Content-Type" : "application/json"
+      }
+    }).
+    then((res) => res.json())
+    .then((data) => {
+      console.log("response success data: ", data);
+    
+    })
+    .catch((error) => console.log("Response error: ", error))
+  }   
+
+
+});
 
 
   return (

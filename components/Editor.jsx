@@ -6,7 +6,7 @@ import { Editor } from "@monaco-editor/react";
 import { MonacoBinding } from "y-monaco";
 import { useCallback, useEffect, useState } from "react";
 import Cursors from "./Cursors";
-
+import { emmetCSS, emmetHTML, emmetJSX } from "emmet-monaco-es";
 
 
 const  CollaborativeEditor = ({  setCode, lang }) => {
@@ -44,6 +44,17 @@ const  CollaborativeEditor = ({  setCode, lang }) => {
 
       // set editor instance
       const handleMount = useCallback((editor) => {
+        if(lang === 'html') {
+          emmetHTML(window.monaco);
+        }
+
+        if(lang === 'css') {
+          emmetCSS(window.monaco);
+        }
+
+        if(lang === 'javascript') {
+           emmetJSX(window.monaco);
+        }
 setEditorRef(editor);
       });
 

@@ -1,8 +1,15 @@
+import clsx from 'clsx'
 import React from 'react'
+import { twMerge } from 'tailwind-merge'
 
-const Button = ({children, onClick}) => {
+const Button = ({children, className, onClick, type = "primary"}) => { 
   return (
-    <button onClick={onClick}  className="bg-[#47cf73] hover:bg-[#248C46] text-sm  text-black px-2 py-2 rounded-md flex items-center justify-center gap-2" >{children}</button>
+    <button type="submit" onClick={onClick}  className={twMerge(clsx(
+      "text-sm px-2 py-2 rounded-md   flex items-center justify-center gap-2",
+      type === "primary" && "bg-primary text-black hover:bg-secondary border border-transparent",
+      type === "outline" && "border text-white hover:text-[#47cf73] hover:border-[#47cf73]",
+      className
+      ))} >{children}</button>
   )
 }
 

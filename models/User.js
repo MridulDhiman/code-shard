@@ -6,6 +6,7 @@ import { Collection } from "./Collection";
 const userSchema = new Schema({
 name: {
     type: String,
+    unique: true,
     required: true
 },
 email: {
@@ -17,26 +18,28 @@ password: {
     required: true
 },
 shards: {
-    type: [Schema.Types.UUID],
+    type: [Schema.Types.ObjectId],
     ref: "Shard",
     default: []
 },
+
 collections: {
-    type: [Schema.Types.UUID],
+    type: [Schema.Types.ObjectId],
     ref: "Collection",
     default: []
-},
-// followers: [{
-//     type: Schema.Types.ObjectId,
-//     ref: 'User'
-// }],
-// following: [{
-//     type: Schema.Types.ObjectId,
-//     ref: 'User'
-// }]
+}, 
+followers: {
+    type: [String],
+    default: []
+}, 
+following: {
+    type: [String],
+    default: []
+}
 }, {
     timestamps: true
 });
 
-export const User =  models?.User || model("User", userSchema);
 
+
+export const User =  models?.User || model("User", userSchema);

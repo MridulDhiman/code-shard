@@ -3,6 +3,7 @@ import { Shard } from "@/models/Shard";
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { User } from "@/models/User";
+import { revalidateTag } from "next/cache";
 
 
 
@@ -21,7 +22,7 @@ console.log("User: ", user);
 
 try {
     connectToDB();
-    const {html, css, js, title} = await req.json();
+    const {html, css, js, title, mode} = await req.json();
     console.log("Title: ", title);
     console.log("Slug: ", slug);
  
@@ -30,10 +31,11 @@ try {
         return NextResponse.json({message: "Shard not found"}, {status: 404})
     }
 
-    existingShard.html = html;
-    existingShard.css = css;
-    existingShard.js = js;
-    existingShard.title = title;
+   existingShard.html = html;
+   existingShard.css = css;
+   existingShard.js = js;
+   existingShard.title = title;
+  if(mode) existingShard.mode = mode;
     await existingShard.save();
 
     console.log("existing shard: ", existingShard)
@@ -49,10 +51,13 @@ try {
         return NextResponse.json({message: "Shard already present"}, {status: 200})
     }
     existingUser.shards.push(existingShard._id);
-
+    
     console.log("Existing User: ", existingUser);
     await existingUser.save();
+    revalidateTag(`${existingUser.name.toLowerCase().split(" ").join("-")}`);
     return NextResponse.json({message :"Shard updated successfully"}, {status: 200});
+
+
     
 } catch (error) {
     console.log("Shard updation error: ", error.message);

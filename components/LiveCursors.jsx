@@ -1,6 +1,7 @@
 import { shallow } from "@liveblocks/client";
 import { useOthersMapped, useUpdateMyPresence } from "@/liveblocks.config";
 import { useBoundingClientRectRef } from "@/customHooks/useBoundingClientRectRef";
+import { useEffect } from "react";
 const LiveCursors = ({cursorPanel}) => {
 const updateMyPresence = useUpdateMyPresence();
 

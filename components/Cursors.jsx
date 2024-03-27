@@ -10,7 +10,7 @@ export default function Cursors ({yProvider}) {
 
   
 
- 
+
     useEffect(() => {
         // Add user info to Yjs awareness
         const localUser = userInfo;

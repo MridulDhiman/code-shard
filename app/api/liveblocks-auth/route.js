@@ -2,7 +2,7 @@ import { auth } from "@/auth";
 import connectToDB from "@/lib/database";
 import { User } from "@/models/User";
 import { Liveblocks } from "@liveblocks/node";
-import randomColor from "randomcolor";
+
 // import { unstable_getServerSession } from "next-auth/next";
 // import { authOptions } from "@/auth";
 
@@ -15,10 +15,7 @@ const liveblocks = new Liveblocks({
 
 
   export const POST = auth(async (request, response) =>{
-    // const userSession = await auth(request, response);
-    // const userSession = await getServerSession()
-    // const userSession = await unstable_getServerSession(req, res, authOptions)
-    // console.log(userSession);
+ 
     connectToDB();
     const userSession = request.auth;
     console.log("User session: ", userSession);
@@ -49,7 +46,7 @@ user = {
   id: existingUser._id.toString(),
   info: {
     name: userSession.user.name,
-    color: randomColor(),
+    color: existingUser.avatarColor,
     picture: "https://liveblocks.io/avatars/avatar-1.png",
   }
 };

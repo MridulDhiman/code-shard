@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPrev, setShard } from "@/store/slices/shard";
 import { setModal } from "@/store/slices/modal";
-import { v4 as uuidV4 } from "uuid";
+import ObjectID from "bson-objectid";
 import Pencil from "@/components/ui/icons/Pencil";
 import Cloud from "@/components/ui/icons/Cloud";
 import Start from "@/components/ui/icons/Start";
@@ -15,9 +15,14 @@ import Close from "@/components/ui/icons/Close";
 import Share from "@/components/ui/icons/Share";
 import CopyLink from "@/components/ui/icons/Link";
 import { writeToClipboard } from "@/utils";
+import Avatar from "react-avatar";
+import { Toaster, toast } from "sonner";
+import { handleRouteShift } from "@/lib/actions";
 
 
-const ShardNavbar = ({roomId, shardDetails}) => {
+
+
+const ShardNavbar = ({roomId, shardDetails, readOnly}) => {
     const {data} = useSession();
     const router = useRouter();
     const [title, setTitle] = useState("Untitled");
@@ -107,65 +112,101 @@ dispatch(setModal(true));
 
 
 
-const handleSave = () => {
+const handleSave = async  () => {
     console.log("Save Clicked");
-    dispatch(setPrev({...shardState}));
-    fetch(`/api/shard/${roomId}`, {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(shardState)
-    })
-    .then((res) => res.json())
-    .then((data) =>{ 
-        console.log("response success: ", data)
-        
+
+   
+    if(prevState !== shardState) {
+        dispatch(setPrev({...shardState}));
+        const saveShard = async () => {
+            const myPromise = await fetch(`/api/shard/${roomId}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(shardState)
+            });
     
-    })
-    .catch((error) => console.log("response error: ", error.message))
+            return myPromise;   
+        }
+    
+        toast.promise(saveShard, {
+            loading: "Saving...",
+            success: () => {
+                return `Saved Successfully`;
+              },
+              error: 'Could not save Shard',
+        })
+    }
+  
+    
+   
+   
 }
 
-const startSession = () => {
-    const id = uuidV4();
-    router.replace(`/room/${id}`);
-}
+
 
 const copyLinkHandler = () => {
+    
     writeToClipboard(roomId);
+    toast.info("Link Copied Successfully");
+    
 }
 
 
 
   return (
-    <div onKeyDown={handleEnter}
+    <div onKeyDown={!readOnly ? handleEnter: null}
      className='bg-[#010101] flex p-4 py-2  justify-between items-center'>
+        
         <div className="flex items-center gap-4">
             {
                 startEditing ? <>
-                <input className="bg-transparent outline-none caret-white text-xl w-[50vw]" value={title} onChange={(e) => setTitle(e.target.value)} />
+                <input className="bg-transparent outline-none caret-white text-xl w-[50vw]" value={title} readOnly={readOnly} onChange={(e) => setTitle(e.target.value)} />
                 </> : <h1 className="flex items-center gap text-xl">{title}
-                <Pencil
+                {!readOnly && <Pencil
                 onClick={editTitle}
-                className="cursor-pointer fill-white size-6 hover:fill-slate-500"/></h1>
+                className="cursor-pointer fill-white size-6 hover:fill-slate-500"/>}</h1>
             }
+            <Toaster position="top-center" richColors/>
                   
         </div>
         <div className="flex items-center gap-4">
+        <button className="cursor-pointer hover:text-slate-300" onClick={()=> {
+            if(!readOnly) {
+                const isSaved = JSON.stringify(shardState) === JSON.stringify(prevState);
+                if(!isSaved) {
+                  const wantToLeave = confirm('You have unsaved changes. Are you sure you want to leave?');
+                  if(wantToLeave) {
+                      router.push("/your-work");
+                  }
+
+                  return;
+          
+                }
+   
+                if(isSaved) {
+                   console.log("saved and tab closed successfully...")
+                   handleRouteShift();
+                   
+                }
+            }
+
+            if(readOnly) {
+                router.push(`/${shardDetails.creator.toLowerCase().split(" ").join("-")}`)
+            }
+                 
+            } }>
+                   <Avatar name={readOnly ? shardDetails?.creator : data?.user?.name} round={true} size="40"  />
+            </button>
         <button onClick={openModal}  className="text-white flex items-center gap-2 hover:text-slate-300"> <Share className="size-4 text-white"/> Share</button>
           {isModalOpen && 
           <dialog 
           ref={modal} 
           onClose={() => dispatch(setModal(false))}
           className="mt-[90vh] z-50 grid items-center bg-[#1E1F26] rounded-lg p-8 py-12 text-white gap-4 border border-emerald-600" >
-            <div className="relative flex flex-col items-center gap-4">
-                <h1 className="text-[#47cf73] text-lg">Live Collaboration</h1>
-                <div className="flex flex-col items-center gap-4">
-                <p className=""> Invite people to collaborate on your code.</p>
-                <Button onClick={startSession}> <Start className="size-4"/> Start Session</Button>
-                </div>
-            </div>
-            <div className="flex items-center justify-center gap-2"><hr className="w-[40%]"/><span>Or</span><hr className="w-[40%]"/></div>
+          
+         
             <div className="relative flex flex-col items-center gap-4">
                 <h1 className="text-[#47cf73] text-lg">Sharable Link</h1>
                 <div className="flex flex-col items-center gap-4">
@@ -175,30 +216,15 @@ const copyLinkHandler = () => {
                 > <CopyLink
                
                  className="size-4"/> Export to Link</Button>
+             
                 </div>
             </div>
             <button 
             className="absolute right-0 top-0 m-2 text-xl"
             onClick={()=>dispatch(setModal(false))}><Close className="size-4 fill-white"/></button>
             </dialog>} 
-        <Button onClick={handleSave}><Cloud className="size-4"/>SAVE</Button>
-        <p className="cursor-pointer hover:text-slate-300" onClick={()=> {
-                  const isSaved = JSON.stringify(shardState) === JSON.stringify(prevState);
-                  if(!isSaved) {
-                    const wantToLeave = confirm('You have unsaved changes. Are you sure you want to leave?');
-                    if(wantToLeave) {
-                        router.push("/your-work");
-                    }
-
-                    return;
-            
-                  }
-     
-                  if(isSaved) {
-                     console.log("saved and tab closed successfully...")
-                     router.push("/your-work");
-                  }
-            } }>{data?.user.name}</p>
+          {!readOnly &&  <Button onClick={handleSave}><Cloud className="size-4"/>SAVE</Button> }
+        
         </div>
     </div>
   )

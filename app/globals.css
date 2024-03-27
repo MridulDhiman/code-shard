@@ -7,12 +7,14 @@
 
  body {
     font-family: 'Fira Code', monospace;
+    
 } 
 
-/* :root {
-  --green-custom: #47cf73; 
-  --green-custom-hover: #248C46;
-} */
+
+:root {
+  --primary: #47cf73; 
+  --primary-hover: #248C46;
+}
 
 /* Cursor selection background */
 .yRemoteSelection {

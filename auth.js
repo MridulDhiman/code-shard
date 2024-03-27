@@ -50,7 +50,7 @@ import { User } from "./models/User";
     session: {
         strategy: "jwt"
     },
-    secret: "secret",
+    secret: process.env.AUTH_SECRET,
     pages:{
         signIn:"/login"
     }

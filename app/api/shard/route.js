@@ -20,24 +20,21 @@ try {
 }
 }
 
-export const GET =  auth(async (req, res) => {
+export const GET =  async (req, res) => {
     try {
         connectToDB();
-        const session = req.auth;
-        console.log(session);
-        const user = session?.user;
-        console.log("User: ", user);
-        if(!user) {
-            return NextResponse.json({message: "Unauthenticated request"}, {status: 401});
-        }
+       const {searchParams} = new URL(req.url);
 
+ const email  = searchParams.get('email');
 
-        const existingUser = await User.findOne({email: user.email});
-
+ if(!email) {
+    return NextResponse.json({message: "Email Not found"}, {status: 404});
+ }
+        const existingUser = await User.findOne({email}).populate('shards');
         const shards = existingUser.shards;
         return NextResponse.json(shards, {status: 200});
     
     } catch (error) {
         return NextResponse.json({message :"Error in fetching shards"}, {status: 500});
     }
-    });
+    };
