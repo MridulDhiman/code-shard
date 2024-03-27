@@ -11,13 +11,13 @@ import Button from "@/components/ui/Button";
 import Close from "@/components/ui/icons/Close";
 import Share from "@/components/ui/icons/Share";
 import Pencil from "@/components/ui/icons/Pencil";
-import Export from "@/components/ui/icons/Export";
 import Stop from "@/components/ui/icons/Stop";
 import { Avatars } from "@/components/Avatars";
 import { useOthers } from "@/liveblocks.config";
 import { Toaster, toast } from "sonner";
 import Cloud from "@/components/ui/icons/Cloud";
-import { updateRoomsList } from "@/lib/actions";
+import { handleRoomRouteShift } from "@/lib/actions";
+
 
 
 const RoomNavbar = ({ roomId, title: initialTitle }) => {
@@ -72,7 +72,8 @@ const RoomNavbar = ({ roomId, title: initialTitle }) => {
       "Are you sure, you want to proceed with this action?"
     );
     if (isConfirmed) {
-      router.replace("/your-work");
+      
+      handleRoomRouteShift();
     }
   };
 
@@ -88,7 +89,7 @@ const RoomNavbar = ({ roomId, title: initialTitle }) => {
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({title, mode: "collaboration"})
+                body: JSON.stringify({html: "", css: "", js: "", title, mode: "collaboration"})
             });
     
             return myPromise;   
@@ -102,7 +103,7 @@ const RoomNavbar = ({ roomId, title: initialTitle }) => {
               error: 'Could not save Shard',
         })
 
-        updateRoomsList();
+        
     }
   
     

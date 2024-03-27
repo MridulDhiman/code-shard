@@ -5,8 +5,7 @@ import { auth } from "@/auth";
     
 const fetchRooms = async () => {
     const url = process.env.HOST_URL;
-    const res = await fetch(`${url}/api/room`, {
-        cache: "no-cache",
+    const res = await fetch(`${url}/api/room`, { 
         next: { tags: ['rooms'] }
     });
 

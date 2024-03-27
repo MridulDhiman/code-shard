@@ -55,6 +55,7 @@ try {
     console.log("Existing User: ", existingUser);
     await existingUser.save();
     revalidateTag(`${existingUser.name.toLowerCase().split(" ").join("-")}`);
+    revalidateTag(`rooms`);
     return NextResponse.json({message :"Shard updated successfully"}, {status: 200});
 
 

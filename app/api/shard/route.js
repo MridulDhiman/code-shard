@@ -3,16 +3,20 @@ import { Shard } from "@/models/Shard";
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { User } from "@/models/User";
+import {  revalidateTag } from "next/cache";
 
 // create new shard
 export async function POST (req, res) {
 try {
     connectToDB();
-    const {roomId} = await req.json();
+    const {roomId, mode} = await req.json();
     console.log("Room ID: ", roomId)
-    const newShard = await Shard.create({_id: roomId});
+    const newShard = await Shard.create({_id: roomId, mode});
     console.log("New Shard: ", newShard);
+    revalidateTag('rooms');
     return NextResponse.json(newShard, {status: 201});
+
+
 
 } catch (error) {
     console.log("Shard creation error: ", error.message);
