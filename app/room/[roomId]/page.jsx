@@ -42,11 +42,11 @@ const session = await auth();
    }
 
 
-    const {title, type, creator, _id  } = shardDetails;
+    const {title,  creator, _id  } = shardDetails;
 
 
    if(session) {
-      if(session?.user?.name !== creator &&  (type === 'private' || mode === 'collaboration')) {
+      if(session?.user?.name !== creator) {
          console.log("shard is private or collaborative");
             redirect("/");
       }
