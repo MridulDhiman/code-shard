@@ -11,14 +11,13 @@ const RoomsList = ({rooms}) => {
 
 
     if(rooms.length === 0) {
-        return <p>No Rooms Yet, <u onClick={()=> { 
-            const id = ObjectID();
-            router.push(`/room/${id.toHexString()}`)
+        return <p>No Rooms Yet, <u className='cursor-pointer' onClick={()=> { 
+            router.push(`/room/new-room`)
          }}>Create One</u>!</p>
     }
   return (
    <>
-   <h1 className='text-lg text-center mb-2'> Global Rooms List<sup className='text-blue-500'>(upto 100 rooms)</sup></h1>
+   <h1 className='text-lg text-center mb-2'> Private Rooms List<sup className='text-blue-500'>(upto 100 rooms)</sup></h1>
 
 
         

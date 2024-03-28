@@ -95,7 +95,7 @@ setIsDrawerOpen((prev) => !prev);
                 onClick={
                   ()=> {
                     const id = ObjectID();
-                    router.push(`/room/${id.toHexString()}`); 
+                    router.push(`/room/new-room`); 
                   }
                 }
                 className="bg-white px-2 p-1 flex gap-2 hover:bg-slate-200"><Cloud className={"size-4"}/> New Room</li>

@@ -31,10 +31,10 @@ try {
         return NextResponse.json({message: "Shard not found"}, {status: 404})
     }
 
-   existingShard.html = html;
-   existingShard.css = css;
-   existingShard.js = js;
-   existingShard.title = title;
+   if(html) existingShard.html = html;
+   if(css) existingShard.css = css;
+   if(js) existingShard.js = js;
+   if(title) existingShard.title = title;
   if(mode) existingShard.mode = mode;
     await existingShard.save();
 
@@ -57,8 +57,6 @@ try {
     revalidateTag(`${existingUser.name.toLowerCase().split(" ").join("-")}`);
     revalidateTag(`rooms`);
     return NextResponse.json({message :"Shard updated successfully"}, {status: 200});
-
-
     
 } catch (error) {
     console.log("Shard updation error: ", error.message);
