@@ -78,7 +78,7 @@ const Profile = ({
         <div></div>
       </div>
 
-      <div className="grid grid-cols-4">
+      <div className="grid grid-cols-4 gap-3">
         {shards.length === 0 && <>No Shards</>}
         {shards.length > 0 && shards.map((shard, index) => <ProfileCard title={shard.title} creator={shard.creator} key={index} html={shard.html} css={shard.css} js={shard.js} id={shard._id.toString()}/>)}
       </div>

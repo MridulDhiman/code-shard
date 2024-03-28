@@ -1,6 +1,5 @@
 
 
-import { auth } from "@/auth"
 import Navbar from "../Navbar";
 import Work from "@/components/Work";
 

@@ -1,12 +1,14 @@
 import RoomsList from "@/components/RoomsList";
 import Navbar from "../app/Navbar";
 import { auth } from "@/auth";
+import { Suspense } from "react";
+const {signal} = new AbortController();
 
     
-const fetchRooms = async () => {
+const fetchRooms = async (username) => {
     const url = process.env.HOST_URL;
-    const res = await fetch(`${url}/api/room`, { 
-        next: { tags: ['rooms'] }
+    const res = await fetch(`${url}/api/room?creator=${username}`, { 
+        cache:"no-store"
     });
 
     const data = await res.json();
@@ -23,12 +25,17 @@ const  RoomListPage =  async () => {
     
     
     
-let rooms = await fetchRooms();
-   console.log(rooms);
+let rooms = await fetchRooms(session?.user.name);
+   console.log(rooms);  
   return (
     <div>
         <Navbar/>
+        <Suspense fallback={<p>
+          Loading...
+        </p>}>
+
     <RoomsList rooms={rooms}/>
+        </Suspense>
     </div>
   )
 }
