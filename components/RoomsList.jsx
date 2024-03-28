@@ -1,39 +1,39 @@
-"use client"
-import ObjectID from 'bson-objectid';
-import { useRouter } from 'next/navigation'
-import React from 'react'
-
-import CopyLink from './ui/icons/Link';
-import { writeToClipboard } from '@/utils';
+"use client";
 import { Toaster, toast } from 'sonner';
-const RoomsList = ({rooms}) => {
-    const router = useRouter();
+import RoomListCard from './RoomListCard';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+const RoomsList = ({rooms: initialRooms}) => {
+  const [rooms, setRooms] = useState(initialRooms);
+  const router = useRouter();
+
+  useEffect(()=> {
+setRooms(initialRooms);
+  }, [initialRooms])
+
+  const onLinkCopy = () => {
+    toast.info("Link Copied Successfully");
+  }
+
 
 
     if(rooms.length === 0) {
         return <p>No Rooms Yet, <u className='cursor-pointer' onClick={()=> { 
             router.push(`/room/new-room`)
          }}>Create One</u>!</p>
+
     }
+
+
+    const roomList = rooms.map((room, index) => <RoomListCard rooms={rooms} setRooms={setRooms} title={room.title} index={index}  key={room._id.toString()} onLinkCopy={onLinkCopy} id={room._id.toString()}/>)
   return (
    <>
    <h1 className='text-lg text-center mb-2'> Private Rooms List<sup className='text-blue-500'>(upto 100 rooms)</sup></h1>
 
 
-        
-     <ul>
-       
-       {
-          rooms.length > 0 &&  rooms.map((room, index) => (<li key={index} className='flex justify-center text-sm'>
-           <span className='border border-r-0 p-2  border-white'>{index+1}. </span>
-               <span className='border p-2 border-r-0 border-white'>{room.title}</span>
-               <span className='border p-2  border-r-0 border-white'>{room._id.toString()}</span>
-               <span onClick={()=> { 
-                writeToClipboard(room._id.toString());
-                toast.info("Link Copied Successfully.")
-                }} className='border p-2 cursor-pointer   border-white'><CopyLink fill="white"  className={"size-4"}/></span>
-           </li>))
-       }
+     <ul className='flex flex-col gap-1'>
+       {roomList}
+       {/* <RoomListCard index={1}  /> */}
    </ul>
    <Toaster position='top-center' richColors/>
    </>

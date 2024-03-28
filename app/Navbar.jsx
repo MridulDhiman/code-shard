@@ -109,7 +109,7 @@ setIsDrawerOpen((prev) => !prev);
 
 let joinRoomModal = <div
 ref={joinModal}
- className="flex w-[30vw] flex-col gap-4 bg-black p-4 z-20 rounded-md absolute left-1/3 top-1/3">
+ className="flex border border-white w-[30vw] flex-col gap-4 bg-black p-4 z-20 rounded-md absolute left-1/3 top-1/3">
 <h1 className="text-xl">Enter Room ID: </h1>
 <form className="flex flex-col gap-4" onSubmit={(e) => e.preventDefault()} >
 <input value={roomInput} onChange={(e)=> setRoomInput(e.target.value)}  className="h-8 rounded-md text-black caret-black" type="text"/>

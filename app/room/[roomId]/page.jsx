@@ -46,7 +46,7 @@ const session = await auth();
 
 
    if(session) {
-      if(session?.user?.name !== creator) {
+      if(roomId === 'new-room' && session?.user?.name !== creator) {
          console.log("shard is private or collaborative");
             redirect("/");
       }

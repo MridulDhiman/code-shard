@@ -46,7 +46,7 @@ user = {
   id: existingUser._id.toString(),
   info: {
     name: userSession.user.name,
-    color: existingUser.avatarColor,
+    color: 'red',
     picture: "https://liveblocks.io/avatars/avatar-1.png",
   }
 };

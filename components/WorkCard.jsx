@@ -152,9 +152,9 @@ setType(type);
               <ul
               ref={modal}
                className="text-xs p-2 w-[12rem] rounded-md absolute right-0 bottom-5 bg-[#131417]">
-                <li 
+                {/* <li 
                 
-                className="cursor-pointer flex items-center gap-2 hover:bg-blue-500 p-1"><Collection className="size-4"/> Add to Collection</li>
+                className="cursor-pointer flex items-center gap-2 hover:bg-blue-500 p-1"><Collection className="size-4"/> Add to Collection</li> */}
                 {type === 'public' && <li
                 onClick={toggleType}
                  className="cursor-pointer flex items-center gap-2 hover:bg-green-500 p-1"><Lock className="size-4 fill-white"/> Make Private </li> }
