@@ -28,7 +28,7 @@ setRooms(initialRooms);
     const roomList = rooms.map((room, index) => <RoomListCard rooms={rooms} setRooms={setRooms} title={room.title} index={index}  key={room._id.toString()} onLinkCopy={onLinkCopy} id={room._id.toString()}/>)
   return (
    <>
-   <h1 className='text-lg text-center mb-2'> Private Rooms List<sup className='text-blue-500'>(upto 100 rooms)</sup></h1>
+   <h1 className='text-lg text-center mb-2'> Rooms List<sup className='text-blue-500'>(upto 100 rooms)</sup></h1>
 
 
      <ul className='flex flex-col gap-1'>

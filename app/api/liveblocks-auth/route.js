@@ -9,7 +9,7 @@ import { Liveblocks } from "@liveblocks/node";
 
 
 const liveblocks = new Liveblocks({
-    secret: 'sk_dev_DQ3J2R3CX75GrDdx5cCLphXD7pHJgeiCI0bxKH7MqL_CAjyflTblMdIEoq4RgSyy'
+    secret: process.env.DEV_LIVEBLOCKS_PRIVATE_KEY
   });
 
 
