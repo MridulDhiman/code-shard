@@ -22,9 +22,6 @@ export default function ShardComponent({newShard, roomId, shardDetails, readOnly
     const iframeRef = useRef();
     const isModalOpen = useSelector((state) => state.modal.isOpen);
 
-    
-
-
     useEffect(()=> {
        if(shardDetails) {
        dispatch(setPrev({
@@ -47,7 +44,8 @@ export default function ShardComponent({newShard, roomId, shardDetails, readOnly
 <body>${html}</body>
 <style>${css}</style>
 <script>${js}</script>
-</html>`;
+</html>
+`;
 
 
 useEffect(()=> {
@@ -71,7 +69,7 @@ useEffect(()=> {
     <div  style={{ height: "42vh", overflow: "auto" }} className="bg-white">
   <iframe
   className="bg-white"
-         ref={iframeRef}
+          ref={iframeRef}
           srcDoc={outputDoc}
           title="output"
           sandbox="allow-scripts"

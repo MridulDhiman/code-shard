@@ -1,5 +1,6 @@
 "use client";
 import { Editor } from "@monaco-editor/react";
+import clsx from "clsx";
 import { emmetCSS, emmetHTML, emmetJSX } from "emmet-monaco-es";
 import { useCallback, useEffect, useState } from "react";
 
@@ -42,7 +43,16 @@ setEditorRef(editor);
   return (
     <div className="w-1/3">
       <div className="flex flex-col bg-black ">
+        <div className={clsx(
+          lang === 'javascript' && "flex gap-2 items-center"
+        )}>
+          
         <p className="text-black  w-fit p-1 text-sm px-2 my-2 rounded-md bg-green-500">{lang.toUpperCase()}</p>
+        {/* select dependencies from here  */}
+        <div>
+           {/* {lang === "javascript" && <input className=""/>}  */}
+        </div>
+        </div>
       <Editor
         onMount={handleMount}
         onChange={handleChange}

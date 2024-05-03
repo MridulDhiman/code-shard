@@ -2,7 +2,7 @@ import Navbar from "./Navbar";
 import "./globals.css";
 import AuthProvider from "./AuthProvider";
 import ReduxProvider from "./ReduxProvider";
-
+import { Analytics } from "@vercel/analytics/react"
 
 
 export const metadata = {
@@ -19,6 +19,7 @@ export default function RootLayout({ children }) {
         <AuthProvider>
         <ReduxProvider>
         {children}
+        <Analytics/>
         </ReduxProvider>   
         </AuthProvider> 
         </body>
