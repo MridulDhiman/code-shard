@@ -1,11 +1,11 @@
-import SandpackWrapper from "@/components/SandpackWrapper";
 
+import SandpackEditor from "@/components/SandpackEditor";
 
 const TestingPage = () => {
   return (
-    <div>
-    <SandpackWrapper/>
-    </div>
+    <>
+    <SandpackEditor template="react" />
+    </>
   )
 }
 
