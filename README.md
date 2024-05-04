@@ -33,4 +33,4 @@
 
 ---
 
-> Try Editor React Editor (work in progress) on https://code-shard.vercel.app/testing
+> React Editor (work in progress) on https://code-shard.vercel.app/testing
