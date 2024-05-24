@@ -50,7 +50,7 @@ setEditorRef(editor);
         <p className="text-black  w-fit p-1 text-sm px-2 my-2 rounded-md bg-green-500">{lang.toUpperCase()}</p>
         {/* select dependencies from here  */}
         <div>
-           {lang === "javascript" && <input className=""/>} 
+           {lang === "javascript" } 
         </div>
         </div>
       <Editor
