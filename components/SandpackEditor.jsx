@@ -24,7 +24,7 @@ import Block from "./ui/icons/Block";
 
 const SimpleCodeViewer = () => {
   const { sandpack } = useSandpack();
-  const { files, activeFile, deleteFile } = sandpack;
+ 
  
   
 // deleteFile("Hello.js")
@@ -84,7 +84,7 @@ export default function SandpackEditor({ template = "react-ts" }) {
     <>
       <SandpackProvider
         files={files}
-        template={template}
+        templa
         theme={atomDark}
         customSetup={{
           dependencies,
