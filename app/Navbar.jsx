@@ -93,9 +93,12 @@ const [pgModalOpen, setPgModalOpen] = useState(false);
      className="self-end border border-transparent p-1 hover:opacity-60 hover:border-white hover:rounded-md" 
       ><Close className="fill-black size-4" /></button>
     <div className="grid grid-cols-5 gap-16">
-{templates.map((template, key) => {
+{templates.map((template) => {
   return <div 
-  className="text-white border p-2 cursor-pointer"
+  className="text-white border p-2 cursor-pointer hover:opacity-65"
+  onClick={()=> {
+    router.push(`/try-editor/${template}`);
+  }}
   key={template}>
     <p className="text-xl">{template}</p>
   </div>

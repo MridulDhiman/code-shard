@@ -11,6 +11,8 @@ import {
   SandpackStack,
   useSandpack,
 } from "@codesandbox/sandpack-react";
+
+
 import { atomDark } from "@codesandbox/sandpack-themes";
 import { useEffect, useRef, useState } from "react";
 import File from "./ui/icons/File";
@@ -21,16 +23,6 @@ import Package from "./ui/icons/Package";
 import Block from "./ui/icons/Block";
 
 
-
-const SimpleCodeViewer = () => {
-  const { sandpack } = useSandpack();
- 
- 
-  
-// deleteFile("Hello.js")
-  
-  return <></>;
-};
 
 
 export default function SandpackEditor({ template = "react-ts" }) {
@@ -120,7 +112,6 @@ export default function SandpackEditor({ template = "react-ts" }) {
               </div>
             </SandpackStack>
             <SandpackFileExplorer/>
-            {/* <SimpleCodeViewer/> */}
           </div>
           <SandpackCodeEditor
             showLineNumbers={true}
