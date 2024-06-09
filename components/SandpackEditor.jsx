@@ -76,7 +76,7 @@ export default function SandpackEditor({ template = "react-ts" }) {
     <>
       <SandpackProvider
         files={files}
-        templa
+        template={template}
         theme={atomDark}
         customSetup={{
           dependencies,
