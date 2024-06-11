@@ -23,8 +23,6 @@ import Block from "./ui/icons/Block";
 import { useModal } from "@/customHooks/useModal";
 
 
-
-
 export default function SandpackEditor({ template = "react-ts" }) {
   const [domLoaded, setDomLoaded] = useState(false);
   const [dependencies, setDependencies] = useState({});
@@ -127,8 +125,9 @@ export default function SandpackEditor({ template = "react-ts" }) {
            />   
           
           <SandpackPreview
-            showRefreshButton={false}
+            // showRefreshButton={false}
             showOpenInCodeSandbox={false}
+            showOpenNewtab={true}
             style={{ height: "100vh" }}
           />
         </SandpackLayout>
