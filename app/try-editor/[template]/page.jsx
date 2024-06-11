@@ -1,11 +1,15 @@
 import SandpackEditor from "@/components/SandpackEditor";
 
-export const generateMetaData = ({params}) => {
+export const generateMetadata = ({params}) => {
 
-    const template = params.template;
+    let template = params.template;
+    console.log(template, "from meta deta ")
+    template = template.toLowerCase();
+    template = template.split("");
+    template[0] = template[0].toUpperCase();
+    template = template.join("");
 return {
-    title: `Template- ${template}`,
-    description: `Sandpack Template for ${template}`
+    title: `${template} Template`
 }
 }
 

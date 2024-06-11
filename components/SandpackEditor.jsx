@@ -8,8 +8,7 @@ import {
   SandpackFileExplorer,
   SandpackLayout,
   SandpackCodeEditor,
-  SandpackStack,
-  useSandpack,
+  SandpackStack
 } from "@codesandbox/sandpack-react";
 
 
@@ -21,19 +20,22 @@ import { autocompletion, completionKeymap } from "@codemirror/autocomplete";
 import React from "react";
 import Package from "./ui/icons/Package";
 import Block from "./ui/icons/Block";
+import { useModal } from "@/customHooks/useModal";
 
 
 
 
 export default function SandpackEditor({ template = "react-ts" }) {
   const [domLoaded, setDomLoaded] = useState(false);
-  const fileExplorer = useRef();
-  const [newfileClicked, setFileClicked] = useState(false);
-  const [newfolderClicked, setFolderClicked] = useState(false);
   const [dependencies, setDependencies] = useState({});
   const [devDependencies, setDevDependencies] = useState({});
   const [files, setFiles] = useState({});
   const [currentFolder, setCurrentFolder] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const modalRef = useRef(null);
+  useModal(isModalOpen,setIsModalOpen,modalRef);
+
+
   
   
   useEffect(() => {
@@ -84,13 +86,14 @@ export default function SandpackEditor({ template = "react-ts" }) {
         }}
       >
         <SandpackLayout>
-          <div>
+          <div
+            className="w-[15%] flex flex-col">
             <SandpackStack>
-              <div className="flex gap-2 ">
+              <div className="flex gap-2 mb-4 p-1">
+                <p className="text-lg pr-4 pl-2 font-['Josh', sans-serif]">{template}</p>
                 <File
                   onClick={() => {
                     const fileName = prompt("Enter File Name: ");
-
                     addNewFile(fileName);
                   }}
                   className={"size-4 cursor-pointer"}
@@ -111,7 +114,7 @@ export default function SandpackEditor({ template = "react-ts" }) {
                 />
               </div>
             </SandpackStack>
-            <SandpackFileExplorer/>
+            <SandpackFileExplorer style={{height: "92vh"}}  />
           </div>
           <SandpackCodeEditor
             showLineNumbers={true}
@@ -120,9 +123,9 @@ export default function SandpackEditor({ template = "react-ts" }) {
             showTabs
             style={{ height: "100vh" }}
             extensions={[autocompletion()]}
-            extensionsKeymap={[completionKeymap]}
-            
-          />
+            extensionsKeymap={[completionKeymap]} 
+           />   
+          
           <SandpackPreview
             showRefreshButton={false}
             showOpenInCodeSandbox={false}
