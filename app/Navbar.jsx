@@ -80,8 +80,7 @@ const [pgModalOpen, setPgModalOpen] = useState(false);
   };
 
 
-  let pgModal = (
-  <>
+  let PgModal =({sessionModal}) => ( <>
   <dialog
   onClose={() => setPgModalOpen(false)}
   className={clsx(
@@ -118,7 +117,8 @@ const [pgModalOpen, setPgModalOpen] = useState(false);
       >
         <li
           onClick={() => {
-            router.push(`/shard/new-shard`);
+            // router.push(`/shard/new-shard`);
+            setPgModalOpen(true);
           }}
           className="bg-white px-2 p-1  flex gap-2 hover:bg-slate-200"
         >
@@ -174,6 +174,7 @@ const [pgModalOpen, setPgModalOpen] = useState(false);
       <h1 className="text-2xl tracking-widest">
         <Link href="/">CODESHARD</Link>
       </h1>
+     
       <div className="flex gap-3 items-center">
         <Drawer
           anchor={"right"}
@@ -206,6 +207,7 @@ const [pgModalOpen, setPgModalOpen] = useState(false);
             </Button>
             {isPopoverOpen && <>{codeModal}</>}
             {isJoinRoomModalOpen && <>{joinRoomModal}</>}
+            {pgModalOpen && <><PgModal sessionModal/></>}
   
 
             {/* <Link href="/your-work"> */}
@@ -216,6 +218,7 @@ const [pgModalOpen, setPgModalOpen] = useState(false);
           </>
         ) : (
           <>
+
             {/* <Link className="cursor-pointer bg-[#47cf73] hover:bg-[#248C46] text-black px-2 py-2 rounded-md text-sm" href="/register">Signup</Link> */}
             <Button onClick={() => router.push("/register")} type="primary">
               Signup
