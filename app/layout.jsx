@@ -5,7 +5,6 @@ import ReduxProvider from "./ReduxProvider";
 import { Analytics } from "@vercel/analytics/react"
 
 import { SandPackCSS } from "@/components/sandpack-styles";
-import SandpackEditor from "@/components/SandpackEditor";
 
 
 export const metadata = {

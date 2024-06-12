@@ -14,14 +14,13 @@ export default function Room({roomId, children}) {
         cursor:null
     }}
     >
-        <ClientSideSuspense fallback={<p className="text-black flex h-screen w-screen items-center justify-center">
+        <ClientSideSuspense fallback={<div className="text-black flex h-screen w-screen items-center justify-center">
           <ScaleLoader
-         
            size={150}
            aria-label="Loading Spinner"
            data-testid="loader"
           />
-        </p>}>
+        </div>}>
             {()=> children}
         </ClientSideSuspense>
     </RoomProvider>

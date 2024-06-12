@@ -18,10 +18,9 @@ import { useModal } from "@/customHooks/useModal";
 import Close from "@/components/ui/icons/Close";
 import styles from "./PgModal.module.css";
 import clsx from "clsx";
+import { templates } from "@/utils";
 
 
-
-const templates = ["static", "angular", "react", "react-ts", "solid", "svelte", "test-ts", "vanilla-ts", "vanilla", "vue", "vue-ts", "node", "nextjs" ,"astro", "vite", "vite-react", "vite-react-ts"];
 
 export default function Navbar() {
   const { data: session } = useSession();
@@ -96,7 +95,8 @@ const [pgModalOpen, setPgModalOpen] = useState(false);
   return <div 
   className="text-white border p-2 cursor-pointer hover:opacity-65"
   onClick={()=> {
-    router.push(`/try-editor/${template}`);
+    const routeToPushTo = session? `/shard/template/${template}` : `/try-editor/${template}` 
+    router.push(routeToPushTo);
   }}
   key={template}>
     <p className="text-xl">{template}</p>

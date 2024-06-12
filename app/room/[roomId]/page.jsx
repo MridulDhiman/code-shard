@@ -24,7 +24,6 @@ const session = await auth();
 
    
    if(roomId !== 'new-room') {
-
      const shards =  await Shard.find({});
      const shardsById = shards.length > 0 ? shards.map((shard) => shard._id.toString()) : [];
      if(!shardsById.includes(roomId)) {

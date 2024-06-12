@@ -21,9 +21,11 @@ import React from "react";
 import Package from "./ui/icons/Package";
 import Block from "./ui/icons/Block";
 import { useModal } from "@/customHooks/useModal";
+import Room from "./Room";
+import CollaborativeSandpackEditor from "./CollaborativeSandpackEditor";
 
 
-export default function SandpackEditor({ template = "react-ts" }) {
+export default function SandpackEditor({ shard, template = "react-ts" }) {
   const [domLoaded, setDomLoaded] = useState(false);
   const [dependencies, setDependencies] = useState({});
   const [devDependencies, setDevDependencies] = useState({});
@@ -74,6 +76,7 @@ export default function SandpackEditor({ template = "react-ts" }) {
   console.log(files);
   return (
     <>
+    
       <SandpackProvider
         files={files}
         template={template}
@@ -114,7 +117,8 @@ export default function SandpackEditor({ template = "react-ts" }) {
             </SandpackStack>
             <SandpackFileExplorer style={{height: "92vh"}}  />
           </div>
-          <SandpackCodeEditor
+          <Room roomId={"demo-room"}>
+          {/* <SandpackCodeEditor
             showLineNumbers={true}
             showRunButton={true}
             closableTabs
@@ -122,7 +126,9 @@ export default function SandpackEditor({ template = "react-ts" }) {
             style={{ height: "100vh" }}
             extensions={[autocompletion()]}
             extensionsKeymap={[completionKeymap]} 
-           />   
+           />    */}
+           <CollaborativeSandpackEditor/>
+          </Room>
           
           <SandpackPreview
             // showRefreshButton={false}

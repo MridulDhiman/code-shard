@@ -1,11 +1,17 @@
 import SandpackEditor from "@/components/SandpackEditor";
-
+import { templates } from "@/utils";
+import { redirect } from "next/navigation";
 export const generateMetadata = ({params}) => {
 
     let template = params.template;
-    console.log(template, "from meta deta ")
+    if(!templates.includes(template)) {
+        // TODO: Give Error Info. to user using modal or alert.
+        console.log("Template not valid: ", template);
+        console.log("Supported Options: ", templates.join(", "));
+        redirect("/");
+    }
 
-    // MY implementation: 
+    // My implementation: 
     // template = template.toLowerCase();
     // template = template.split("");
     // template[0] = template[0].toUpperCase();
@@ -22,7 +28,7 @@ export default function templatePage({params}) {
     const template = params.template;
     return (
         <>
-    <SandpackEditor template={template} />
+    <SandpackEditor template={template} shard={false}/>
         </>
         );
 }

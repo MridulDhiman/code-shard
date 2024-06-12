@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@codemirror/autocomplete": "^6.16.0",
+    "@codemirror/lang-javascript": "^6.2.2",
+    "@codemirror/state": "^6.4.1",
     "@codesandbox/sandpack-react": "^2.13.10",
     "@codesandbox/sandpack-themes": "^2.0.21",
     "@emotion/react": "^11.11.4",
@@ -25,6 +27,7 @@
     "bcryptjs": "^2.4.3",
     "bson-objectid": "^2.0.4",
     "clsx": "^2.1.0",
+    "codemirror": "^6.0.1",
     "emmet-monaco-es": "^5.3.2",
     "mongoose": "^8.1.1",
     "next": "14.1.0",
@@ -38,6 +41,7 @@
     "sharp": "^0.33.3",
     "sonner": "^1.4.41",
     "tailwind-merge": "^2.2.1",
+    "y-codemirror.next": "^0.3.4",
     "y-monaco": "^0.1.5",
     "y-protocols": "^1.0.6",
     "yjs": "^13.6.12"
