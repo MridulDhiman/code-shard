@@ -1,7 +1,7 @@
 "use client";
 import { Doc } from "yjs";
 import LiveblocksProvider from "@liveblocks/yjs";
-import { useRoom } from "@/liveblocks.config";
+import { useRoom} from "@/liveblocks.config";
 // import { MonacoBinding } from "y-monaco";
 import { useCallback, useEffect, useState } from "react";
 import Cursors from "./Cursors";
@@ -11,7 +11,7 @@ import { EditorState } from "@codemirror/state";
 import { EditorView, basicSetup } from "codemirror";
 import { javascript } from "@codemirror/lang-javascript";
 import { yCollab } from "y-codemirror.next";
-import { SandpackCodeEditor } from "@codesandbox/sandpack-react";
+import { SandpackCodeEditor, useActiveCode, useSandpack } from "@codesandbox/sandpack-react";
 import { autocompletion, completionKeymap } from "@codemirror/autocomplete";
 
 
@@ -20,6 +20,9 @@ import { autocompletion, completionKeymap } from "@codemirror/autocomplete";
 const  CollaborativeSandpackEditor = ({  }) => {
     const room = useRoom();
     const [element, setElement] = useState();
+    const { code, updateCode } = useActiveCode();
+    const { sandpack } =  useSandpack();
+    
 
     const ref = useCallback((node) => {
         if (!node) return;
@@ -69,12 +72,6 @@ const  CollaborativeSandpackEditor = ({  }) => {
         };
       }, [element, room]);
 
-
-      const handleChange = useCallback((value) => {
-        setCode(value);
-      })
-
-
       
     
   return (
@@ -83,8 +80,10 @@ const  CollaborativeSandpackEditor = ({  }) => {
             <SandpackCodeEditor 
             //  showLineNumbers={true}
             //  showRunButton={true}
+            key={sandpack.activeFile}
              closableTabs
              showTabs
+             
              style={{ height: "100vh" }}
              extensions={[autocompletion()]}
              extensionsKeymap={[completionKeymap]} 

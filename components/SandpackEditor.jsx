@@ -21,8 +21,8 @@ import React from "react";
 import Package from "./ui/icons/Package";
 import Block from "./ui/icons/Block";
 import { useModal } from "@/customHooks/useModal";
+import MonacoEditor from "./MonacoEditor.jsx";
 import Room from "./Room";
-import CollaborativeSandpackEditor from "./CollaborativeSandpackEditor";
 
 
 export default function SandpackEditor({ shard, template = "react-ts" }) {
@@ -118,18 +118,8 @@ export default function SandpackEditor({ shard, template = "react-ts" }) {
             <SandpackFileExplorer style={{height: "92vh"}}  />
           </div>
           <Room roomId={"demo-room"}>
-          {/* <SandpackCodeEditor
-            showLineNumbers={true}
-            showRunButton={true}
-            closableTabs
-            showTabs
-            style={{ height: "100vh" }}
-            extensions={[autocompletion()]}
-            extensionsKeymap={[completionKeymap]} 
-           />    */}
-           <CollaborativeSandpackEditor/>
+           <MonacoEditor/>
           </Room>
-          
           <SandpackPreview
             // showRefreshButton={false}
             showOpenInCodeSandbox={false}
