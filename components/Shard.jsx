@@ -16,11 +16,11 @@ export default function ShardComponent({newShard, roomId, shardDetails, readOnly
     const [css, setCss] = useState("");
     const [js, setJs] = useState("");
     const [mode, setMode] = useState("normal");
-    const {data: session} = useSession();
-    const router = useRouter();
+    // const {data: session} = useSession();
+    // const router = useRouter();
     const dispatch = useDispatch();
     const iframeRef = useRef();
-    const isModalOpen = useSelector((state) => state.modal.isOpen);
+    // const isModalOpen = useSelector((state) => state.modal.isOpen);
 
     useEffect(()=> {
        if(shardDetails) {

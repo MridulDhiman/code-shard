@@ -7,37 +7,40 @@ import {
   SandpackPreview,
   SandpackFileExplorer,
   SandpackLayout,
-  SandpackCodeEditor,
-  SandpackStack
+  // SandpackCodeEditor,
+  SandpackStack,
+  useSandpack
 } from "@codesandbox/sandpack-react";
+
+import sonner, { Toaster, toast } from "sonner";
 
 
 import { atomDark } from "@codesandbox/sandpack-themes";
 import { useEffect, useRef, useState } from "react";
 import File from "./ui/icons/File";
-import { autocompletion, completionKeymap } from "@codemirror/autocomplete";
+// import { autocompletion, completionKeymap } from "@codemirror/autocomplete";
 
 import React from "react";
 import Package from "./ui/icons/Package";
 import Block from "./ui/icons/Block";
 import { useModal } from "@/customHooks/useModal";
 import MonacoEditor from "./MonacoEditor.jsx";
-import Room from "./Room";
+import Button from "./ui/Button";
+import { saveTemplateToDB } from "@/lib/actions";
 
 
-export default function SandpackEditor({ shard, template = "react-ts" }) {
+export default function SandpackEditor({ id=null, shardDetails=null, template = "react", shard }) {
   const [domLoaded, setDomLoaded] = useState(false);
   const [dependencies, setDependencies] = useState({});
   const [devDependencies, setDevDependencies] = useState({});
   const [files, setFiles] = useState({});
-  const [currentFolder, setCurrentFolder] = useState("");
+  // const [currentFolder, setCurrentFolder] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const modalRef = useRef(null);
   useModal(isModalOpen,setIsModalOpen,modalRef);
+ 
 
 
-  
-  
   useEffect(() => {
     setDomLoaded(true);
   }, [domLoaded]);
@@ -46,7 +49,7 @@ export default function SandpackEditor({ shard, template = "react-ts" }) {
     return <>Loading...</>;
   }
   const addNewFile = (fileName, fileCode = "") => {
-    const filePath = `${currentFolder}/${fileName}`;
+    const filePath = `/${fileName}`;
     setFiles((prev) => {
       return {
         ...prev,
@@ -76,7 +79,6 @@ export default function SandpackEditor({ shard, template = "react-ts" }) {
   console.log(files);
   return (
     <>
-    
       <SandpackProvider
         files={files}
         template={template}
@@ -87,8 +89,50 @@ export default function SandpackEditor({ shard, template = "react-ts" }) {
         }}
       >
         <SandpackLayout>
-          <div
+        <SandpackSidebar id={id} template={template} addNewFile={addNewFile} addNewDependency={addNewDependency} addNewDevDependency={addNewDevDependency} />
+         {/* <MonacoCollaborativeEditor template={template}/> */}
+         <MonacoEditor/>
+          <SandpackPreview
+            // showRefreshButton={false}
+            showOpenInCodeSandbox={false}
+            showOpenNewtab={true}
+            style={{ height: "100vh" }}
+          />
+        </SandpackLayout>
+      </SandpackProvider>
+    </>
+  );
+}
+
+function SandpackSidebar({template, addNewFile, addNewDependency, addNewDevDependency, id }) {
+  const {sandpack} = useSandpack();
+  const { files } = sandpack;
+
+
+  const handleSave = async () => {
+    console.log(files, id);
+
+    try {
+      const {status}  = await saveTemplateToDB(id, files);  
+      console.log(status);
+
+      if(status === 500) {
+        toast.error("Could not save shard. Try Again!")
+      }
+      else {
+        // window.alert("Shard Updated Successfully")
+        toast.info("Shard saved successfully.")
+      }
+    } catch (error) {
+      console.log("error occurred", error);
+    }
+
+  }
+
+  return <>
+   <div
             className="w-[15%] flex flex-col">
+              <Toaster/>
             <SandpackStack>
               <div className="flex gap-2 mb-4 p-1">
                 <p className="text-lg pr-4 pl-2 font-['Josh', sans-serif]">{template}</p>
@@ -113,21 +157,10 @@ export default function SandpackEditor({ shard, template = "react-ts" }) {
                   }}
                   className={"cursor-pointer"}
                 />
+                <Button onClick={handleSave}>Save</Button>
               </div>
             </SandpackStack>
             <SandpackFileExplorer style={{height: "92vh"}}  />
           </div>
-          <Room roomId={"demo-room"}>
-           <MonacoEditor/>
-          </Room>
-          <SandpackPreview
-            // showRefreshButton={false}
-            showOpenInCodeSandbox={false}
-            showOpenNewtab={true}
-            style={{ height: "100vh" }}
-          />
-        </SandpackLayout>
-      </SandpackProvider>
-    </>
-  );
+  </>
 }

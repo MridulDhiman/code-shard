@@ -40,7 +40,7 @@ export const {
     useEditComment,
     useDeleteComment,
     useAddReaction,
-    useRemoveReaction,
+    useRemoveReaction
   }
 } = createRoomContext(client, {
   async resolveUsers({ userIds }) {

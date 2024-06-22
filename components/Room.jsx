@@ -13,7 +13,10 @@ export default function Room({roomId, children}) {
     initialPresence={{
         cursor:null
     }}
+   
     >
+
+      
         <ClientSideSuspense fallback={<div className="text-black flex h-screen w-screen items-center justify-center">
           <ScaleLoader
            size={150}

@@ -4,7 +4,6 @@ import connectToDB from "@/lib/database";
 import ShardComponent from "@/components/Shard";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
-import ObjectID from "bson-objectid";
 
 
 export default async function NewShardPage({params}) {
