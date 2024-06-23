@@ -4,6 +4,7 @@ import { User } from "@/models/User";
 import WorkCard from "./WorkCard";
 import { redirect } from "next/navigation";
 import { Fragment } from "react";
+import { makeFilesAndDependenciesUIStateLike } from "@/utils";
 
 
 
@@ -35,14 +36,26 @@ const shards = await fetchShards(session?.user.email);
 
 // const shards =exreistingUser.shards;
 console.log("Shards: ", shards);
-
+      
 const shardsCollection =  shards.length > 0 ? shards.map((shard, index) => {
 
   if(shard.mode === "collaboration") {
     return <Fragment key={index}></Fragment>
   }
 
-return <WorkCard key={index} likes={shard.likes} mode={shard.mode} type={shard.type} html={shard.html} css={shard.css} js={shard.js} title={shard.title} id={shard._id.toString()}/>
+  const [files, dependencies, devDependencies] = (shard.isTemplate) ? makeFilesAndDependenciesUIStateLike(shard.files, shard.dependencies) : [null, null, null];
+
+
+return <WorkCard key={index} likes={shard.likes} isTemplate={shard.isTemplate} content={shard.isTemplate ? {
+  html: shard.html,
+  css: shard.css,
+  js: shard.js,
+} : {
+  templateType: shard.templateType,
+  files,
+  dependencies,
+  devDependencies
+}} mode={shard.mode} type={shard.type} title={shard.title} id={shard._id.toString()}/>
 }) : [];
 
 

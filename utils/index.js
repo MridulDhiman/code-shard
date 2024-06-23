@@ -287,3 +287,31 @@ export  const SANDBOX_TEMPLATES = {
         },
     }
 }
+
+export const makeFilesAndDependenciesUIStateLike = (fileContent, dependencyContent) => {
+    const nonDevDependenices = [];
+    const devDependencies = [];
+
+    dependencyContent.forEach((dep) => {
+        if(dep.isDevDependency) {
+            devDependencies.push({
+                [dep.name] : dep.version
+            });
+        }
+        else {
+            nonDevDependenices.push({
+                [dep.name] : dep.version
+            });
+        }
+    });
+
+    return [
+        fileContent.map(({name, ...rest }) => ({
+            [name] :  {
+                ...rest
+            }
+        })),
+        nonDevDependenices,
+        devDependencies
+    ]
+}

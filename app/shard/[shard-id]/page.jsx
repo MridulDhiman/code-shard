@@ -4,6 +4,7 @@ import connectToDB from "@/lib/database";
 import ShardComponent from "@/components/Shard";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
+import SandpackEditor from "@/components/SandpackEditor";
 
 
 export default async function NewShardPage({params}) {
@@ -43,7 +44,7 @@ const session = await auth();
    }
 
 
-    const {html, css, js, title, type, creator,  _id, mode} = shardDetails;
+    const {html, css, js, title, type, creator, isTemplate,   _id, mode} = shardDetails;
 
    let  content = {
        html,
@@ -66,9 +67,15 @@ const session = await auth();
 
 
     return <>
-        <ShardNavbar readOnly={session?.user?.name !== creator} shardDetails={content} roomId={content.id}/>
-         {/* {!session && <div className="bg-[#131417] p-1"><Navbar/></div>}  */}
-       <ShardComponent  readOnly={(session?.user?.name !== creator)} shardDetails={content} roomId={content.id}/>
+      {isTemplate && <SandpackEditor shardDetails={JSON.stringify(shardDetails)} template={shardDetails.templateType ?? "react"} shard={true} id={shardDetails?._id.toString() ?? null} />
+   }
+   {
+      !isTemplate && <>
+       <ShardNavbar readOnly={session?.user?.name !== creator} shardDetails={content} roomId={content.id}/>
+       <ShardComponent readOnly={(session?.user?.name !== creator)} shardDetails={content} roomId={content.id}/>
+      </>
+   }
+       
      
     </>
 }   

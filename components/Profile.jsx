@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import { handleFollowersOfUser } from "@/lib/actions";
 import { useOptimistic } from "react";
 import ProfileCard from "./ProfileCard";
+import { makeFilesAndDependenciesUIStateLike } from "@/utils";
 
 const Profile = ({
   shards,
@@ -79,8 +80,26 @@ const Profile = ({
       </div>
 
       <div className="grid grid-cols-4 gap-3">
+
+
         {shards.length === 0 && <>No Shards</>}
-        {shards.length > 0 && shards.map((shard, index) => <ProfileCard title={shard.title} creator={shard.creator} key={index} html={shard.html} css={shard.css} js={shard.js} id={shard._id.toString()}/>)}
+        {shards.length > 0 && shards.map((shard, index) => {
+          
+          const [files, dependencies, devDependencies] = makeFilesAndDependenciesUIStateLike(shard.files, shard.dependencies);
+          
+          return (<ProfileCard title={shard.title} isTemplate={shard.isTemplate} creator={shard.creator} key={index} content={!shard.isTemplate ? {
+          html: shard.html,
+          css: shard.css,
+          js: shard.js
+        }: {
+          templateType: shard.templateType,
+          files,
+          dependencies, 
+          devDependencies
+        }} html={shard.html} css={shard.css} js={shard.js} id={shard._id.toString()}/>)
+        
+        
+        })}
       </div>
     </>
   );

@@ -1,8 +1,10 @@
 
 import { Schema, model, models } from "mongoose";
+import { fileSchema } from "./File.js";
+import { dependencySchema } from "./Dependency.js";
+
 
 const shardSchema = new Schema({
-
     title: {
        type: String,
        default : "Untitled"
@@ -31,7 +33,8 @@ const shardSchema = new Schema({
         default: false,
     },
     templateType: String,
-    files: Schema.Types.Mixed, 
+    files: [fileSchema], 
+    dependencies: [dependencySchema],
     tags: [String],
     type: {
         type: String,
@@ -47,19 +50,15 @@ const shardSchema = new Schema({
         type: Number,
         default: 0
     },
-    // comments: {
-    //     type: [Schema.Types.ObjectId],
-    //     ref: "Comment",
-    //     default: []
-    // }
 }, {
     timestamps: true,
-    
 });
 
 
+
+
+
 shardSchema.pre("save", function (next) {
-  
     if(this.isTemplate) {
         this.html = undefined;
         this.css = undefined;
@@ -68,6 +67,7 @@ shardSchema.pre("save", function (next) {
     else {
         this.templateType = undefined;
         this.files = undefined;
+        this.dependencies = undefined;    
     }
 
     next()
@@ -76,22 +76,27 @@ shardSchema.pre("save", function (next) {
 
 
 // USAGE: const {status} =  await Shard.updateTemplate(id, files);
-shardSchema.statics.updateTemplate =  function (id, files) {
+shardSchema.statics.updateTemplate =  function (id, files, dependencies) {
     return new Promise(async (resolve, reject) => {
         try {
             await this.updateOne({_id: id, isTemplate: true}, {
-               files
+               files,
+               dependencies
             });
 
-            resolve({"status" : "200"});
+            resolve({status : 200});
            } catch (error) {
-             reject({"status": "500"});
+             reject({status: 500});
              console.log("Could not update template: ", id,  error);
            }
     });
 }
 
+
+
 export const Shard =  models?.Shard || model("Shard", shardSchema);
+
+
 
 
 

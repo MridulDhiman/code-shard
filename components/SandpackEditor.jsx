@@ -12,7 +12,7 @@ import {
   useSandpack
 } from "@codesandbox/sandpack-react";
 
-import sonner, { Toaster, toast } from "sonner";
+import  { Toaster, toast } from "sonner";
 
 
 import { atomDark } from "@codesandbox/sandpack-themes";
@@ -27,26 +27,49 @@ import { useModal } from "@/customHooks/useModal";
 import MonacoEditor from "./MonacoEditor.jsx";
 import Button from "./ui/Button";
 import { saveTemplateToDB } from "@/lib/actions";
+import { makeFilesAndDependenciesUIStateLike } from "@/utils";
+import { ScaleLoader } from "react-spinners";
 
 
-export default function SandpackEditor({ id=null, shardDetails=null, template = "react", shard }) {
+export default function SandpackEditor({ id, shardDetails: initialShardDetails, template = "react", shard }) {
+  const [shardDetails, setShardDetails] = useState(null);
   const [domLoaded, setDomLoaded] = useState(false);
   const [dependencies, setDependencies] = useState({});
   const [devDependencies, setDevDependencies] = useState({});
   const [files, setFiles] = useState({});
-  // const [currentFolder, setCurrentFolder] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const modalRef = useRef(null);
   useModal(isModalOpen,setIsModalOpen,modalRef);
  
+  useEffect(()=> {
+    if(initialShardDetails) {
+      const data = JSON.parse(initialShardDetails);
+      console.log(data);
+     const [f, dep, devDep] = makeFilesAndDependenciesUIStateLike(data.files, data.dependencies);
+     setFiles(f);
+     setDependencies(dep);
+     setDevDependencies(devDep);
+      setShardDetails(data);
+    }
+    else {
+      setFiles({});
+      setShardDetails(null);
+      setDependencies({});
+      setDevDependencies({});
+    }
+  }, [initialShardDetails])
 
 
   useEffect(() => {
-    setDomLoaded(true);
+
+    if(!domLoaded) {
+      setDomLoaded(true);
+    }
   }, [domLoaded]);
 
+
   if (!domLoaded) {
-    return <>Loading...</>;
+    return <><ScaleLoader/></>;
   }
   const addNewFile = (fileName, fileCode = "") => {
     const filePath = `/${fileName}`;
@@ -89,11 +112,9 @@ export default function SandpackEditor({ id=null, shardDetails=null, template = 
         }}
       >
         <SandpackLayout>
-        <SandpackSidebar id={id} template={template} addNewFile={addNewFile} addNewDependency={addNewDependency} addNewDevDependency={addNewDevDependency} />
-         {/* <MonacoCollaborativeEditor template={template}/> */}
+        <SandpackSidebar id={id} template={template} addNewFile={addNewFile} dependencies={dependencies} devDependencies={devDependencies} addNewDependency={addNewDependency} addNewDevDependency={addNewDevDependency} />
          <MonacoEditor/>
           <SandpackPreview
-            // showRefreshButton={false}
             showOpenInCodeSandbox={false}
             showOpenNewtab={true}
             style={{ height: "100vh" }}
@@ -104,7 +125,7 @@ export default function SandpackEditor({ id=null, shardDetails=null, template = 
   );
 }
 
-function SandpackSidebar({template, addNewFile, addNewDependency, addNewDevDependency, id }) {
+function SandpackSidebar({template, addNewFile, dependencies, devDependencies, addNewDependency, addNewDevDependency, id }) {
   const {sandpack} = useSandpack();
   const { files } = sandpack;
 
@@ -112,8 +133,10 @@ function SandpackSidebar({template, addNewFile, addNewDependency, addNewDevDepen
   const handleSave = async () => {
     console.log(files, id);
 
+    
+
     try {
-      const {status}  = await saveTemplateToDB(id, files);  
+      const {status}  = await saveTemplateToDB(id, files , dependencies, devDependencies);  
       console.log(status);
 
       if(status === 500) {
@@ -157,7 +180,7 @@ function SandpackSidebar({template, addNewFile, addNewDependency, addNewDevDepen
                   }}
                   className={"cursor-pointer"}
                 />
-                <Button onClick={handleSave}>Save</Button>
+              {id &&  <Button onClick={handleSave}>Save</Button> }
               </div>
             </SandpackStack>
             <SandpackFileExplorer style={{height: "92vh"}}  />
