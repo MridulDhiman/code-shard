@@ -40,6 +40,7 @@ const WorkCard = ({
   }, [initialContent])
 
   console.log("shard ids : ", id);
+  console.log(content);
 
   useEffect(() => {
     const handleBodyClick = (e) => {
@@ -135,7 +136,7 @@ const WorkCard = ({
       <div className="group relative w-full h-full">
         <span
           onClick={handleClick}
-          className="text-slate-200 hidden group-hover:block  bg-[#252830] hover:bg-slate-700 absolute right-0 m-1 rounded-md text-lg p-2 cursor-pointer"
+          className="text-slate-200 hidden group-hover:block z-40 bg-[#252830] hover:bg-slate-700 absolute right-0 m-1 rounded-md text-lg p-2 cursor-pointer"
         >
           <FullScreen className="size-5" />
         </span>
@@ -147,7 +148,7 @@ const WorkCard = ({
               files={content.files}
               dependencies={content.dependencies}
               devDependencies={content.devDependencies}
-              className="pointer-events-none bg-white h-full w-full bg-cover rounded-lg"
+              className="pointer-events-none bg-white h-full rounded-lg -z-10"
             />
           </>
         ) : (

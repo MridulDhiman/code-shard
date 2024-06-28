@@ -13,7 +13,12 @@ const CustomSandpackPreview = ({className, template, files, dependencies, devDep
         }}
         >
             <SandpackLayout>
-                 <SandpackPreview/>
+                 <SandpackPreview
+                 showNavigator={false}
+                 showOpenInCodeSandbox={false}
+                 showRefreshButton={false}
+                 showRestartButton={false}
+                 showOpenNewtab={false} />
             </SandpackLayout>
         </SandpackProvider>
     </div>

@@ -73,27 +73,6 @@ shardSchema.pre("save", function (next) {
     next()
 });
 
-
-
-// USAGE: const {status} =  await Shard.updateTemplate(id, files);
-shardSchema.statics.updateTemplate =  function (id, files, dependencies) {
-    return new Promise(async (resolve, reject) => {
-        try {
-            await this.updateOne({_id: id, isTemplate: true}, {
-               files,
-               dependencies
-            });
-
-            resolve({status : 200});
-           } catch (error) {
-             reject({status: 500});
-             console.log("Could not update template: ", id,  error);
-           }
-    });
-}
-
-
-
 export const Shard =  models?.Shard || model("Shard", shardSchema);
 
 

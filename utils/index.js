@@ -289,28 +289,28 @@ export  const SANDBOX_TEMPLATES = {
 }
 
 export const makeFilesAndDependenciesUIStateLike = (fileContent, dependencyContent) => {
-    const nonDevDependenices = [];
-    const devDependencies = [];
+    const nonDevDependenices = {};
+    const devDependencies = {};
+    const files = {};
 
     dependencyContent.forEach((dep) => {
         if(dep.isDevDependency) {
-            devDependencies.push({
-                [dep.name] : dep.version
-            });
+            devDependencies[dep.name] = dep.version;
         }
         else {
-            nonDevDependenices.push({
-                [dep.name] : dep.version
-            });
+            nonDevDependenices[dep.name] = dep.version;
+            
         }
     });
 
+    fileContent.forEach(({name, ...rest }) => {
+        files[name] =  {
+            ...rest
+        }
+    })
+
     return [
-        fileContent.map(({name, ...rest }) => ({
-            [name] :  {
-                ...rest
-            }
-        })),
+        files,
         nonDevDependenices,
         devDependencies
     ]

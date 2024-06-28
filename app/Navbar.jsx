@@ -185,7 +185,7 @@ const [pgModalOpen, setPgModalOpen] = useState(false);
         </Drawer>
         {!session && (
           <>
-           {pgModalOpen && <>{pgModal}</>}
+           {pgModalOpen && <><PgModal/></>}
           <Button
             type="outline"
             onClick={() => {

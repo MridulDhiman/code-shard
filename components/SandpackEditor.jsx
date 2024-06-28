@@ -16,7 +16,7 @@ import  { Toaster, toast } from "sonner";
 
 
 import { atomDark } from "@codesandbox/sandpack-themes";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import File from "./ui/icons/File";
 // import { autocompletion, completionKeymap } from "@codemirror/autocomplete";
 
@@ -29,6 +29,7 @@ import Button from "./ui/Button";
 import { saveTemplateToDB } from "@/lib/actions";
 import { makeFilesAndDependenciesUIStateLike } from "@/utils";
 import { ScaleLoader } from "react-spinners";
+import { useSession } from "next-auth/react";
 
 
 export default function SandpackEditor({ id, shardDetails: initialShardDetails, template = "react", shard }) {
@@ -127,28 +128,34 @@ export default function SandpackEditor({ id, shardDetails: initialShardDetails, 
 
 function SandpackSidebar({template, addNewFile, dependencies, devDependencies, addNewDependency, addNewDevDependency, id }) {
   const {sandpack} = useSandpack();
+  const {data: session} = useSession();
+  console.log("Sandpacksidebar: ", session);
+
   const { files } = sandpack;
 
 
   const handleSave = async () => {
+
     console.log(files, id);
-
-    
-
-    try {
-      const {status}  = await saveTemplateToDB(id, files , dependencies, devDependencies);  
-      console.log(status);
-
-      if(status === 500) {
-        toast.error("Could not save shard. Try Again!")
+    if(session?.user) {
+      try {
+        const userName = session?.name;
+        const {status}  = await saveTemplateToDB(id, files , dependencies, devDependencies, session?.user?.name);  
+        console.log(status);
+  
+        if(status === 500) {
+          toast.error("Could not save shard. Try Again!")
+        }
+        else if(status === 200) {
+          // window.alert("Shard Updated Successfully")
+          toast.info("Shard saved successfully.")
+        }
+      } catch (error) {
+        console.log("error occurred", error);
       }
-      else {
-        // window.alert("Shard Updated Successfully")
-        toast.info("Shard saved successfully.")
-      }
-    } catch (error) {
-      console.log("error occurred", error);
+
     }
+
 
   }
 
