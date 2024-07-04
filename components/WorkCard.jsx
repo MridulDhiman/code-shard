@@ -14,6 +14,8 @@ import Unlock from "./ui/icons/Unlock";
 import FullScreen from "./ui/icons/FullScreen";
 import HorizontalThreeDots from "./ui/icons/HorizontalThreeDots";
 import CustomSandpackPreview from "./CustomSandpackPreview";
+import Pencil from "./ui/icons/Pencil";
+import { saveShardName } from "@/lib/actions";
 
 const WorkCard = ({
   content: initialContent,
@@ -27,11 +29,39 @@ const WorkCard = ({
   const [content, setContent] = useState(initialContent);
   const [isDeleted, setIsDeleted] = useState(false);
   const [type, setType] = useState(initialType);
+  const [pencilClicked, setPencilClick] = useState(false);
+  const [shardName, setShardName] = useState(title);
   const modal = useRef();
 
   useEffect(() => {
     setType(type);
   }, [type]);
+
+  const onClick = () => {
+    setPencilClick(true);
+  }
+
+  useEffect(()=> {
+
+    function onKeyDown (e) {
+      console.log(e.key);
+      if(e.key === "Enter") {
+        setPencilClick(false);
+        if(shardName !== "") {
+          saveShardName(id, shardName).then(() => console.log("success")).catch((err) => {
+            console.log("could not save shard name");
+            setShardName(title);
+            window.alert("Could not save shard title")
+          })
+        }
+      }
+    }
+document.addEventListener("keydown", onKeyDown)
+
+    return () => {
+document.removeEventListener("keydown", onKeyDown)
+    }
+  })
 
   useEffect(()=> {
     if(initialContent) {
@@ -148,12 +178,12 @@ const WorkCard = ({
               files={content.files}
               dependencies={content.dependencies}
               devDependencies={content.devDependencies}
-              className="pointer-events-none bg-white h-full rounded-lg -z-10"
+              className="pointer-events-none  bg-white h-[12rem] rounded-lg"
             />
           </>
         ) : (
           <iframe
-            className="pointer-events-none bg-white bg-cover rounded-lg"
+            className="pointer-events-none bg-white bg-cover rounded-[0.2rem]"
             srcDoc={outputDoc}
             title="output"
             sandbox="allow-scripts"
@@ -163,8 +193,15 @@ const WorkCard = ({
         )}
       </div>
 
-      <div className="flex items-center justify-between relative">
-        <p>{title}</p>
+      <div className="flex items-center justify-between relative"> 
+        <div className="flex gap-1">
+       {pencilClicked &&  <input className="bg-transparent outline-none" type="text" onChange={(e)=> setShardName(e.target.value)} value={shardName} placeholder={shardName}/> }
+       {!pencilClicked && <>
+        <p>{shardName}</p>
+        <Pencil onClick={onClick} className={"size-5 fill-white hover:fill-slate-400 hover:cursor-pointer"} />
+       </>}
+       
+        </div>
         <div>
           {isPopoverOpen && (
             <ul

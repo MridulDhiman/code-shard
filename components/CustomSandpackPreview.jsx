@@ -3,7 +3,7 @@ import React from 'react'
 
 const CustomSandpackPreview = ({className, template, files, dependencies, devDependencies}) => {
   return (
-    <div className={className}>
+    <>
         <SandpackProvider
         files={files}
         template={template}
@@ -12,7 +12,7 @@ const CustomSandpackPreview = ({className, template, files, dependencies, devDep
             devDependencies
         }}
         >
-            <SandpackLayout>
+            <SandpackLayout className={className}>
                  <SandpackPreview
                  showNavigator={false}
                  showOpenInCodeSandbox={false}
@@ -21,7 +21,7 @@ const CustomSandpackPreview = ({className, template, files, dependencies, devDep
                  showOpenNewtab={false} />
             </SandpackLayout>
         </SandpackProvider>
-    </div>
+    </>
   )
 }
 

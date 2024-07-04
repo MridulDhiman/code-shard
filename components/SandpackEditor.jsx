@@ -142,6 +142,7 @@ function SandpackSidebar({template, addNewFile, dependencies, devDependencies, a
     if(session?.user) {
       try {
         const userName = session?.name;
+        
         const {status}  = await saveTemplateToDB(id, files , dependencies, devDependencies, session?.user?.name);  
         console.log(status);
             if(status === 500) {
@@ -157,6 +158,7 @@ function SandpackSidebar({template, addNewFile, dependencies, devDependencies, a
        
       } catch (error) {
         console.log("error occurred", error);
+
       }
 
     }

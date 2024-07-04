@@ -55,7 +55,7 @@ if(initialContent) {
       <div
        
        className="group relative w-full h-full">
-        <span onClick={handleClick} className="text-slate-200 hidden group-hover:block  bg-[#252830] hover:bg-slate-700 absolute right-0 m-1 rounded-md text-lg p-2 cursor-pointer"><FullScreen className="size-5"/></span>
+        <span onClick={handleClick} className="text-slate-200 hidden group-hover:block  bg-[#252830] z-20 hover:bg-slate-700 absolute right-0 m-1 rounded-md text-lg p-2 cursor-pointer"><FullScreen className="size-5"/></span>
 
         {isTemplate ? (
           <>
@@ -64,12 +64,12 @@ if(initialContent) {
               files={content.files}
               dependencies={content.dependencies}
               devDependencies={content.devDependencies}
-              className="pointer-events-none bg-white h-full w-full bg-cover rounded-lg"
+              className="pointer-events-none bg-white h-[12rem] rounded-lg z-10"
             />
           </>
         ) : (
           <iframe
-            className="pointer-events-none bg-white bg-cover rounded-lg"
+            className="pointer-events-none bg-white bg-cover rounded-[0.2rem]"
             srcDoc={outputDoc}
             title="output"
             sandbox="allow-scripts"
