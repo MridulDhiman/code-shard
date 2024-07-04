@@ -46,7 +46,7 @@ const shardsCollection =  shards.length > 0 ? shards.map((shard, index) => {
   const [files, dependencies, devDependencies] = (shard.isTemplate) ? makeFilesAndDependenciesUIStateLike(shard.files, shard.dependencies) : [null, null, null];
 
 
-return <WorkCard key={index} likes={shard.likes} isTemplate={shard.isTemplate} content={!shard.isTemplate ? {
+return <WorkCard key={shard._id.toString()} likes={shard.likes} isTemplate={shard.isTemplate} content={!shard.isTemplate ? {
   html: shard.html,
   css: shard.css,
   js: shard.js,

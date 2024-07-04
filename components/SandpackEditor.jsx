@@ -15,6 +15,7 @@ import {
 import  { Toaster, toast } from "sonner";
 
 
+
 import { atomDark } from "@codesandbox/sandpack-themes";
 import { useEffect, useRef, useState, useCallback } from "react";
 import File from "./ui/icons/File";
@@ -30,6 +31,7 @@ import { saveTemplateToDB } from "@/lib/actions";
 import { makeFilesAndDependenciesUIStateLike } from "@/utils";
 import { ScaleLoader } from "react-spinners";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 
 export default function SandpackEditor({ id, shardDetails: initialShardDetails, template = "react", shard }) {
@@ -129,27 +131,30 @@ export default function SandpackEditor({ id, shardDetails: initialShardDetails, 
 function SandpackSidebar({template, addNewFile, dependencies, devDependencies, addNewDependency, addNewDevDependency, id }) {
   const {sandpack} = useSandpack();
   const {data: session} = useSession();
+  const router = useRouter();
   console.log("Sandpacksidebar: ", session);
 
   const { files } = sandpack;
 
 
   const handleSave = async () => {
-
     console.log(files, id);
     if(session?.user) {
       try {
         const userName = session?.name;
         const {status}  = await saveTemplateToDB(id, files , dependencies, devDependencies, session?.user?.name);  
         console.log(status);
+            if(status === 500) {
+               toast.error("Could not save shard. Try Again!")
+               return;
+            }
+            else if(status === 200) {
+              // window.alert("Shard Updated Successfully")
+              router.push(`/shard/${id}`);
+              toast.info("Shard saved successfully")
   
-        if(status === 500) {
-          toast.error("Could not save shard. Try Again!")
-        }
-        else if(status === 200) {
-          // window.alert("Shard Updated Successfully")
-          toast.info("Shard saved successfully.")
-        }
+            }
+       
       } catch (error) {
         console.log("error occurred", error);
       }
@@ -162,7 +167,7 @@ function SandpackSidebar({template, addNewFile, dependencies, devDependencies, a
   return <>
    <div
             className="w-[15%] flex flex-col">
-              <Toaster/>
+              <Toaster position="top-center" richColors closeButton/>
             <SandpackStack>
               <div className="flex gap-2 mb-4 p-1">
                 <p className="text-lg pr-4 pl-2 font-['Josh', sans-serif]">{template}</p>
