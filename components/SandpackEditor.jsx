@@ -168,6 +168,7 @@ function SandpackSidebar({addNewFile,theme, setTheme,  dependencies, devDependen
   const { files } = sandpack;
 
 
+
   let modal = <>
   <div ref={modalRef} className="absolute z-10 left-2 top-9">
   <select name="Themes" id="themes" onChange={(e)=> {

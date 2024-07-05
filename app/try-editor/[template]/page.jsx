@@ -18,7 +18,7 @@ export const generateMetadata = ({params}) => {
     // template = template.join("");
 
     // ChatGPT: 
-    template = template.charAt(0).toUpperCase() + template.toLowerCase();
+    template = template.charAt(0).toUpperCase() + template.slice(1).toLowerCase();
 return {
     title: `${template} Template`
 }
