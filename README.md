@@ -1,4 +1,4 @@
-# <p align="center">CodeShard: Collaborative Code Editor for creating HTML/CSS/JS Snippets </p>
+# <p align="center">CodeShard: Collaborative Code Editor for creating frontend Snippets </p>
 
 ![alt text](images/image.png)
 

@@ -54,7 +54,7 @@ const Main = () => {
               Collaborate.
             </h1>
             <p>
-              Social Development Environment for building HTML/CSS/JS Snippets,
+              Social Development Environment for building Frontend Snippets,
               allowing collaboration in rooms.
             </p>
            
