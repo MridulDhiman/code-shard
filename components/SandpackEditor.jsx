@@ -229,26 +229,26 @@ function SandpackSidebar({addNewFile,theme, setTheme,  dependencies, devDependen
                     const fileName = prompt("Enter File Name: ");
                     if(fileName) addNewFile(fileName);
                   }}
-                  className={"size-4 cursor-pointer"}
+                  className={"size-4 fill-white hover:fill-slate-600 cursor-pointer"}
                 />
                 <Package
                   onClick={() => {
                     const dependencyName = prompt("Add new dependency");
                     if(dependencyName) addNewDependency(dependencyName);
                   }}
-                  className={"size-4 cursor-pointer"}
+                  className={"size-4 fill-white hover:fill-slate-600 cursor-pointer"}
                 />
                 <Block
                   onClick={() => {
                     const dependencyName = prompt("Add new dev. dependency");
                    if(dependencyName) addNewDevDependency(dependencyName);
                   }}
-                  className={"cursor-pointer size-4"}
+                  className={"cursor-pointer hover:fill-slate-600 fill-white size-4"}
                 />
                     <Settings onClick={()=> {
                       console.log("clicked on settings")
                       setIsClicked(true)
-                    }} className={"size-4 hover:fill-slate-400 fill-white cursor-pointer"}/>
+                    }} className={"size-4 hover:fill-slate-600 fill-white cursor-pointer"}/>
               {id &&  <Button className="font-[500] text-sm border p-1 rounded-md" onClick={handleSave}>Save</Button> }
               {session && 
               <button className="text-xs cursor-pointer" onClick={() => {
