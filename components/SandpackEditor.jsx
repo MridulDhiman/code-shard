@@ -16,7 +16,7 @@ import  { Toaster, toast } from "sonner";
 
 
 
-import { atomDark } from "@codesandbox/sandpack-themes";
+import { dark } from "@codesandbox/sandpack-themes";
 import { useEffect, useRef, useState, useCallback } from "react";
 import File from "./ui/icons/File";
 // import { autocompletion, completionKeymap } from "@codemirror/autocomplete";
@@ -32,6 +32,8 @@ import { makeFilesAndDependenciesUIStateLike } from "@/utils";
 import { ScaleLoader } from "react-spinners";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import Avatar from "react-avatar";
+import Settings from "./ui/icons/Settings";
 
 
 export default function SandpackEditor({ id, shardDetails: initialShardDetails, template = "react", shard }) {
@@ -42,6 +44,7 @@ export default function SandpackEditor({ id, shardDetails: initialShardDetails, 
   const [files, setFiles] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
   const modalRef = useRef(null);
+  const [theme, setTheme] =useState("vs-dark")
   useModal(isModalOpen,setIsModalOpen,modalRef);
  
   useEffect(()=> {
@@ -76,30 +79,38 @@ export default function SandpackEditor({ id, shardDetails: initialShardDetails, 
   }
   const addNewFile = (fileName, fileCode = "") => {
     const filePath = `/${fileName}`;
-    setFiles((prev) => {
-      return {
-        ...prev,
-        [`${filePath}`]: fileCode,
-      };
-    });
+
+    if(fileName !== "") {
+      setFiles((prev) => {
+        return {
+          ...prev,
+          [`${filePath}`]: fileCode,
+        };
+      });
+    }
   };
 
   const addNewDependency = (dependencyName) => {
-    setDependencies((prev) => {
-      return {
-        ...prev,
-        [`${dependencyName}`]: "latest",
-      };
-    });
+    if(dependencyName !== "") {
+      setDependencies((prev) => {
+        return {
+          ...prev,
+          [`${dependencyName}`]: "latest",
+        };
+      });
+    }
   };
 
   const addNewDevDependency = (dependencyName) => {
-    setDevDependencies((prev) => {
-      return {
-        ...prev,
-        [`${dependencyName}`]: "latest",
-      };
-    });
+
+    if(dependencyName !== "") {
+      setDevDependencies((prev) => {
+        return {
+          ...prev,
+          [`${dependencyName}`]: "latest",
+        };
+      });
+    }
   };
 
   console.log(files);
@@ -108,15 +119,15 @@ export default function SandpackEditor({ id, shardDetails: initialShardDetails, 
       <SandpackProvider
         files={files}
         template={template}
-        theme={atomDark}
+        theme={"dark"}
         customSetup={{
           dependencies,
           devDependencies,
         }}
       >
         <SandpackLayout>
-        <SandpackSidebar id={id} template={template} addNewFile={addNewFile} dependencies={dependencies} devDependencies={devDependencies} addNewDependency={addNewDependency} addNewDevDependency={addNewDevDependency} />
-         <MonacoEditor/>
+        <SandpackSidebar id={id} theme={theme} setTheme={setTheme} template={template} addNewFile={addNewFile} dependencies={dependencies} devDependencies={devDependencies} addNewDependency={addNewDependency} addNewDevDependency={addNewDevDependency} />
+         <MonacoEditor theme={theme}/>
           <SandpackPreview
             showOpenInCodeSandbox={false}
             showOpenNewtab={true}
@@ -128,20 +139,58 @@ export default function SandpackEditor({ id, shardDetails: initialShardDetails, 
   );
 }
 
-function SandpackSidebar({template, addNewFile, dependencies, devDependencies, addNewDependency, addNewDevDependency, id }) {
+const themes = [
+  "Active4D", "All Hallows Eve", "Amy", "Birds of Paradise", "Blackboard",
+  "Brilliance Black", "Brilliance Dull", "Chrome DevTools", "Clouds Midnight",
+  "Clouds", "Cobalt", "Cobalt2", "Dawn", "Dominion Day", "Dracula",
+  "Dreamweaver", "Eiffel", "Espresso Libre", "GitHub Dark", "GitHub Light",
+  "GitHub", "IDLE", "Katzenmilch", "Kuroir Theme", "LAZY", "MagicWB (Amiga)",
+  "Merbivore Soft", "Merbivore", "Monokai Bright", "Monokai", "Night Owl",
+  "Nord", "Oceanic Next", "Pastels on Dark", "Slush and Poppies",
+  "Solarized-dark", "Solarized-light", "SpaceCadet", "Sunburst",
+  "Textmate (Mac Classic)", "Tomorrow-Night-Blue", "Tomorrow-Night-Bright",
+  "Tomorrow-Night-Eighties", "Tomorrow-Night", "Tomorrow", "Twilight",
+  "Upstream Sunburst", "Vibrant Ink", "Xcode_default", "Zenburnesque",
+  "iPlastic", "idleFingers", "krTheme", "monoindustrial", "themelist"
+];
+
+
+
+function SandpackSidebar({addNewFile,theme, setTheme,  dependencies, devDependencies, addNewDependency, addNewDevDependency, id }) {
   const {sandpack} = useSandpack();
   const {data: session} = useSession();
   const router = useRouter();
   console.log("Sandpacksidebar: ", session);
+  const modalRef = useRef(null);
+  const [isClicked, setIsClicked] = useState(false);
+  useModal(isClicked,setIsClicked, modalRef)
 
   const { files } = sandpack;
 
+
+  let modal = <>
+  <div ref={modalRef} className="absolute z-10 left-2 top-9">
+  <select name="Themes" id="themes" onChange={(e)=> {
+    setTheme(e.target.value)
+  }} 
+  className="bg-white text-black rounded-md py-1"
+  value={theme}>
+  <option value="vs-dark">vs-dark</option>
+  <option value="light">light</option>
+  {
+    themes.map((theme) => {
+      return <option key={theme} value={theme}>{theme}</option>
+    })
+  }
+</select>
+  </div>
+  </>
 
   const handleSave = async () => {
     console.log(files, id);
     if(session?.user) {
       try {
-        const userName = session?.name;
+        // const userName = session?.name;
         
         const {status}  = await saveTemplateToDB(id, files , dependencies, devDependencies, session?.user?.name);  
         console.log(status);
@@ -167,34 +216,47 @@ function SandpackSidebar({template, addNewFile, dependencies, devDependencies, a
   }
 
   return <>
-   <div
-            className="w-[15%] flex flex-col">
               <Toaster position="top-center" richColors closeButton/>
+             {isClicked && modal}
+   <div
+            className="w-[15%] flex flex-col ">
             <SandpackStack>
-              <div className="flex gap-2 mb-4 p-1">
-                <p className="text-lg pr-4 pl-2 font-['Josh', sans-serif]">{template}</p>
+              <div className="flex gap-2 mb-4 p-1 items-center justify-left">
+                {/* <p className="text-lg pr-4 pl-2 font-['Josh', sans-serif]">{template}</p> */}
                 <File
                   onClick={() => {
                     const fileName = prompt("Enter File Name: ");
-                    addNewFile(fileName);
+                    if(fileName) addNewFile(fileName);
                   }}
                   className={"size-4 cursor-pointer"}
                 />
                 <Package
                   onClick={() => {
                     const dependencyName = prompt("Add new dependency");
-                    addNewDependency(dependencyName);
+                    if(dependencyName) addNewDependency(dependencyName);
                   }}
                   className={"size-4 cursor-pointer"}
                 />
                 <Block
                   onClick={() => {
                     const dependencyName = prompt("Add new dev. dependency");
-                    addNewDevDependency(dependencyName);
+                   if(dependencyName) addNewDevDependency(dependencyName);
                   }}
-                  className={"cursor-pointer"}
+                  className={"cursor-pointer size-4"}
                 />
-              {id &&  <Button onClick={handleSave}>Save</Button> }
+                    <Settings onClick={()=> {
+                      console.log("clicked on settings")
+                      setIsClicked(true)
+                    }} className={"size-4 hover:fill-slate-400 fill-white cursor-pointer"}/>
+              {id &&  <Button className="font-[500] text-sm border p-1 rounded-md" onClick={handleSave}>Save</Button> }
+              {session && 
+              <button className="text-xs cursor-pointer" onClick={() => {
+                router.replace("/your-work")
+              }}>
+                <Avatar className="text-xs" name={session?.user?.name} size="30" round={true} />
+              </button>
+              }
+          
               </div>
             </SandpackStack>
             <SandpackFileExplorer style={{height: "92vh"}}  />

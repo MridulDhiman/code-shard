@@ -1,9 +1,10 @@
 import React from 'react'
 
-const Settings = ({className}) => {
+const Settings = ({className, onClick}) => {
   return (
     <svg
     className={className}
+    onClick={onClick}
     
      viewBox="0 0 24 24"  xmlns="http://www.w3.org/2000/svg">
     <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
