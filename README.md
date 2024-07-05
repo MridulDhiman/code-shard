@@ -6,7 +6,9 @@
 - Signup/Login 
 - Create new Shard
 
-![alt text](images/image-2.png)
+![Try Editor Templates](images/image-10.png)
+
+![alt text](images/shard.png)
 - View/Update/Delete Shards on Profile.
 
 ![alt text](images/image-3.png)
@@ -31,12 +33,4 @@
 ![alt text](images/image-8.png)
 ![alt text](images/image-9.png)
 
----
 
-> React Editor (work in progress) on https://code-shard.vercel.app/testing
-or https://code-shard.vercel.app and click on Try Editor Button and select template you want to choose.
-
-
-
-
-![Try Editor Templates](images/image-10.png)
