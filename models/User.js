@@ -1,7 +1,5 @@
-import mongoose, {Schema, model, models} from "mongoose";
+import  {Schema, model, models} from "mongoose";
 import { Shard } from "./Shard";
-import { Collection } from "./Collection";
-
 
 const userSchema = new Schema({
 name: {
@@ -22,12 +20,6 @@ shards: {
     ref: "Shard",
     default: []
 },
-
-collections: {
-    type: [Schema.Types.ObjectId],
-    ref: "Collection",
-    default: []
-}, 
 followers: {
     type: [String],
     default: []
@@ -39,8 +31,6 @@ following: {
 }, {
     timestamps: true
 });
-
-
 
 export const User =  models?.User || model("User", userSchema);
 

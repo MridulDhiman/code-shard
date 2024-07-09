@@ -1,21 +1,21 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-// import Button from "./ui/Button";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import clsx from "clsx";
-// import Heart from "./ui/icons/Heart";
-// import Comment from "./ui/icons/Comment";
-// import View from "./ui/icons/View";
+import Heart from "./ui/icons/Heart";
+import Comment from "./ui/icons/Comment";
 import Delete from "./ui/icons/Delete";
 import Lock from "./ui/icons/Lock";
 import Unlock from "./ui/icons/Unlock";
-// import Collection from "./ui/icons/Collection";
 import FullScreen from "./ui/icons/FullScreen";
 import HorizontalThreeDots from "./ui/icons/HorizontalThreeDots";
 import CustomSandpackPreview from "./CustomSandpackPreview";
 import Pencil from "./ui/icons/Pencil";
-import { saveShardName } from "@/lib/actions";
+import { saveShardName, updateLikes } from "@/lib/actions";
+import Button from "./ui/Button";
+import { toast, Toaster } from "sonner";
+import { useSession } from "next-auth/react";
 
 const WorkCard = ({
   content: initialContent,
@@ -23,7 +23,8 @@ const WorkCard = ({
   title,
   id,
   type: initialType,
-  // profile,
+  likes: initialLikes,
+  likeStatus: initialLikeStatus
 }) => {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [content, setContent] = useState(initialContent);
@@ -31,18 +32,46 @@ const WorkCard = ({
   const [type, setType] = useState(initialType);
   const [pencilClicked, setPencilClick] = useState(false);
   const [shardName, setShardName] = useState(title);
+  const [likes, setLikes] = useState(initialLikes);
+  const [likeStatus, setLikeStatus] = useState(initialLikeStatus);
+  const {data: session} = useSession();
   const modal = useRef();
+
+  useEffect(()=> {
+    if(!session) {
+      window.location.href = "/login";
+    }
+  });
 
   useEffect(() => {
     setType(type);
   }, [type]);
 
+
   const onClick = () => {
     setPencilClick(true);
   }
 
-  useEffect(()=> {
 
+  // useEffect(() => {
+
+  //   if(!id || !session || !session?.user?.email) {
+  //     return;
+  //   }
+  //   let toastId = toast.promise(updateLikes(id, likes, likeStatus, session?.user?.email), {
+  //     error: () => {
+  //       setLikes(initialLikes);
+  //       setLikeStatus(initialLikeStatus);
+  //       return "Could not update likes. Try Again."
+  //     }
+  //   });
+
+  //   return () => {
+  //     toast.dismiss(toastId);
+  //   }
+  // }, [likes]);
+
+  useEffect(()=> {
     function onKeyDown (e) {
       console.log(e.key);
       if(e.key === "Enter") {
@@ -57,11 +86,10 @@ const WorkCard = ({
       }
     }
 document.addEventListener("keydown", onKeyDown)
-
     return () => {
 document.removeEventListener("keydown", onKeyDown)
     }
-  })
+  });
 
   useEffect(()=> {
     if(initialContent) {
@@ -71,6 +99,8 @@ document.removeEventListener("keydown", onKeyDown)
 
   console.log("shard ids : ", id);
   console.log(content);
+
+
 
   useEffect(() => {
     const handleBodyClick = (e) => {
@@ -156,6 +186,28 @@ document.removeEventListener("keydown", onKeyDown)
         console.log("response error: ", error.message);
       });
   };
+
+  const handleLikes = async () => {
+    
+
+    if(likeStatus === "liked") {
+      setLikes ((prev) => {
+     return prev - 1;
+      })
+      setLikeStatus("unliked");
+      await updateLikes(id, likes, 'unliked', session?.user?.email)
+    }
+  else if(likeStatus === "unliked") {
+    setLikes((prev) => {
+     return prev + 1;
+    });
+
+    setLikeStatus("liked");
+    await updateLikes(id, likes, 'liked', session?.user?.email)
+  }
+
+  }
+
   return (
     <div
       className={clsx(
@@ -163,6 +215,7 @@ document.removeEventListener("keydown", onKeyDown)
         isDeleted && "hidden"
       )}
     >
+      <Toaster position="top-center" richColors/>
       <div className="group relative w-full h-full">
         <span
           onClick={handleClick}
@@ -247,11 +300,10 @@ document.removeEventListener("keydown", onKeyDown)
           />
         </div>
       </div>
-      {/* <div className="flex gap-2">
-             <Button  className="flex items-center" id="likes"><Heart className="size-5"/> <span>0</span></Button>
-             <Button className="flex items-center" id="comments"><Comment className="size-4"/> <span>0</span></Button>
-             <Button className="flex items-center" id="views"><View className="size-4"/> <span>0</span></Button>
-           </div> */}
+      <div className="flex gap-2">
+             <Button onClick={handleLikes}   className="flex items-center bg-black hover:bg-red-500 text-white" id="likes"><Heart className="size-5 fill-white"/> <span>{likes}</span></Button>
+             <Button className="flex items-center hover:bg-blue-500 bg-black text-white" id="comments"><Comment className="size-4 fill-white"/> <span>0</span></Button>
+           </div>
     </div>
   );
 };

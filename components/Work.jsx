@@ -32,10 +32,14 @@ const session = await auth();
 
 
 const shards = await fetchShards(session?.user.email);
+connectToDB();
+const user = await User.findOne({email: session?.user.email});
 
-
+if(!user) {
+  redirect("/login");
+}
 // const shards =exreistingUser.shards;
-console.log("Shards: ", shards);
+// console.log("Shards: ", shards);
       
 const shardsCollection =  shards.length > 0 ? shards.map((shard, index) => {
 
@@ -44,9 +48,10 @@ const shardsCollection =  shards.length > 0 ? shards.map((shard, index) => {
   }
 
   const [files, dependencies, devDependencies] = (shard.isTemplate) ? makeFilesAndDependenciesUIStateLike(shard.files, shard.dependencies) : [null, null, null];
-
-
-return <WorkCard key={shard._id.toString()} likes={shard.likes} isTemplate={shard.isTemplate} content={!shard.isTemplate ? {
+console.log(shard.likedBy, ": liked by user ids");
+const likeStatus = shard.likedBy?.includes(user._id.toString()) ? "liked" : "unliked";
+console.log(likeStatus);
+return <WorkCard key={shard._id.toString()}  likeStatus={likeStatus} likes={shard.likedBy?.length ?? 0} isTemplate={shard.isTemplate} content={!shard.isTemplate ? {
   html: shard.html,
   css: shard.css,
   js: shard.js,

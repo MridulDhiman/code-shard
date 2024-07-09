@@ -189,26 +189,31 @@ function SandpackSidebar({addNewFile,theme, setTheme,  dependencies, devDependen
 
   const handleSave = async () => {
     console.log(files, id);
+    let loadingId = null;
     if(session?.user) {
       try {
         // const userName = session?.name;
-        
-        const {status}  = await saveTemplateToDB(id, files , dependencies, devDependencies, session?.user?.name);  
+         loadingId = toast.loading("Saving...");
+        const {status}  = await saveTemplateToDB(id, files , dependencies, devDependencies, session?.user?.name); 
+
         console.log(status);
             if(status === 500) {
+              toast.dismiss(loadingId);
                toast.error("Could not save shard. Try Again!")
                return;
             }
             else if(status === 200) {
               // window.alert("Shard Updated Successfully")
-              router.push(`/shard/${id}`);
+              toast.dismiss(loadingId);
               toast.info("Shard saved successfully")
-  
+              router.push(`/shard/${id}`);
             }
        
       } catch (error) {
         console.log("error occurred", error);
-
+      }
+      finally {
+        toast.dismiss(loadingId);
       }
 
     }
@@ -217,7 +222,7 @@ function SandpackSidebar({addNewFile,theme, setTheme,  dependencies, devDependen
   }
 
   return <>
-              <Toaster position="top-center" richColors closeButton/>
+              <Toaster position="top-center" richColors/>
              {isClicked && modal}
    <div
             className="w-[15%] flex flex-col ">

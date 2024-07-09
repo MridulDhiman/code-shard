@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import {signIn} from "next-auth/react";
+import { useEffect, useState } from "react";
+import {signIn, useSession} from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
@@ -13,7 +13,15 @@ const Login = () => {
     const [password, setPassword] = useState("");
     const [success, setSuccess] = useState("");
     const [error, setError] = useState("");
+    const {data: session} = useSession();
     const router= useRouter();
+
+
+    useEffect(()=> {
+      if(session) {
+        router.replace("/your-work");
+      }
+    });
 
     const handleSubmit = async (e) => {
         e.preventDefault();

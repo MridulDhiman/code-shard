@@ -2,7 +2,7 @@
 import { Schema, model, models } from "mongoose";
 import { fileSchema } from "./File.js";
 import { dependencySchema } from "./Dependency.js";
-
+import { User } from "./User.js";
 
 const shardSchema = new Schema({
     title: {
@@ -50,6 +50,11 @@ const shardSchema = new Schema({
         type: Number,
         default: 0
     },
+   likedBy: {
+    type: [Schema.Types.ObjectId],
+    default: [],
+    ref:"User"
+   }
 }, {
     timestamps: true,
 });
