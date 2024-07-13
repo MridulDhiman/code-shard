@@ -67,7 +67,7 @@ const Main = () => {
               }
               router.push("/register");
             }}
-            className="my-5 bg-primary border border-transparent  hover:bg-secondary text-md  p-2 text-black rounded-lg " >{session ? "START CODING" : "Signup for free"}</button>
+            className="my-5 bg-white border border-transparent  hover:bg-slate-300 text-md  p-2 text-black rounded-lg " >{session ? "START CODING" : "Signup for free"}</button>
             <div className="absolute top-[48vh] right-0 z-10">
               <Image width="200" height={"200"} src={darkCube}/>
             </div>

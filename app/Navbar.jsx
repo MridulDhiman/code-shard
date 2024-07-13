@@ -225,7 +225,7 @@ const [pgModalOpen, setPgModalOpen] = useState(false);
             </Button>
             {/* <Link className="hover:text-slate-300 text-sm cursor-pointer" href="/login">Signin</Link> */}
             <Button type="outline" onClick={() => router.push("/login")}>
-              Signin
+              Login
             </Button>
           </>
         )}

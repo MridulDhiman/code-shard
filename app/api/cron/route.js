@@ -5,7 +5,6 @@ import { NextResponse } from "next/server";
 export const GET =  async (req) => {
     try {
         connectToDB();
-    
         const session = req.auth;
 
 if(!session?.user) {
