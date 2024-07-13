@@ -9,11 +9,14 @@ import { useCallback, useEffect, useState } from "react";
 function snakeCase(fname) {
   return fname.toLowerCase().replace(/[_() ]/g, '-');
 }
-export default function MonacoEditor({theme}) {
+export default function MonacoEditor({theme, readOnly=false}) {
   const { sandpack } = useSandpack();
   const {files, activeFile, updateCurrentFile} = sandpack;
   const monaco = useMonaco();
   const [isThemeLoaded, setIsThemeLoaded] = useState(false);
+  const [editor,setEditor] = useState();
+
+  
 
  useEffect(()=> {
  if(monaco && theme !== "vs-dark" && theme !== "light") {
@@ -27,16 +30,25 @@ export default function MonacoEditor({theme}) {
  }
   
  }, [monaco, theme]);
+
+ useEffect(()=> {
+
+  if(editor) {
+    editor.updateOptions({readOnly})
+  }
+   
+  }, [editor, readOnly]);
   
 const code = files[activeFile]?.code || "";
       const handleChange = useCallback((value)=> {
               updateCurrentFile(value, true);
       });
 
-      // const handleMount = useCallback((node) => {
-      //   console.log(monaco)
-      //   setMonaco(node);
-      // })
+
+      const handleMount = useCallback((node) => {
+        // console.log(monaco)
+        setEditor(node);
+      })
     
 
       const jsTypes = ["js", "jsx"];
@@ -58,7 +70,7 @@ const fileType = jsTypes.includes(ext) ? "javascript" : tsTypes.includes(ext) ? 
           theme={(theme === "vs-dark" || theme === "light") ? theme : isThemeLoaded ? theme : "vs-dark" }
           defaultValue={code}
           onChange={handleChange}
-          // onMount={handleMount}
+          onMount={handleMount}
         />
       </div>
     </SandpackStack>

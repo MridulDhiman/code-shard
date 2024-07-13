@@ -5,6 +5,7 @@ import ReduxProvider from "./ReduxProvider";
 import { Analytics } from "@vercel/analytics/react"
 
 import { SandPackCSS } from "@/components/sandpack-styles";
+import { Toaster } from "sonner";
 
 
 export const metadata = {
@@ -25,6 +26,7 @@ export default function RootLayout({ children }) {
         <ReduxProvider>
         {children}
         {/* <SandpackEditor/> */}
+        <Toaster richColors position="top-center"/>
         <Analytics/>
         </ReduxProvider>   
         </AuthProvider> 

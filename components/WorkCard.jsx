@@ -17,6 +17,7 @@ import Button from "./ui/Button";
 import { toast, Toaster } from "sonner";
 import { useSession } from "next-auth/react";
 
+
 const WorkCard = ({
   content: initialContent,
   isTemplate,
@@ -34,6 +35,8 @@ const WorkCard = ({
   const [shardName, setShardName] = useState(title);
   const [likes, setLikes] = useState(initialLikes);
   const [likeStatus, setLikeStatus] = useState(initialLikeStatus);
+  const [messages, setMessages] = useState(["ab","bc"]);
+  const [commentMsg, setCommentMsg] = useState("");
   const {data: session} = useSession();
   const modal = useRef();
 
@@ -208,6 +211,28 @@ document.removeEventListener("keydown", onKeyDown)
 
   }
 
+  console.log(messages);
+  const handleCommentSubmit = useCallback((input) => {
+    // window.alert(input);
+    console.log(input);
+    setMessages((prev) => {
+      return [
+        input, 
+        ...prev
+      ]
+    })
+
+});
+
+
+const makeComment = (input) => {
+
+  // setCommentMsg(input);
+  // handleCommentSubmit(input);
+}
+
+
+
   return (
     <div
       className={clsx(
@@ -261,9 +286,6 @@ document.removeEventListener("keydown", onKeyDown)
               ref={modal}
               className="text-xs p-2 w-[12rem] rounded-md absolute right-0 bottom-5 bg-[#131417]"
             >
-              {/* <li 
-                
-                className="cursor-pointer flex items-center gap-2 hover:bg-blue-500 p-1"><Collection className="size-4"/> Add to Collection</li> */}
               {type === "public" && (
                 <li
                   onClick={toggleType}
@@ -302,7 +324,7 @@ document.removeEventListener("keydown", onKeyDown)
       </div>
       <div className="flex gap-2">
              <Button onClick={handleLikes}   className="flex items-center bg-black hover:bg-red-500 text-white" id="likes"><Heart className="size-5 fill-white"/> <span>{likes}</span></Button>
-             <Button className="flex items-center hover:bg-blue-500 bg-black text-white" id="comments"><Comment className="size-4 fill-white"/> <span>0</span></Button>
+             <Button  className="flex items-center hover:bg-blue-500 bg-black text-white" id="comments"><Comment className="size-4 fill-white"/> <span>{messages.length}</span></Button>
            </div>
     </div>
   );

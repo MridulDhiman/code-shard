@@ -3,13 +3,16 @@ import mongoose,  {Schema, models, model} from "mongoose";
 
 const commentSchema = new Schema({
 user: {
-    type: Schema.Types.ObjectId,
-    ref: "User",
-    required: true
+    type: String,
+    unique: true,
 },
 message: {
     type: String,
     required: true
+},
+shardId: {
+    type: String,
+    required: true,
 },
 threadId: {
     type: Schema.Types.ObjectId,
@@ -20,6 +23,8 @@ parentId: {
     ref: "Comment",
     default: null   
 }
+}, {
+    timestamps: true
 });
 
 

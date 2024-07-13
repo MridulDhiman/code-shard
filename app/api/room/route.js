@@ -2,7 +2,6 @@
 import connectToDB from "@/lib/database";
 import { Shard } from "@/models/Shard";
 import { User } from "@/models/User";
-
 import { NextResponse } from "next/server";
 
 

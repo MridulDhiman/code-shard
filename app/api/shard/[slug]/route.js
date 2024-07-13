@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { User } from "@/models/User";
 import { revalidateTag } from "next/cache";
+import { Activity } from "@/models/Activity";
 
 
 
@@ -56,6 +57,19 @@ try {
     await existingUser.save();
     revalidateTag(`${existingUser.name.toLowerCase().split(" ").join("-")}`);
     revalidateTag(`rooms`);
+
+   const activity =  await Activity.findOne({
+        activityType : "post",
+        shardId: existingShard._id
+    });
+
+    if(!activity) {
+        await Activity.create({
+            activityType : "post",
+            shardId: existingShard._id
+        })
+    }
+
     return NextResponse.json({message :"Shard updated successfully"}, {status: 200});
     
 } catch (error) {
