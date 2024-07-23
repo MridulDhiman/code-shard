@@ -1,6 +1,6 @@
-import React from 'react'
+import React from "react";
 
-const Code = ({className}) => {
+const Code = ({ className }) => {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -24,7 +24,7 @@ const Code = ({className}) => {
         ></path>
       </g>
     </svg>
-  )
-}
+  );
+};
 
-export default Code
+export default Code;

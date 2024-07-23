@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import Button from "./ui/Button";
 
-
 import clsx from "clsx";
 import Heart from "./ui/icons/Heart";
 import Comment from "./ui/icons/Comment";
@@ -13,12 +12,16 @@ import Avatar from "react-avatar";
 import { useEffect, useState } from "react";
 import CustomSandpackPreview from "./CustomSandpackPreview";
 
-
-
-const ProfileCard = ({content: initialContent, isTemplate, title, id, creator}) => {
+const ProfileCard = ({
+  content: initialContent,
+  isTemplate,
+  title,
+  id,
+  creator,
+}) => {
   const router = useRouter();
-  const [content, setContent] = useState(initialContent)
-    const outputDoc = `
+  const [content, setContent] = useState(initialContent);
+  const outputDoc = `
     <html lang="en">
     <head>
     <style>
@@ -33,29 +36,25 @@ const ProfileCard = ({content: initialContent, isTemplate, title, id, creator}) 
     </html>
     `;
 
-    const handleClick = () => {
-         router.replace(`/shard/${id}`);
+  const handleClick = () => {
+    router.replace(`/shard/${id}`);
+  };
+
+  useEffect(() => {
+    if (initialContent) {
+      setContent(initialContent);
     }
-
-useEffect(()=> {
-if(initialContent) {
-  setContent(initialContent);
-}
-},[initialContent]);
-   
-
+  }, [initialContent]);
 
   return (
-    <div className={clsx(
-      "flex flex-col bg-[#1E1F26] rounded-xl p-4 gap-3",
-      )} 
-   
-    >
- 
-      <div
-       
-       className="group relative w-full h-full">
-        <span onClick={handleClick} className="text-slate-200 hidden group-hover:block  bg-[#252830] z-20 hover:bg-slate-700 absolute right-0 m-1 rounded-md text-lg p-2 cursor-pointer"><FullScreen className="size-5"/></span>
+    <div className={clsx("flex flex-col bg-[#1E1F26] rounded-xl p-4 gap-3")}>
+      <div className="group relative w-full h-full">
+        <span
+          onClick={handleClick}
+          className="text-slate-200 hidden group-hover:block  bg-[#252830] z-20 hover:bg-slate-700 absolute right-0 m-1 rounded-md text-lg p-2 cursor-pointer"
+        >
+          <FullScreen className="size-5" />
+        </span>
 
         {isTemplate ? (
           <>
@@ -79,18 +78,23 @@ if(initialContent) {
         )}
       </div>
 
-           <div className="flex items-center justify-between relative">
-            <p>{title}</p>
-            <span onClick={()=> {router.push(`/${creator}`)}}><Avatar round={true} size={"40"} name={creator}/></span> 
-           </div>
-           {/* <div className="flex gap-2">
+      <div className="flex items-center justify-between relative">
+        <p>{title}</p>
+        <span
+          onClick={() => {
+            router.push(`/${creator}`);
+          }}
+        >
+          <Avatar round={true} size={"40"} name={creator} />
+        </span>
+      </div>
+      {/* <div className="flex gap-2">
              <Button  className="flex items-center" id="likes"><Heart className="size-5"/> <span>0</span></Button>
              <Button className="flex items-center" id="comments"><Comment className="size-4"/> <span>0</span></Button>
              <Button className="flex items-center" id="views"><View className="size-4"/> <span>0</span></Button>
            </div> */}
-
     </div>
-  )
-}
+  );
+};
 
 export default ProfileCard;

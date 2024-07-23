@@ -1,12 +1,11 @@
-import TryEditorShard from "@/components/TryEditorShard"
-
+import TryEditorShard from "@/components/TryEditorShard";
 
 const page = () => {
   return (
     <div>
-        <TryEditorShard/>
+      <TryEditorShard />
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default page;

@@ -18,8 +18,6 @@ import { Toaster, toast } from "sonner";
 import Cloud from "@/components/ui/icons/Cloud";
 import { handleRoomRouteShift } from "@/lib/actions";
 
-
-
 const RoomNavbar = ({ roomId, title: initialTitle }) => {
   const { data } = useSession();
   const router = useRouter();
@@ -46,10 +44,13 @@ const RoomNavbar = ({ roomId, title: initialTitle }) => {
     };
   }, [isModalOpen]);
 
-
-  useEffect(()=> {
-    dispatch(setShard({ title: "", html: "", css: "", js: "", mode: "", id: roomId}));
-    dispatch(setPrev({title: "" ,html: "", css: "", js: "", mode: "", id: roomId}));
+  useEffect(() => {
+    dispatch(
+      setShard({ title: "", html: "", css: "", js: "", mode: "", id: roomId }),
+    );
+    dispatch(
+      setPrev({ title: "", html: "", css: "", js: "", mode: "", id: roomId }),
+    );
   }, []);
 
   useEffect(() => {
@@ -72,59 +73,56 @@ const RoomNavbar = ({ roomId, title: initialTitle }) => {
   };
 
   const stopSession = () => {
-
     const isSaved = JSON.stringify(shardState) === JSON.stringify(prevState);
-                if(!isSaved) {
-                  const wantToLeave = confirm('You have unsaved changes. Are you sure you want to leave?');
-                  if(wantToLeave) {
-                      router.push("/rooms-list");
-                  }
+    if (!isSaved) {
+      const wantToLeave = confirm(
+        "You have unsaved changes. Are you sure you want to leave?",
+      );
+      if (wantToLeave) {
+        router.push("/rooms-list");
+      }
 
-                  return;
-          
-                }
-   
-                if(isSaved) {
-                   console.log("saved and tab closed successfully...")
-                   handleRoomRouteShift();
-                }
-   
+      return;
+    }
+
+    if (isSaved) {
+      console.log("saved and tab closed successfully...");
+      handleRoomRouteShift();
+    }
   };
 
- 
-  const handleSave = async  () => {
+  const handleSave = async () => {
     console.log("Save Clicked");
 
-    if(prevState !== shardState) {
-        dispatch(setPrev({...shardState}));
-        const saveShard = async () => {
-            const myPromise = await fetch(`/api/shard/${roomId}`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({html: "", css: "", js: "", title, mode: "collaboration"})
-            });
-    
-            return myPromise;   
-        }
-    
-        toast.promise(saveShard, {
-            loading: "Saving...",
-            success: () => {
-                return `Saved Successfully`;
-              },
-              error: 'Could not save Shard',
-        })
+    if (prevState !== shardState) {
+      dispatch(setPrev({ ...shardState }));
+      const saveShard = async () => {
+        const myPromise = await fetch(`/api/shard/${roomId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            html: "",
+            css: "",
+            js: "",
+            title,
+            mode: "collaboration",
+          }),
+        });
 
-        
+        return myPromise;
+      };
+
+      toast.promise(saveShard, {
+        loading: "Saving...",
+        success: () => {
+          return `Saved Successfully`;
+        },
+        error: "Could not save Shard",
+      });
     }
-  
-    
-   
-   
-}
-
+  };
 
   const users = useOthers();
   return (
@@ -151,17 +149,20 @@ const RoomNavbar = ({ roomId, title: initialTitle }) => {
           </h1>
         )}
       </div>
-      <Toaster position="top-center" richColors/>
+      <Toaster position="top-center" richColors />
       <div className="flex items-center gap-4">
-        <Avatars users={users}/>
+        <Avatars users={users} />
         <button
           onClick={openModal}
           className="text-white flex items-center gap-2 hover:text-slate-300"
         >
           <Share className="size-4 fill-white" /> Share
         </button>
- 
-        <Button onClick={handleSave}><Cloud className="size-4"/>SAVE</Button>
+
+        <Button onClick={handleSave}>
+          <Cloud className="size-4" />
+          SAVE
+        </Button>
         {isModalOpen && (
           <dialog
             ref={modal}
@@ -176,7 +177,7 @@ const RoomNavbar = ({ roomId, title: initialTitle }) => {
                   onClick={stopSession}
                   className={clsx(
                     "p-4 py-2 text-white border border-white rounded-md flex items-center gap-2 text-sm",
-                    "hover:border-red-600 hover:text-red-600"
+                    "hover:border-red-600 hover:text-red-600",
                   )}
                 >
                   <Stop className="size-4" /> Stop Session

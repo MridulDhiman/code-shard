@@ -16,7 +16,11 @@ import { saveShardName, updateLikes } from "@/lib/actions";
 import Button from "./ui/Button";
 import { toast, Toaster } from "sonner";
 import { useSession } from "next-auth/react";
-
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import CommentTextBox from "./CommentTextbox";
+import { CommentsArea } from "./CommentsArea";
+import { getThreadedComments } from "@/utils";
+import { useActiveComment } from "@/context/CommentContext";
 
 const WorkCard = ({
   content: initialContent,
@@ -25,7 +29,8 @@ const WorkCard = ({
   id,
   type: initialType,
   likes: initialLikes,
-  likeStatus: initialLikeStatus
+  likeStatus: initialLikeStatus,
+  comments: initialComments,
 }) => {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [content, setContent] = useState(initialContent);
@@ -35,75 +40,60 @@ const WorkCard = ({
   const [shardName, setShardName] = useState(title);
   const [likes, setLikes] = useState(initialLikes);
   const [likeStatus, setLikeStatus] = useState(initialLikeStatus);
-  const [messages, setMessages] = useState(["ab","bc"]);
-  const [commentMsg, setCommentMsg] = useState("");
-  const {data: session} = useSession();
+  const { comments, setComments, setShardId } = useActiveComment();
+  const { data: session } = useSession();
   const modal = useRef();
 
-  useEffect(()=> {
-    if(!session) {
+  useEffect(() => {
+    let toastId;
+    if (!session) {
+      toastId = toast.error("Authentication Error");
       window.location.href = "/login";
     }
+    return () => {
+      toast.dismiss(toastId);
+    };
   });
+
+  useEffect(() => {
+    setComments(JSON.parse(initialComments));
+    setShardId(id);
+  }, []);
 
   useEffect(() => {
     setType(type);
   }, [type]);
 
-
   const onClick = () => {
     setPencilClick(true);
-  }
+  };
 
-
-  // useEffect(() => {
-
-  //   if(!id || !session || !session?.user?.email) {
-  //     return;
-  //   }
-  //   let toastId = toast.promise(updateLikes(id, likes, likeStatus, session?.user?.email), {
-  //     error: () => {
-  //       setLikes(initialLikes);
-  //       setLikeStatus(initialLikeStatus);
-  //       return "Could not update likes. Try Again."
-  //     }
-  //   });
-
-  //   return () => {
-  //     toast.dismiss(toastId);
-  //   }
-  // }, [likes]);
-
-  useEffect(()=> {
-    function onKeyDown (e) {
-      console.log(e.key);
-      if(e.key === "Enter") {
+  useEffect(() => {
+    function onKeyDown(e) {
+      if (e.key === "Enter") {
         setPencilClick(false);
-        if(shardName !== "") {
-          saveShardName(id, shardName).then(() => console.log("success")).catch((err) => {
-            console.log("could not save shard name");
-            setShardName(title);
-            window.alert("Could not save shard title")
-          })
+        if (shardName !== "") {
+          saveShardName(id, shardName)
+            .then(() => console.log("success"))
+            .catch((err) => {
+              console.log("could not save shard name");
+              setShardName(title);
+              window.alert("Could not save shard title");
+            });
         }
       }
     }
-document.addEventListener("keydown", onKeyDown)
+    document.addEventListener("keydown", onKeyDown);
     return () => {
-document.removeEventListener("keydown", onKeyDown)
-    }
+      document.removeEventListener("keydown", onKeyDown);
+    };
   });
 
-  useEffect(()=> {
-    if(initialContent) {
+  useEffect(() => {
+    if (initialContent) {
       setContent(initialContent);
     }
-  }, [initialContent])
-
-  console.log("shard ids : ", id);
-  console.log(content);
-
-
+  }, [initialContent]);
 
   useEffect(() => {
     const handleBodyClick = (e) => {
@@ -118,7 +108,6 @@ document.removeEventListener("keydown", onKeyDown)
     };
   }, [isPopoverOpen]);
 
-  // library hooks
   const router = useRouter();
 
   const outputDoc = `
@@ -142,7 +131,7 @@ document.removeEventListener("keydown", onKeyDown)
   const handleDelete = () => {
     setIsPopoverOpen(false);
     const isConfirmed = confirm(
-      "Are you sure you want to proceed with this action?"
+      "Are you sure you want to proceed with this action?",
     );
     if (isConfirmed) {
       setIsDeleted(true);
@@ -191,56 +180,29 @@ document.removeEventListener("keydown", onKeyDown)
   };
 
   const handleLikes = async () => {
-    
-
-    if(likeStatus === "liked") {
-      setLikes ((prev) => {
-     return prev - 1;
-      })
+    if (likeStatus === "liked") {
+      setLikes((prev) => {
+        return prev - 1;
+      });
       setLikeStatus("unliked");
-      await updateLikes(id, likes, 'unliked', session?.user?.email)
+      await updateLikes(id, likes, "unliked", session?.user?.email);
+    } else if (likeStatus === "unliked") {
+      setLikes((prev) => {
+        return prev + 1;
+      });
+
+      setLikeStatus("liked");
+      await updateLikes(id, likes, "liked", session?.user?.email);
     }
-  else if(likeStatus === "unliked") {
-    setLikes((prev) => {
-     return prev + 1;
-    });
-
-    setLikeStatus("liked");
-    await updateLikes(id, likes, 'liked', session?.user?.email)
-  }
-
-  }
-
-  console.log(messages);
-  const handleCommentSubmit = useCallback((input) => {
-    // window.alert(input);
-    console.log(input);
-    setMessages((prev) => {
-      return [
-        input, 
-        ...prev
-      ]
-    })
-
-});
-
-
-const makeComment = (input) => {
-
-  // setCommentMsg(input);
-  // handleCommentSubmit(input);
-}
-
-
+  };
 
   return (
     <div
       className={clsx(
         "flex flex-col bg-[#1E1F26] rounded-xl  p-4 gap-3",
-        isDeleted && "hidden"
+        isDeleted && "hidden",
       )}
     >
-      <Toaster position="top-center" richColors/>
       <div className="group relative w-full h-full">
         <span
           onClick={handleClick}
@@ -271,14 +233,28 @@ const makeComment = (input) => {
         )}
       </div>
 
-      <div className="flex items-center justify-between relative"> 
+      <div className="flex items-center justify-between relative">
         <div className="flex gap-1">
-       {pencilClicked &&  <input className="bg-transparent outline-none" type="text" onChange={(e)=> setShardName(e.target.value)} value={shardName} placeholder={shardName}/> }
-       {!pencilClicked && <>
-        <p>{shardName}</p>
-        <Pencil onClick={onClick} className={"size-5 fill-white hover:fill-slate-400 hover:cursor-pointer"} />
-       </>}
-       
+          {pencilClicked && (
+            <input
+              className="bg-transparent outline-none"
+              type="text"
+              onChange={(e) => setShardName(e.target.value)}
+              value={shardName}
+              placeholder={shardName}
+            />
+          )}
+          {!pencilClicked && (
+            <>
+              <p>{shardName}</p>
+              <Pencil
+                onClick={onClick}
+                className={
+                  "size-5 fill-white hover:fill-slate-400 hover:cursor-pointer"
+                }
+              />
+            </>
+          )}
         </div>
         <div>
           {isPopoverOpen && (
@@ -317,15 +293,35 @@ const makeComment = (input) => {
             onClick={() => setIsPopoverOpen(true)}
             className={clsx(
               "fill-[#5A5F73] size-5 cursor-pointer hover:fill-slate-200",
-              isPopoverOpen && "fill-slate-200"
+              isPopoverOpen && "fill-slate-200",
             )}
           />
         </div>
       </div>
       <div className="flex gap-2">
-             <Button onClick={handleLikes}   className="flex items-center bg-black hover:bg-red-500 text-white" id="likes"><Heart className="size-5 fill-white"/> <span>{likes}</span></Button>
-             <Button  className="flex items-center hover:bg-blue-500 bg-black text-white" id="comments"><Comment className="size-4 fill-white"/> <span>{messages.length}</span></Button>
-           </div>
+        <Button
+          onClick={handleLikes}
+          className="flex items-center bg-black hover:bg-red-500 text-white"
+          id="likes"
+        >
+          <Heart className="size-5 fill-white" /> <span>{likes}</span>
+        </Button>
+        <Dialog>
+          <DialogTrigger>
+            <Button
+              className="flex items-center hover:bg-blue-500 bg-black text-white"
+              id="comments"
+            >
+              <Comment className="size-4 fill-white" />{" "}
+              <span>{comments.length}</span>
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="bg-white p-2 text-black">
+            <CommentTextBox />
+            <CommentsArea />
+          </DialogContent>
+        </Dialog>
+      </div>
     </div>
   );
 };

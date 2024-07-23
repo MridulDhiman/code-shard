@@ -11,14 +11,14 @@ export const fileSchema = new Schema({
   },
   readOnly: {
     type: Boolean,
-     default: false
+    default: false,
   }, // Set as non-editable, defaults to `false`
   active: {
     type: Boolean,
-     default: false
+    default: false,
   }, // Set as main file, defaults to `false`
   hidden: {
     type: Boolean,
-     default: false
-  } // Tab visibility, defaults to `false`
+    default: false,
+  }, // Tab visibility, defaults to `false`
 });

@@ -1,9 +1,3 @@
-
-
-export default function Shards () {
-    
-
-return <>
-Template Page
-</>
+export default function Shards() {
+  return <>Template Page</>;
 }

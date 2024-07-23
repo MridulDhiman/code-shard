@@ -1,13 +1,11 @@
 import RoomListPage from "@/components/RoomListPage";
 
-
-const Rooms =  () => {
-
+const Rooms = () => {
   return (
     <>
-    <RoomListPage/>
+      <RoomListPage />
     </>
-  )
-}
+  );
+};
 
 export default Rooms;

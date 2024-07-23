@@ -50,7 +50,7 @@ const Profile = ({
     await handleFollowersOfUser(
       name,
       session?.user?.name,
-      optimisticHasFollowed
+      optimisticHasFollowed,
     );
   };
 
@@ -80,26 +80,42 @@ const Profile = ({
       </div>
 
       <div className="grid grid-cols-4 gap-3">
-
-
         {shards.length === 0 && <>No Shards</>}
-        {shards.length > 0 && shards.map((shard, index) => {
-          
-          const [files, dependencies, devDependencies] = makeFilesAndDependenciesUIStateLike(shard.files, shard.dependencies);
-          
-          return (<ProfileCard title={shard.title} isTemplate={shard.isTemplate} creator={shard.creator} key={index} content={!shard.isTemplate ? {
-          html: shard.html,
-          css: shard.css,
-          js: shard.js
-        }: {
-          templateType: shard.templateType,
-          files,
-          dependencies, 
-          devDependencies
-        }} html={shard.html} css={shard.css} js={shard.js} id={shard._id.toString()}/>)
-        
-        
-        })}
+        {shards.length > 0 &&
+          shards.map((shard, index) => {
+            const [files, dependencies, devDependencies] =
+              makeFilesAndDependenciesUIStateLike(
+                shard.files,
+                shard.dependencies,
+              );
+
+            return (
+              <ProfileCard
+                title={shard.title}
+                isTemplate={shard.isTemplate}
+                creator={shard.creator}
+                key={index}
+                content={
+                  !shard.isTemplate
+                    ? {
+                        html: shard.html,
+                        css: shard.css,
+                        js: shard.js,
+                      }
+                    : {
+                        templateType: shard.templateType,
+                        files,
+                        dependencies,
+                        devDependencies,
+                      }
+                }
+                html={shard.html}
+                css={shard.css}
+                js={shard.js}
+                id={shard._id.toString()}
+              />
+            );
+          })}
       </div>
     </>
   );

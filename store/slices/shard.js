@@ -3,14 +3,14 @@ import { createSlice } from "@reduxjs/toolkit";
 const shardSlice = createSlice({
   name: "shard",
   initialState: {
-   current: {
+    current: {
       title: "Untitled",
       html: "",
       css: "",
       js: "",
       id: "",
       mode: "normal",
-   },
+    },
     prev: {
       title: "Untitled",
       html: "",

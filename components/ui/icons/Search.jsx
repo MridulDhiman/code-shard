@@ -1,11 +1,11 @@
-import cn from '@/utils'
-import React from 'react'
+import cn from "@/utils";
+import React from "react";
 
-const Search = ({className, onClick}) => {
+const Search = ({ className, onClick }) => {
   return (
     <svg
-    className={cn("", className)}
-    onClick={onClick}
+      className={cn("", className)}
+      onClick={onClick}
       fill="#000000"
       height="5px"
       width="5px"
@@ -17,7 +17,11 @@ const Search = ({className, onClick}) => {
       xmlSpace="preserve"
     >
       <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-      <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
+      <g
+        id="SVGRepo_tracerCarrier"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      ></g>
       <g id="SVGRepo_iconCarrier">
         <g>
           <g>
@@ -26,7 +30,7 @@ const Search = ({className, onClick}) => {
         </g>
       </g>
     </svg>
-  )
-}
+  );
+};
 
-export default Search
+export default Search;

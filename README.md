@@ -3,15 +3,18 @@
 ![alt text](images/image.png)
 
 ## 🚀 Features:
-- Signup/Login 
+
+- Signup/Login
 - Create new Shard
 
 ![Try Editor Templates](images/image-10.png)
 
 ![alt text](images/shard.png)
+
 - View/Update/Delete Shards on Profile.
 
 ![alt text](images/image-3.png)
+
 - Collaborate by creating room and sharing the room link with users.
 - Change Visibility of Shards
 - Try Editor feature (code will get saved locally) (without signup)
@@ -32,5 +35,3 @@
 
 ![alt text](images/image-8.png)
 ![alt text](images/image-9.png)
-
-

@@ -2,43 +2,36 @@ import RoomsList from "@/components/RoomsList";
 import Navbar from "../app/Navbar";
 import { auth } from "@/auth";
 import { Suspense } from "react";
-const {signal} = new AbortController();
+const { signal } = new AbortController();
 import { redirect } from "next/navigation";
 
-    
 const fetchRooms = async (username) => {
-    const url = process.env.HOST_URL;
-    const res = await fetch(`${url}/api/room?creator=${username}`, { 
-        cache:"no-store"
-    });
+  const url = process.env.HOST_URL;
+  const res = await fetch(`${url}/api/room?creator=${username}`, {
+    cache: "no-store",
+  });
 
-    const data = await res.json();
-    return data;
-}
-const  RoomListPage =  async () => {
-    const session = await auth();
-    // connectToDB();
-  
-    if(!session) {
-      redirect("/login");
-    }
+  const data = await res.json();
+  return data;
+};
+const RoomListPage = async () => {
+  const session = await auth();
+  // connectToDB();
 
-    
-    
-    
-let rooms = await fetchRooms(session?.user.name);
-   console.log(rooms);  
+  if (!session) {
+    redirect("/login");
+  }
+
+  let rooms = await fetchRooms(session?.user.name);
+  console.log(rooms);
   return (
     <div>
-        <Navbar/>
-        <Suspense fallback={<p>
-          Loading...
-        </p>}>
-
-    <RoomsList rooms={rooms}/>
-        </Suspense>
+      <Navbar />
+      <Suspense fallback={<p>Loading...</p>}>
+        <RoomsList rooms={rooms} />
+      </Suspense>
     </div>
-  )
-}
+  );
+};
 
 export default RoomListPage;

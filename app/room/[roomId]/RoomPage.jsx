@@ -11,8 +11,8 @@ const RoomPage = ({ creator, roomId, title }) => {
   return (
     <Room roomId={roomId}>
       <div ref={cursorPanel}>
-          <RoomNavbar  title={title} roomId={roomId} />
-          <CollaborativeShard  roomId={roomId} />
+        <RoomNavbar title={title} roomId={roomId} />
+        <CollaborativeShard roomId={roomId} />
       </div>
     </Room>
   );

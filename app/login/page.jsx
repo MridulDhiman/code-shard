@@ -1,9 +1,11 @@
-import Login from "@/components/Login"
-import Navbar from "../Navbar"
+import Login from "@/components/Login";
+import Navbar from "../Navbar";
 
-export default function LoginPage () {
-    return <>
-    <Navbar/>
-    <Login/>
+export default function LoginPage() {
+  return (
+    <>
+      <Navbar />
+      <Login />
     </>
+  );
 }
