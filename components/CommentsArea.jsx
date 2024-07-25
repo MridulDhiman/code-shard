@@ -9,15 +9,13 @@ export function CommentsArea() {
   const { comments } = useActiveComment();
   const messages = getThreadedComments(comments);
 
-  console.log(comments);
-
-  
   return (
     <ScrollArea className="h-72 rounded-md border">
       <div className="p-4">
         {messages.map((message, index) => (
           <Fragment key={index}>
             <CommentMsg
+              key={message._id}
               className="text-sm line-clamp-2 overflow-none"
               _id={message._id}
               replies={message.replies}

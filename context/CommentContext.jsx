@@ -1,7 +1,7 @@
 "use client";
 
 import { addCommentToShard } from "@/lib/actions";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { toast } from "sonner";
 
 const CommentContext = createContext(null);
@@ -18,11 +18,10 @@ export const CommentContextProvider = ({ children }) => {
   const [activeComment, setActiveComment] = useState(null);
   const [commentCreator, setCommentCreator] = useState(null);
   const [comments, setComments] = useState([]);
+  const [parentComment, setParentComment] = useState(null);
   const [shardId, setShardId] = useState(null);
-  
-  if(comments.length > 0) {
-    console.log("Comments", comments);
-  }
+
+  console.log("Active Comment: ", activeComment);
 
   const createNewComment = async (message, creator, shardId) => {
     try {
@@ -31,7 +30,6 @@ export const CommentContextProvider = ({ children }) => {
         {
           loading: "Adding New Comment...",
           success: (data) => {
-            console.log("Created new comment: ", data);
             const parent = data.parentId;
 
             if (!parent) {
@@ -50,15 +48,19 @@ export const CommentContextProvider = ({ children }) => {
                 if (parentInd === -1) {
                   return prev;
                 }
-                
-                if(!prev[parentInd].replies) {
+
+                if (!prev[parentInd].replies) {
                   prev[parentInd].replies = [];
                 }
-                
-                prev[parentInd].replies.push({
-                  ...data,
-                  replies: [],
-                });
+
+                 if(!prev[parentInd].replies.includes(data)) {
+                   prev[parentInd].replies.push({
+                     ...data,
+                     replies: [],
+                   });
+                 }
+
+                setParentComment(prev[parentInd]);
                 return prev;
               });
             }
@@ -76,6 +78,7 @@ export const CommentContextProvider = ({ children }) => {
   return (
     <CommentContext.Provider
       value={{
+        parentComment,
         shardId,
         setShardId,
         createNewComment,
