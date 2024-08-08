@@ -60,13 +60,7 @@ async function Work() {
                 likes={shard.likedBy?.length ?? 0}
                 isTemplate={shard.isTemplate}
                 content={
-                  !shard.isTemplate
-                    ? {
-                        html: shard.html,
-                        css: shard.css,
-                        js: shard.js,
-                      }
-                    : {
+                   {
                         templateType: shard.templateType,
                         files,
                         dependencies,

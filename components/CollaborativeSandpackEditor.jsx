@@ -5,21 +5,19 @@ import {
   SandpackPreview,
   SandpackFileExplorer,
   SandpackLayout,
-  // SandpackCodeEditor,
   SandpackStack,
   useSandpack,
 } from "@codesandbox/sandpack-react";
 
 import { Toaster, toast } from "sonner";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 import File from "./ui/icons/File";
 
 import React from "react";
 import Package from "./ui/icons/Package";
 import Block from "./ui/icons/Block";
 import { useModal } from "@/customHooks/useModal";
-import MonacoEditor from "./MonacoEditor.jsx";
 import Button from "./ui/Button";
 import { saveTemplateToDB } from "@/lib/actions";
 import { makeFilesAndDependenciesUIStateLike } from "@/utils";
@@ -28,12 +26,12 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Avatar from "react-avatar";
 import Settings from "./ui/icons/Settings";
+import CollaborativeMonacoEditor from "./CollaborativeMonacoEditor";
 
-export default function SandpackEditor({
+export default function CollaborativeSandpackEditor({
   id,
   shardDetails: initialShardDetails,
   template = "react",
-  room = false,
 }) {
   const [shardDetails, setShardDetails] = useState(null);
   const [domLoaded, setDomLoaded] = useState(false);
@@ -137,7 +135,7 @@ export default function SandpackEditor({
             addNewDependency={addNewDependency}
             addNewDevDependency={addNewDevDependency}
           />
-          <MonacoEditor theme={theme} />
+          <CollaborativeMonacoEditor theme={theme} />
           <SandpackPreview
             showOpenInCodeSandbox={false}
             showOpenNewtab={true}
@@ -295,7 +293,7 @@ function SandpackSidebar({
         <SandpackStack>
           <div className="flex gap-2 mb-4 p-1 items-center justify-left">
             {/* <p className="text-lg pr-4 pl-2 font-['Josh', sans-serif]">{template}</p> */}
-            <File
+            {/* <File
               onClick={() => {
                 const fileName = prompt("Enter File Name: ");
                 if (fileName) addNewFile(fileName);
@@ -303,8 +301,8 @@ function SandpackSidebar({
               className={
                 "size-4 fill-white hover:fill-slate-600 cursor-pointer"
               }
-            />
-            <Package
+            /> */}
+            {/* <Package
               onClick={() => {
                 const dependencyName = prompt("Add new dependency");
                 if (dependencyName) addNewDependency(dependencyName);
@@ -312,8 +310,8 @@ function SandpackSidebar({
               className={
                 "size-4 fill-white hover:fill-slate-600 cursor-pointer"
               }
-            />
-            <Block
+            /> */}
+            {/* <Block
               onClick={() => {
                 const dependencyName = prompt("Add new dev. dependency");
                 if (dependencyName) addNewDevDependency(dependencyName);
@@ -321,7 +319,7 @@ function SandpackSidebar({
               className={
                 "cursor-pointer hover:fill-slate-600 fill-white size-4"
               }
-            />
+            /> */}
             <Settings
               onClick={() => {
                 console.log("clicked on settings");
@@ -331,14 +329,14 @@ function SandpackSidebar({
                 "size-4 hover:fill-slate-600 fill-white cursor-pointer"
               }
             />
-            {id && (
+            {/* {id && (
               <Button
                 className="font-[500] text-sm border p-1 rounded-md"
                 onClick={handleSave}
               >
                 Save
               </Button>
-            )}
+            )} */}
             {session && (
               <button
                 className="text-xs cursor-pointer"

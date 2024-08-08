@@ -1,7 +1,6 @@
 import { Shard } from "@/models/Shard";
 import ShardNavbar from "./ShardNavbar";
 import connectToDB from "@/lib/database";
-import ShardComponent from "@/components/Shard";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import SandpackEditor from "@/components/SandpackEditor";
@@ -73,20 +72,6 @@ export default async function NewShardPage({ params }) {
           shard={true}
           id={shardDetails?._id.toString() ?? null}
         />
-      )}
-      {!isTemplate && (
-        <>
-          <ShardNavbar
-            readOnly={session?.user?.name !== creator}
-            shardDetails={content}
-            roomId={content.id}
-          />
-          <ShardComponent
-            readOnly={session?.user?.name !== creator}
-            shardDetails={content}
-            roomId={content.id}
-          />
-        </>
       )}
     </>
   );

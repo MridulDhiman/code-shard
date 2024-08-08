@@ -19,15 +19,16 @@ import Close from "@/components/ui/icons/Close";
 import styles from "./PgModal.module.css";
 import clsx from "clsx";
 import { templates } from "@/utils";
+import { toast } from "sonner";
 
 export default function Navbar() {
   const { data: session } = useSession();
   const router = useRouter();
-  console.log("navbar session: ", session);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [isJoinRoomModalOpen, setIsJoinRoomOpen] = useState(false);
   const [pgModalOpen, setPgModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [roomOpen, setRoomOpen] = useState(false);
   const [roomInput, setRoomInput] = useState("");
   const modal = useRef();
   const joinModal = useRef();
@@ -76,7 +77,7 @@ export default function Navbar() {
     setIsDrawerOpen((prev) => !prev);
   };
 
-  let PgModal = ({ sessionModal }) => (
+  let PgModal = () => (
     <>
       <dialog
         onClose={() => setPgModalOpen(false)}
@@ -98,9 +99,12 @@ export default function Navbar() {
               <div
                 className="text-white border p-2 cursor-pointer hover:opacity-65"
                 onClick={() => {
+                  const roomRoute = `/room/new-room?template=${template}`;
+                  const shardRoute = `/shard/template/${template}`
+                  const tryEditorRoute = `/try-editor/${template}`
                   const routeToPushTo = session
-                    ? `/shard/template/${template}`
-                    : `/try-editor/${template}`;
+                    ? (roomOpen ? roomRoute : shardRoute)
+                    : tryEditorRoute;
                   router.push(routeToPushTo);
                 }}
                 key={template}
@@ -122,7 +126,6 @@ export default function Navbar() {
       >
         <li
           onClick={() => {
-            // router.push(`/shard/new-shard`);
             setPgModalOpen(true);
           }}
           className="bg-white px-2 p-1  flex gap-2 hover:bg-slate-200"
@@ -131,8 +134,8 @@ export default function Navbar() {
         </li>
         <li
           onClick={() => {
-            const id = ObjectID();
-            router.push(`/room/new-room`);
+            setPgModalOpen(true);
+            setRoomOpen(true);
           }}
           className="bg-white px-2 p-1 flex gap-2 hover:bg-slate-200"
         >

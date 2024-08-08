@@ -1,26 +1,38 @@
 import connectToDB from "@/lib/database";
-import RoomPage from "./RoomPage";
 import { Shard } from "@/models/Shard";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
+import CollaborativeSandpackEditor from "@/components/CollaborativeSandpackEditor";
+import { templates } from "@/utils";
 
-export default async function CollaborativeRoomPage({ params }) {
+export default async function CollaborativeRoomPage({ params, searchParams }) {
   const session = await auth();
   const roomId = params["roomId"];
   console.log("Room id: ", roomId);
+  const template = searchParams["template"];
+  console.log("Template: ", template)
   connectToDB();
   let shardDetails = null;
 
-  if (!session) {
+  if (!session || !roomId) {
     console.log("session not present");
     redirect("/");
   }
 
+  
+
   if (roomId === "new-room") {
+
+    if(!template || !templates.includes(template)) {
+      console.log("Template not valid");
+      redirect("/");
+    }
     shardDetails = await Shard.create({
       creator: session?.user?.name,
       type: "private",
       mode: "collaboration",
+      isTemplate: true,
+      templateType: template
     });
   }
 
@@ -42,7 +54,7 @@ export default async function CollaborativeRoomPage({ params }) {
     redirect("/");
   }
 
-  const { title, creator, _id } = shardDetails;
+  const { title, creator, isTemplate, _id } = shardDetails;
 
   if (session) {
     if (roomId === "new-room" && session?.user?.name !== creator) {
@@ -53,7 +65,11 @@ export default async function CollaborativeRoomPage({ params }) {
 
   return (
     <>
-      <RoomPage creator={creator} title={title} roomId={_id.toString()} />
+      <CollaborativeSandpackEditor
+        shardDetails={JSON.stringify(shardDetails)}
+        template={isTemplate ? shardDetails.templateType : "react"}
+        id={_id.toString() ?? null}
+      />
     </>
   );
 }

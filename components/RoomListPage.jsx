@@ -2,7 +2,6 @@ import RoomsList from "@/components/RoomsList";
 import Navbar from "../app/Navbar";
 import { auth } from "@/auth";
 import { Suspense } from "react";
-const { signal } = new AbortController();
 import { redirect } from "next/navigation";
 
 const fetchRooms = async (username) => {

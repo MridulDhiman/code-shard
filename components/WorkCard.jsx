@@ -14,12 +14,11 @@ import CustomSandpackPreview from "./CustomSandpackPreview";
 import Pencil from "./ui/icons/Pencil";
 import { saveShardName, updateLikes } from "@/lib/actions";
 import Button from "./ui/Button";
-import { toast, Toaster } from "sonner";
+import { toast } from "sonner";
 import { useSession } from "next-auth/react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import CommentTextBox from "./CommentTextbox";
 import { CommentsArea } from "./CommentsArea";
-import { getThreadedComments } from "@/utils";
 import { useActiveComment } from "@/context/CommentContext";
 
 const WorkCard = ({
@@ -40,15 +39,17 @@ const WorkCard = ({
   const [shardName, setShardName] = useState(title);
   const [likes, setLikes] = useState(initialLikes);
   const [likeStatus, setLikeStatus] = useState(initialLikeStatus);
-  const { comments, setComments, setShardId } = useActiveComment();
+  const { comments, setComments, setShardId, parentComment, setParentComment } =
+    useActiveComment();
   const { data: session } = useSession();
   const modal = useRef();
+  const router = useRouter();
 
   useEffect(() => {
     let toastId;
     if (!session) {
       toastId = toast.error("Authentication Error");
-      window.location.href = "/login";
+     router.push("/login");
     }
     return () => {
       toast.dismiss(toastId);
@@ -59,6 +60,12 @@ const WorkCard = ({
     setComments(JSON.parse(initialComments));
     setShardId(id);
   }, []);
+
+  useEffect(() => {
+    if (parentComment) {
+      setParentComment(null);
+    }
+  }, [parentComment]);
 
   useEffect(() => {
     setType(type);
@@ -108,21 +115,6 @@ const WorkCard = ({
     };
   }, [isPopoverOpen]);
 
-  const router = useRouter();
-
-  const outputDoc = `
-    <html lang="en">
-    <head>
-    <style>
-    * {
-      font-size: 0.7rem !important;
-    }
-    ${content.css}
-    </style>
-    </head>
-    <body>${content.html}</body>
-    <script defer>${content.js}</script>
-    </html>`;
 
   const handleClick = () => {
     router.replace(`/shard/${id}`);
@@ -211,7 +203,7 @@ const WorkCard = ({
           <FullScreen className="size-5" />
         </span>
 
-        {isTemplate ? (
+        {isTemplate && (
           <>
             <CustomSandpackPreview
               template={content.templateType}
@@ -221,15 +213,6 @@ const WorkCard = ({
               className="pointer-events-none  bg-white h-[12rem] rounded-lg"
             />
           </>
-        ) : (
-          <iframe
-            className="pointer-events-none bg-white bg-cover rounded-[0.2rem]"
-            srcDoc={outputDoc}
-            title="output"
-            sandbox="allow-scripts"
-            height="100%"
-            width="100%"
-          />
         )}
       </div>
 
@@ -307,7 +290,7 @@ const WorkCard = ({
           <Heart className="size-5 fill-white" /> <span>{likes}</span>
         </Button>
         <Dialog>
-          <DialogTrigger>
+          <DialogTrigger asChild>
             <Button
               className="flex items-center hover:bg-blue-500 bg-black text-white"
               id="comments"
@@ -318,7 +301,7 @@ const WorkCard = ({
           </DialogTrigger>
           <DialogContent className="bg-white p-2 text-black">
             <CommentTextBox />
-            <CommentsArea />
+            <CommentsArea comments={comments} isReplyArea={true} />
           </DialogContent>
         </Dialog>
       </div>

@@ -41,10 +41,12 @@
     "react-dom": "^18",
     "react-redux": "^9.1.0",
     "react-spinners": "^0.13.8",
+    "socket.io-client": "^4.7.5",
     "sonner": "^1.4.41",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
     "y-monaco": "^0.1.5",
+    "y-websocket": "^2.0.4",
     "yjs": "^13.6.12"
   },
   "devDependencies": {

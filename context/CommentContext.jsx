@@ -53,12 +53,12 @@ export const CommentContextProvider = ({ children }) => {
                   prev[parentInd].replies = [];
                 }
 
-                 if(!prev[parentInd].replies.includes(data)) {
-                   prev[parentInd].replies.push({
-                     ...data,
-                     replies: [],
-                   });
-                 }
+                if (!prev[parentInd].replies.includes(data)) {
+                  prev[parentInd].replies.push({
+                    ...data,
+                    replies: [],
+                  });
+                }
 
                 setParentComment(prev[parentInd]);
                 return prev;
@@ -79,6 +79,7 @@ export const CommentContextProvider = ({ children }) => {
     <CommentContext.Provider
       value={{
         parentComment,
+        setParentComment,
         shardId,
         setShardId,
         createNewComment,

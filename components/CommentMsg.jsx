@@ -1,11 +1,11 @@
 import { Separator } from "@radix-ui/react-separator";
 import clsx from "clsx";
-import React, { act, Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import Avatar from "react-avatar";
 import Comment from "./ui/icons/Comment";
 import Button from "./ui/Button";
 import { useActiveComment } from "@/context/CommentContext";
-import cn, { getThreadedComments } from "@/utils";
+import cn from "@/utils";
 
 const CommentMsg = ({
   _id,
@@ -23,9 +23,13 @@ const CommentMsg = ({
     if (parentComment) {
       console.log("replies", parentComment.replies);
       if (activeComment === _id) {
-        setReplies(parentComment?.replies?.filter((item, index, self) =>
-          index === self.findIndex((t) => JSON.stringify(t) === JSON.stringify(item))
-        ));
+        setReplies(
+          parentComment?.replies?.filter(
+            (item, index, self) =>
+              index ===
+              self.findIndex((t) => JSON.stringify(t) === JSON.stringify(item)),
+          ),
+        );
       }
     }
   }, [parentComment]);
@@ -107,7 +111,7 @@ const CommentMsg = ({
             return (
               <Fragment key={reply._id}>
                 <CommentMsg
-                key={reply._id}
+                  key={reply._id}
                   _id={reply._id}
                   isReply={true}
                   level={reply.level}
