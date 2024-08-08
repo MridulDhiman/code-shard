@@ -34,10 +34,11 @@ const RoomsList = ({ rooms: initialRooms }) => {
 
   const roomList = rooms.map((room, index) => (
     <RoomListCard
-      rooms={rooms}
       setRooms={setRooms}
       title={room.title}
       index={index}
+      isTemplate={room.isTemplate}
+      template={room.templateType}
       key={room._id.toString()}
       onLinkCopy={onLinkCopy}
       id={room._id.toString()}
@@ -47,12 +48,11 @@ const RoomsList = ({ rooms: initialRooms }) => {
     <>
       <h1 className="text-lg text-center mb-2">
         {" "}
-        Rooms List<sup className="text-blue-500">(upto 100 rooms)</sup>
+        Rooms List...
       </h1>
 
       <ul className="flex flex-col gap-1">
         {roomList}
-        {/* <RoomListCard index={1}  /> */}
       </ul>
       <Toaster position="top-center" richColors />
     </>

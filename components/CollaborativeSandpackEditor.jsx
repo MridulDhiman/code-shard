@@ -215,15 +215,11 @@ function SandpackSidebar({
   addNewDevDependency,
   id,
 }) {
-  const { sandpack } = useSandpack();
   const { data: session } = useSession();
   const router = useRouter();
-  console.log("Sandpacksidebar: ", session);
   const modalRef = useRef(null);
   const [isClicked, setIsClicked] = useState(false);
   useModal(isClicked, setIsClicked, modalRef);
-
-  const { files } = sandpack;
 
   let modal = (
     <>
@@ -251,40 +247,6 @@ function SandpackSidebar({
     </>
   );
 
-  const handleSave = async () => {
-    console.log(files, id);
-    let loadingId = null;
-    if (session?.user) {
-      try {
-        // const userName = session?.name;
-        loadingId = toast.loading("Saving...");
-        const { status } = await saveTemplateToDB(
-          id,
-          files,
-          dependencies,
-          devDependencies,
-          session?.user?.name,
-        );
-
-        console.log(status);
-        if (status === 500) {
-          toast.dismiss(loadingId);
-          toast.error("Could not save shard. Try Again!");
-          return;
-        } else if (status === 200) {
-          // window.alert("Shard Updated Successfully")
-          toast.dismiss(loadingId);
-          toast.info("Shard saved successfully");
-          router.push(`/shard/${id}`);
-        }
-      } catch (error) {
-        console.log("error occurred", error);
-      } finally {
-        toast.dismiss(loadingId);
-      }
-    }
-  };
-
   return (
     <>
       <Toaster position="top-center" richColors />
@@ -292,34 +254,6 @@ function SandpackSidebar({
       <div className="w-[15%] flex flex-col ">
         <SandpackStack>
           <div className="flex gap-2 mb-4 p-1 items-center justify-left">
-            {/* <p className="text-lg pr-4 pl-2 font-['Josh', sans-serif]">{template}</p> */}
-            {/* <File
-              onClick={() => {
-                const fileName = prompt("Enter File Name: ");
-                if (fileName) addNewFile(fileName);
-              }}
-              className={
-                "size-4 fill-white hover:fill-slate-600 cursor-pointer"
-              }
-            /> */}
-            {/* <Package
-              onClick={() => {
-                const dependencyName = prompt("Add new dependency");
-                if (dependencyName) addNewDependency(dependencyName);
-              }}
-              className={
-                "size-4 fill-white hover:fill-slate-600 cursor-pointer"
-              }
-            /> */}
-            {/* <Block
-              onClick={() => {
-                const dependencyName = prompt("Add new dev. dependency");
-                if (dependencyName) addNewDevDependency(dependencyName);
-              }}
-              className={
-                "cursor-pointer hover:fill-slate-600 fill-white size-4"
-              }
-            /> */}
             <Settings
               onClick={() => {
                 console.log("clicked on settings");
@@ -329,19 +263,11 @@ function SandpackSidebar({
                 "size-4 hover:fill-slate-600 fill-white cursor-pointer"
               }
             />
-            {/* {id && (
-              <Button
-                className="font-[500] text-sm border p-1 rounded-md"
-                onClick={handleSave}
-              >
-                Save
-              </Button>
-            )} */}
             {session && (
               <button
                 className="text-xs cursor-pointer"
                 onClick={() => {
-                  router.replace("/your-work");
+                  router.replace("/rooms-list");
                 }}
               >
                 <Avatar
