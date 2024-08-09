@@ -6,19 +6,13 @@ import {
   SandpackFileExplorer,
   SandpackLayout,
   SandpackStack,
-  useSandpack,
 } from "@codesandbox/sandpack-react";
 
 import { Toaster } from "sonner";
 
 import { useEffect, useRef, useState } from "react";
-import File from "./ui/icons/File";
 import React from "react";
-import Package from "./ui/icons/Package";
-import Block from "./ui/icons/Block";
 import { useModal } from "@/customHooks/useModal";
-import Button from "./ui/Button";
-import { saveTemplateToDB } from "@/lib/actions";
 import { makeFilesAndDependenciesUIStateLike } from "@/utils";
 import { ScaleLoader } from "react-spinners";
 import { useSession } from "next-auth/react";

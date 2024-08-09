@@ -20,12 +20,10 @@ const CollaborativeMonacoEditor = ({ theme }) => {
   const [isClient, setIsClient] = useState(false);
   const [isThemeLoaded, setIsThemeLoaded] = useState(false);
   const monaco = useMonaco();
-  const client = useSandpackClient();
   const { sandpack } = useSandpack();
   const { files, activeFile, updateCurrentFile, visibleFiles, updateFile } =
     sandpack;
 
-  console.log(files, visibleFiles);
   const code = files[activeFile]?.code || "";
 
   useEffect(() => {
@@ -34,7 +32,6 @@ const CollaborativeMonacoEditor = ({ theme }) => {
       return;
     }
   });
-
 
   useEffect(() => {
     if (monaco && theme !== "vs-dark" && theme !== "light") {
@@ -57,20 +54,15 @@ const CollaborativeMonacoEditor = ({ theme }) => {
   }, []);
 
   useEffect(() => {
-    if (Object.keys(latestData).length !== 0) {
-      const sandpackClient = client.getClient();
-      console.log("Sandbox setup: ", sandpackClient?.sandboxSetup);
-      files[activeFile].code = latestData[activeFile]?.code;
-      sandpackClient?.updateSandbox({
-        files
-      });
-    }
-  }, [latestData])
-
-  useEffect(() => {
     if (latestVisibleFiles?.length > 0) {
       for (let file of latestVisibleFiles) {
-        updateFile(file, latestData[file]?.code, true);
+        let newCode = latestData[file]?.code;
+        if (newCode && files[file]?.code !== newCode) {
+          updateFile(file, newCode, true);
+          if (file === activeFile) {
+            updateCurrentFile(newCode, true);
+          }
+        }
       }
     }
   }, [latestVisibleFiles]);

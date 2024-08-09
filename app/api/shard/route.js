@@ -2,12 +2,16 @@ import connectToDB from "@/lib/database";
 import { NextResponse } from "next/server";
 import { User } from "@/models/User";
 
+const getSearchParams = (req) => {
+  const { searchParams } = new URL(req.url);
+  return searchParams;
+};
+
 export const GET = async (req) => {
+  const searchParams = getSearchParams(req);
+  
   try {
     connectToDB();
-    const { searchParams } = new URL(req.url);
-    console.log(searchParams);
-
     const email = searchParams.get("email");
     console.log(email);
 

@@ -1,14 +1,18 @@
 import connectToDB from "@/lib/database";
-import { Shard } from "@/models/Shard";
 import { User } from "@/models/User";
 import { NextResponse } from "next/server";
 
 export const revalidate = true;
 
+const getSearchParams = (req) => {
+  const { searchParams } = new URL(req.url);
+  return searchParams;
+};
+
 export async function GET(req, res) {
+  const searchParams = getSearchParams(req);
   try {
     connectToDB();
-    const { searchParams } = new URL(req.url);
     const creator = searchParams.get("creator");
 
     if (!creator) {
