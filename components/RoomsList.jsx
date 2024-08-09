@@ -16,11 +16,7 @@ const RoomsList = ({ rooms: initialRooms }) => {
   };
 
   if (rooms.length === 0) {
-    return (
-      <p>
-        No Rooms Yet...
-     </p>
-    );
+    return <p>No Rooms Yet...</p>;
   }
 
   const roomList = rooms.map((room, index) => (
@@ -37,7 +33,7 @@ const RoomsList = ({ rooms: initialRooms }) => {
   ));
   return (
     <>
-      <h1 className="text-lg text-center mb-2"> Rooms List...</h1>
+      <h1 className="text-lg text-center mb-2"> Rooms List</h1>
 
       <ul className="flex flex-col gap-1">{roomList}</ul>
       <Toaster position="top-center" richColors />

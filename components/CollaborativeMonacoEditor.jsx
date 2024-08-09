@@ -4,9 +4,14 @@ import { useSocket } from "@/context/SocketContext";
 import { Editor, useMonaco } from "@monaco-editor/react";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
-import { SandpackStack, useSandpack } from "@codesandbox/sandpack-react";
+import {
+  SandpackStack,
+  useSandpack,
+  useSandpackClient,
+} from "@codesandbox/sandpack-react";
 import { FileTabs } from "@codesandbox/sandpack-react";
 import { snakeCase } from "./MonacoEditor";
+import { toast } from "sonner";
 
 const CollaborativeMonacoEditor = ({ theme }) => {
   const editorRef = useRef(null);
@@ -15,14 +20,10 @@ const CollaborativeMonacoEditor = ({ theme }) => {
   const [isClient, setIsClient] = useState(false);
   const [isThemeLoaded, setIsThemeLoaded] = useState(false);
   const monaco = useMonaco();
+  const client = useSandpackClient();
   const { sandpack } = useSandpack();
-  const {
-    files,
-    activeFile,
-    updateCurrentFile,
-    visibleFiles,
-    updateFile,
-  } = sandpack;
+  const { files, activeFile, updateCurrentFile, visibleFiles, updateFile } =
+    sandpack;
 
   console.log(files, visibleFiles);
   const code = files[activeFile]?.code || "";
@@ -33,6 +34,7 @@ const CollaborativeMonacoEditor = ({ theme }) => {
       return;
     }
   });
+
 
   useEffect(() => {
     if (monaco && theme !== "vs-dark" && theme !== "light") {
@@ -53,6 +55,17 @@ const CollaborativeMonacoEditor = ({ theme }) => {
       setIsClient(false);
     };
   }, []);
+
+  useEffect(() => {
+    if (Object.keys(latestData).length !== 0) {
+      const sandpackClient = client.getClient();
+      console.log("Sandbox setup: ", sandpackClient?.sandboxSetup);
+      files[activeFile].code = latestData[activeFile]?.code;
+      sandpackClient?.updateSandbox({
+        files
+      });
+    }
+  }, [latestData])
 
   useEffect(() => {
     if (latestVisibleFiles?.length > 0) {
@@ -112,6 +125,7 @@ const CollaborativeMonacoEditor = ({ theme }) => {
         };
       } catch (error) {
         console.error("Error setting up Yjs:", error);
+        toast.error("Error setting up Yjs. Refresh and try again.");
       }
     };
 
@@ -152,24 +166,24 @@ const CollaborativeMonacoEditor = ({ theme }) => {
   return (
     <>
       <SandpackStack style={{ height: "100vh", margin: 0 }}>
-      <FileTabs />
-      <Editor
-        key={activeFile}
-        height={"100vh"}
-        defaultLanguage="javascript"
-        theme={
-          theme === "vs-dark" || theme === "light"
-            ? theme
-            : isThemeLoaded
+        <FileTabs />
+        <Editor
+          key={activeFile}
+          height={"100vh"}
+          defaultLanguage="javascript"
+          theme={
+            theme === "vs-dark" || theme === "light"
               ? theme
-              : "vs-dark"
-        }
-        language={fileType}
-        onChange={onEditorChange}
-        defaultValue={code}
-        value={latestData[activeFile]?.code || code}
-        onMount={(editor) => (editorRef.current = editor)}
-      />
+              : isThemeLoaded
+                ? theme
+                : "vs-dark"
+          }
+          language={fileType}
+          onChange={onEditorChange}
+          defaultValue={code}
+          value={latestData[activeFile]?.code || code}
+          onMount={(editor) => (editorRef.current = editor)}
+        />
       </SandpackStack>
     </>
   );

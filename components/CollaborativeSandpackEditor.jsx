@@ -31,7 +31,7 @@ export default function CollaborativeSandpackEditor({
   id,
   shardDetails: initialShardDetails,
   template = "react",
-  isNewShard 
+  isNewShard,
 }) {
   const [_, setShardDetails] = useState(null);
   const [domLoaded, setDomLoaded] = useState(false);
@@ -42,10 +42,9 @@ export default function CollaborativeSandpackEditor({
   const modalRef = useRef(null);
   const [theme, setTheme] = useState("vs-dark");
   useModal(isModalOpen, setIsModalOpen, modalRef);
-  const router = useRouter()
- 
-  console.log("room id: ", id)
+  const router = useRouter();
 
+  console.log("room id: ", id);
 
   useEffect(() => {
     // check if new shard when component is mounted...

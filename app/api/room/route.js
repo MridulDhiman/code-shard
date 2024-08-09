@@ -25,9 +25,10 @@ export async function GET(req, res) {
     }
 
     const shards = user.shards;
+    console.log(shards);
 
     const collaborativeShards = shards.filter(
-      (shard) => shard?.mode === "collaboration",
+      (shard) => shard.mode === "collaboration",
     );
     return NextResponse.json(collaborativeShards, { status: 200 });
   } catch (error) {

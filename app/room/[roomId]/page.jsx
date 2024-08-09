@@ -4,6 +4,7 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import CollaborativeSandpackEditor from "@/components/CollaborativeSandpackEditor";
 import { templates } from "@/utils";
+import { User } from "@/models/User";
 
 export default async function CollaborativeRoomPage({ params, searchParams }) {
   const session = await auth();
@@ -31,6 +32,13 @@ export default async function CollaborativeRoomPage({ params, searchParams }) {
       isTemplate: true,
       templateType: template,
     });
+
+    console.log("Id: ", shardDetails?._id);
+
+    const user = await User.findOne({ name: session?.user?.name });
+    console.log("User: ", user);
+    user.shards.push(shardDetails._id);
+    await user.save();
   }
 
   if (roomId !== "new-room") {
