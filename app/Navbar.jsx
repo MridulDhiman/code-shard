@@ -100,10 +100,12 @@ export default function Navbar() {
                 className="text-white border p-2 cursor-pointer hover:opacity-65"
                 onClick={() => {
                   const roomRoute = `/room/new-room?template=${template}`;
-                  const shardRoute = `/shard/template/${template}`
-                  const tryEditorRoute = `/try-editor/${template}`
+                  const shardRoute = `/shard/template/${template}`;
+                  const tryEditorRoute = `/try-editor/${template}`;
                   const routeToPushTo = session
-                    ? (roomOpen ? roomRoute : shardRoute)
+                    ? roomOpen
+                      ? roomRoute
+                      : shardRoute
                     : tryEditorRoute;
                   router.push(routeToPushTo);
                 }}

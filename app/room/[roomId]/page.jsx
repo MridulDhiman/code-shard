@@ -10,7 +10,7 @@ export default async function CollaborativeRoomPage({ params, searchParams }) {
   const roomId = params["roomId"];
   console.log("Room id: ", roomId);
   const template = searchParams["template"];
-  console.log("Template: ", template)
+  console.log("Template: ", template);
   connectToDB();
   let shardDetails = null;
 
@@ -19,11 +19,8 @@ export default async function CollaborativeRoomPage({ params, searchParams }) {
     redirect("/");
   }
 
-  
-
   if (roomId === "new-room") {
-
-    if(!template || !templates.includes(template)) {
+    if (!template || !templates.includes(template)) {
       console.log("Template not valid");
       redirect("/");
     }
@@ -32,7 +29,7 @@ export default async function CollaborativeRoomPage({ params, searchParams }) {
       type: "private",
       mode: "collaboration",
       isTemplate: true,
-      templateType: template
+      templateType: template,
     });
   }
 
@@ -54,7 +51,7 @@ export default async function CollaborativeRoomPage({ params, searchParams }) {
     redirect("/");
   }
 
-  const { title, creator, isTemplate, _id } = shardDetails;
+  const { creator, isTemplate, _id } = shardDetails;
 
   if (session) {
     if (roomId === "new-room" && session?.user?.name !== creator) {
@@ -68,7 +65,8 @@ export default async function CollaborativeRoomPage({ params, searchParams }) {
       <CollaborativeSandpackEditor
         shardDetails={JSON.stringify(shardDetails)}
         template={isTemplate ? shardDetails.templateType : "react"}
-        id={_id.toString() ?? null}
+        id={_id.toString() ?? ""}
+        isNewShard={roomId === "new-room"}
       />
     </>
   );

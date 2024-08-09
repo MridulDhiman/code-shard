@@ -4,8 +4,9 @@ import { useSocket } from "@/context/SocketContext";
 import { Editor, useMonaco } from "@monaco-editor/react";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
-import { useSandpack } from "@codesandbox/sandpack-react";
+import { SandpackStack, useSandpack } from "@codesandbox/sandpack-react";
 import { FileTabs } from "@codesandbox/sandpack-react";
+import { snakeCase } from "./MonacoEditor";
 
 const CollaborativeMonacoEditor = ({ theme }) => {
   const editorRef = useRef(null);
@@ -18,7 +19,6 @@ const CollaborativeMonacoEditor = ({ theme }) => {
   const {
     files,
     activeFile,
-    closeFile,
     updateCurrentFile,
     visibleFiles,
     updateFile,
@@ -151,14 +151,8 @@ const CollaborativeMonacoEditor = ({ theme }) => {
 
   return (
     <>
+      <SandpackStack style={{ height: "100vh", margin: 0 }}>
       <FileTabs />
-      <button
-        onClick={() => {
-          closeFile(activeFile);
-        }}
-      >
-        click here
-      </button>
       <Editor
         key={activeFile}
         height={"100vh"}
@@ -176,6 +170,7 @@ const CollaborativeMonacoEditor = ({ theme }) => {
         value={latestData[activeFile]?.code || code}
         onMount={(editor) => (editorRef.current = editor)}
       />
+      </SandpackStack>
     </>
   );
 };

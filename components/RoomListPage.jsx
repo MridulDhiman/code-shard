@@ -22,7 +22,7 @@ const RoomListPage = async () => {
   }
 
   let rooms = await fetchRooms(session?.user.name);
-  console.log(rooms);
+  console.log("Rooms: ", rooms);
   return (
     <div>
       <Navbar />

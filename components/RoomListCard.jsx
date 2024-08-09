@@ -6,7 +6,15 @@ import Delete from "./ui/icons/Delete";
 import clsx from "clsx";
 import { useRouter } from "next/navigation";
 
-const RoomListCard = ({ index, id, isTemplate, template, setRooms, title, onLinkCopy }) => {
+const RoomListCard = ({
+  index,
+  id,
+  isTemplate,
+  template,
+  setRooms,
+  title,
+  onLinkCopy,
+}) => {
   const [isDeleted, setIsDeleted] = useState(false);
   const router = useRouter();
 
@@ -39,7 +47,11 @@ const RoomListCard = ({ index, id, isTemplate, template, setRooms, title, onLink
       <span className="border border-r-0 p-2  border-white">{index + 1}. </span>
       <span className="border p-2 border-r-0 border-white">{title}</span>
       <span className="border p-2  border-r-0 border-white">{id}</span>
-      {isTemplate && <span className="border p-2 capitalize border-r-0 border-white">{template}</span>}
+      {isTemplate && (
+        <span className="border p-2 capitalize border-r-0 border-white">
+          {template}
+        </span>
+      )}
       <span
         onClick={() => {
           writeToClipboard(id);

@@ -59,14 +59,12 @@ async function Work() {
                 likeStatus={likeStatus}
                 likes={shard.likedBy?.length ?? 0}
                 isTemplate={shard.isTemplate}
-                content={
-                   {
-                        templateType: shard.templateType,
-                        files,
-                        dependencies,
-                        devDependencies,
-                      }
-                }
+                content={{
+                  templateType: shard.templateType,
+                  files,
+                  dependencies,
+                  devDependencies,
+                }}
                 mode={shard.mode}
                 type={shard.type}
                 title={shard.title}

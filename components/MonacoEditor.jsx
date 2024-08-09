@@ -6,7 +6,7 @@ import {
 } from "@codesandbox/sandpack-react";
 import { useCallback, useEffect, useState } from "react";
 
-function snakeCase(fname) {
+export function snakeCase(fname) {
   return fname.toLowerCase().replace(/[_() ]/g, "-");
 }
 export default function MonacoEditor({ theme, readOnly = false }) {

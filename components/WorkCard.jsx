@@ -49,7 +49,7 @@ const WorkCard = ({
     let toastId;
     if (!session) {
       toastId = toast.error("Authentication Error");
-     router.push("/login");
+      router.push("/login");
     }
     return () => {
       toast.dismiss(toastId);
@@ -114,7 +114,6 @@ const WorkCard = ({
       document.removeEventListener("click", handleBodyClick);
     };
   }, [isPopoverOpen]);
-
 
   const handleClick = () => {
     router.replace(`/shard/${id}`);

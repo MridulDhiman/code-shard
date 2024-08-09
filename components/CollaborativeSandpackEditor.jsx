@@ -9,11 +9,10 @@ import {
   useSandpack,
 } from "@codesandbox/sandpack-react";
 
-import { Toaster, toast } from "sonner";
+import { Toaster } from "sonner";
 
 import { useEffect, useRef, useState } from "react";
 import File from "./ui/icons/File";
-
 import React from "react";
 import Package from "./ui/icons/Package";
 import Block from "./ui/icons/Block";
@@ -32,8 +31,9 @@ export default function CollaborativeSandpackEditor({
   id,
   shardDetails: initialShardDetails,
   template = "react",
+  isNewShard 
 }) {
-  const [shardDetails, setShardDetails] = useState(null);
+  const [_, setShardDetails] = useState(null);
   const [domLoaded, setDomLoaded] = useState(false);
   const [dependencies, setDependencies] = useState({});
   const [devDependencies, setDevDependencies] = useState({});
@@ -42,6 +42,17 @@ export default function CollaborativeSandpackEditor({
   const modalRef = useRef(null);
   const [theme, setTheme] = useState("vs-dark");
   useModal(isModalOpen, setIsModalOpen, modalRef);
+  const router = useRouter()
+ 
+  console.log("room id: ", id)
+
+
+  useEffect(() => {
+    // check if new shard when component is mounted...
+    if (isNewShard && id) {
+      router.replace(`/room/${id}`);
+    }
+  }, []);
 
   useEffect(() => {
     if (initialShardDetails) {
