@@ -4,8 +4,7 @@
 
 ## 🚀 Features:
 
-- Signup/Login
-- Create new Shard
+
 
 ![Try Editor Templates](images/image-10.png)
 
@@ -14,6 +13,9 @@
 - View/Update/Delete Shards on Profile.
 
 ![alt text](images/image-3.png)
+
+- Signup/Login
+- Create new Shard
 
 - Collaborate by creating room and sharing the room link with users.
 - Change Visibility of Shards
