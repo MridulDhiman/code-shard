@@ -28,7 +28,7 @@ const SocketProvider = ({ children }) => {
   const [latestVisibleFiles, setLatestVisibleFiles] = useState([]);
 
   const sendMessage = useCallback(
-    ({ activeFile, data }) => {
+    ({ activeFile, data, roomId }) => {
       console.log("Sending message: ", activeFile, data);
 
       if (!socket) {
@@ -39,6 +39,7 @@ const SocketProvider = ({ children }) => {
         socket.emit("event:message", {
           activeFile: activeFile,
           data: data,
+          roomId: roomId,
         });
       }
     },

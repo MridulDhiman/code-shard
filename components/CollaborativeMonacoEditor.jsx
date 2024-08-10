@@ -13,7 +13,7 @@ import { FileTabs } from "@codesandbox/sandpack-react";
 import { snakeCase } from "./MonacoEditor";
 import { toast } from "sonner";
 
-const CollaborativeMonacoEditor = ({ theme }) => {
+const CollaborativeMonacoEditor = ({ theme, roomId }) => {
   const editorRef = useRef(null);
   const { sendMessage, latestData, latestVisibleFiles, sendVisibleFiles } =
     useSocket();
@@ -132,6 +132,7 @@ const CollaborativeMonacoEditor = ({ theme }) => {
     sendMessage({
       activeFile: activeFile,
       data: value,
+      roomId: roomId,
     });
   });
 
