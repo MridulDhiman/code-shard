@@ -46,6 +46,19 @@ const SocketProvider = ({ children }) => {
     [socket],
   );
 
+  const joinRoom = useCallback(({ roomId }) => {
+    if (!socket) {
+      console.log("socket not found");
+    }
+    if (socket) {
+      console.log("socket is available");
+      console.log("event:join-room", roomId);
+      socket.emit("event:join-room", {
+        roomId: roomId
+      });
+    }
+  }, [socket]);
+
   const sendVisibleFiles = useCallback(
     ({ visibleFiles }) => {
       console.log("Visible files: ", visibleFiles);
@@ -122,6 +135,7 @@ const SocketProvider = ({ children }) => {
           latestData,
           latestVisibleFiles,
           sendVisibleFiles,
+          joinRoom
         }}
       >
         {children}

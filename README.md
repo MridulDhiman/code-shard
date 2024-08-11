@@ -4,8 +4,6 @@
 
 ## 🚀 Features:
 
-
-
 ![Try Editor Templates](images/image-10.png)
 
 ![alt text](images/shard.png)

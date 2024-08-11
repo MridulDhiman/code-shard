@@ -15,7 +15,7 @@ import { toast } from "sonner";
 
 const CollaborativeMonacoEditor = ({ theme, roomId }) => {
   const editorRef = useRef(null);
-  const { sendMessage, latestData, latestVisibleFiles, sendVisibleFiles } =
+  const { sendMessage, latestData, latestVisibleFiles, sendVisibleFiles, joinRoom } =
     useSocket();
   const [isClient, setIsClient] = useState(false);
   const [isThemeLoaded, setIsThemeLoaded] = useState(false);
@@ -44,6 +44,14 @@ const CollaborativeMonacoEditor = ({ theme, roomId }) => {
         .then((_) => monaco.editor.setTheme(snakeCase(theme)));
     }
   }, [monaco, theme]);
+
+  useEffect(() => {
+    if (!roomId) return;
+      joinRoom({
+        roomId: roomId
+      })
+    
+  }, []);
 
   useEffect(() => {
     setIsClient(true);
@@ -82,7 +90,7 @@ const CollaborativeMonacoEditor = ({ theme, roomId }) => {
   }, [visibleFiles]);
 
   useEffect(() => {
-    if (!isClient || !editorRef.current) {
+    if (!isClient || !editorRef.current || !roomId) {
       return;
     }
 
@@ -99,7 +107,7 @@ const CollaborativeMonacoEditor = ({ theme, roomId }) => {
 
         const wsProvider = new WebsocketProvider(
           "ws://localhost:8080",
-          `roomId`,
+          roomId,
           ydoc,
         );
 
@@ -124,7 +132,7 @@ const CollaborativeMonacoEditor = ({ theme, roomId }) => {
     setupYjs();
 
     return () => cleanup();
-  }, [editorRef, isClient]);
+  }, [editorRef, isClient, roomId]);
 
   const onEditorChange = useCallback((value) => {
     // setEditorData(value);

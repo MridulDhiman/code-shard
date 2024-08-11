@@ -9,7 +9,7 @@ const getSearchParams = (req) => {
 
 export const GET = async (req) => {
   const searchParams = getSearchParams(req);
-  
+
   try {
     connectToDB();
     const email = searchParams.get("email");
