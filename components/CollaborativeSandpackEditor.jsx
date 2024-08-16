@@ -27,7 +27,9 @@ export default function CollaborativeSandpackEditor({
   template = "react",
   isNewShard,
 }) {
-  const [_, setShardDetails] = useState(null);
+  const [shardDetails, setShardDetails] = useState(
+    JSON.parse(initialShardDetails),
+  );
   const [domLoaded, setDomLoaded] = useState(false);
   const [dependencies, setDependencies] = useState({});
   const [devDependencies, setDevDependencies] = useState({});
@@ -50,6 +52,7 @@ export default function CollaborativeSandpackEditor({
   useEffect(() => {
     if (initialShardDetails) {
       const data = JSON.parse(initialShardDetails);
+      setShardDetails(data);
       console.log(data);
       const [f, dep, devDep] = makeFilesAndDependenciesUIStateLike(
         data.files,

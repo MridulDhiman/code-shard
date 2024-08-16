@@ -15,8 +15,13 @@ import { toast } from "sonner";
 
 const CollaborativeMonacoEditor = ({ theme, roomId }) => {
   const editorRef = useRef(null);
-  const { sendMessage, latestData, latestVisibleFiles, sendVisibleFiles, joinRoom } =
-    useSocket();
+  const {
+    sendMessage,
+    latestData,
+    latestVisibleFiles,
+    sendVisibleFiles,
+    joinRoom,
+  } = useSocket();
   const [isClient, setIsClient] = useState(false);
   const [isThemeLoaded, setIsThemeLoaded] = useState(false);
   const monaco = useMonaco();
@@ -47,10 +52,9 @@ const CollaborativeMonacoEditor = ({ theme, roomId }) => {
 
   useEffect(() => {
     if (!roomId) return;
-      joinRoom({
-        roomId: roomId
-      })
-    
+    joinRoom({
+      roomId: roomId,
+    });
   }, []);
 
   useEffect(() => {
