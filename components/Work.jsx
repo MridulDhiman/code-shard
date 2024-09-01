@@ -76,11 +76,11 @@ async function Work() {
       : [];
 
   return (
-    <div className="grid grid-cols-4 gap-2">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
       {shards.length > 0 ? (
         shardsCollection
       ) : (
-        <p className="text-white p-2">No Shards Yet...</p>
+        <p className="text-white p-2 col-span-full">No Shards Yet...</p>
       )}
     </div>
   );

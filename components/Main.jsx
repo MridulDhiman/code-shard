@@ -15,40 +15,26 @@ const Main = () => {
   const router = useRouter();
   const { data: session } = useSession();
 
-  const cardContainer = [
-    {
-      lang: "HTML",
-      content: "<div class='container' >Hello World</div>",
-    },
-    {
-      lang: "CSS",
-      content: `
-  .container: {
-      font-family: Fira-code, monospace;
-      z-index:-1;
-  }`,
-    },
-    {
-      lang: "JS",
-      content: "const container = document.querySelector('.container');",
-    },
-  ];
   return (
     <>
-      <div className="absolute -z-10 -top-[28rem] right-[36rem] rotate-90">
-        <Image width="200" height={"200"} src={sideDots} />
+      <div className="absolute -z-10 -top-[28rem] right-[36rem] rotate-90 hidden lg:block">
+        <Image width="200" height={"200"} src={sideDots} alt="Side dots" />
       </div>
 
-      <div className="flex justify-center items-center  h-[85vh] ">
+      <div className="flex flex-col lg:flex-row justify-center items-center min-h-[85vh] px-4 lg:px-10">
         {/* left container  */}
-        <div className="w-1/2 flex flex-col m-10 gap-2 relative">
+        <div className="w-full lg:w-1/2 flex flex-col gap-2 relative mb-8 lg:mb-0">
           {/* heading  */}
-          <h1 className="text-6xl font-semibold flex gap-2">Code.</h1>
-          <h1 className="text-6xl font-semibold flex gap-2">Share.</h1>
-          <h1 className="text-6xl font-semibold flex gap-2 mb-9">
+          <h1 className="text-4xl lg:text-6xl font-semibold flex gap-2">
+            Code.
+          </h1>
+          <h1 className="text-4xl lg:text-6xl font-semibold flex gap-2">
+            Share.
+          </h1>
+          <h1 className="text-4xl lg:text-6xl font-semibold flex gap-2 mb-4 lg:mb-9">
             Collaborate.
           </h1>
-          <p>
+          <p className="text-sm lg:text-base">
             Social Development Environment for building Frontend Snippets,
             allowing collaboration in rooms.
           </p>
@@ -62,23 +48,26 @@ const Main = () => {
               }
               router.push("/register");
             }}
-            className="my-5 bg-white border border-transparent  hover:bg-slate-300 text-md  p-2 text-black rounded-lg "
+            className="my-5 bg-white border border-transparent hover:bg-slate-300 text-md p-2 text-black rounded-lg w-full lg:w-auto"
           >
             {session ? "START CODING" : "Signup for free"}
           </button>
-          <div className="absolute top-[48vh] right-0 z-10">
-            <Image width="200" height={"200"} src={darkCube} />
+          <div className="absolute top-[48vh] right-0 z-10 hidden lg:block">
+            <Image width="200" height={"200"} src={darkCube} alt="Dark cube" />
           </div>
         </div>
 
         {/* right container  */}
-        <div className="">
-          {/* {cardContainer.map((card,index) => <Card key={index} {...card}/>)} */}
-          <Image width="500" height="500" src={laptopImage} />
+        <div className="w-full lg:w-1/2 flex justify-center">
+          <Image
+            width="500"
+            height="500"
+            src={laptopImage}
+            alt="Laptop"
+            className="w-full max-w-[300px] lg:max-w-[500px]"
+          />
         </div>
       </div>
-
-      {/* <Svg1 /> */}
     </>
   );
 };

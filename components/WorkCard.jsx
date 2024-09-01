@@ -190,50 +190,47 @@ const WorkCard = ({
   return (
     <div
       className={clsx(
-        "flex flex-col bg-[#1E1F26] rounded-xl  p-4 gap-3",
+        "flex flex-col bg-[#1E1F26] rounded-xl p-2 sm:p-4 gap-2 sm:gap-3",
         isDeleted && "hidden",
       )}
     >
       <div className="group relative w-full h-full">
         <span
           onClick={handleClick}
-          className="text-slate-200 hidden group-hover:block z-20 bg-[#252830] hover:bg-slate-700 absolute right-0 m-1 rounded-md text-lg p-2 cursor-pointer"
+          className="text-slate-200 hidden group-hover:block z-20 bg-[#252830] hover:bg-slate-700 absolute right-0 m-1 rounded-md text-lg p-1 sm:p-2 cursor-pointer"
         >
-          <FullScreen className="size-5" />
+          <FullScreen className="size-4 sm:size-5" />
         </span>
 
         {isTemplate && (
-          <>
-            <CustomSandpackPreview
-              template={content.templateType}
-              files={content.files}
-              dependencies={content.dependencies}
-              devDependencies={content.devDependencies}
-              className="pointer-events-none  bg-white h-[12rem] rounded-lg"
-            />
-          </>
+          <CustomSandpackPreview
+            template={content.templateType}
+            files={content.files}
+            dependencies={content.dependencies}
+            devDependencies={content.devDependencies}
+            className="pointer-events-none bg-white h-[8rem] sm:h-[12rem] rounded-lg"
+          />
         )}
       </div>
 
       <div className="flex items-center justify-between relative">
-        <div className="flex gap-1">
-          {pencilClicked && (
+        <div className="flex gap-1 items-center max-w-[70%]">
+          {pencilClicked ? (
             <input
-              className="bg-transparent outline-none"
+              className="bg-transparent outline-none text-sm sm:text-base w-full"
               type="text"
               onChange={(e) => setShardName(e.target.value)}
               value={shardName}
               placeholder={shardName}
             />
-          )}
-          {!pencilClicked && (
+          ) : (
             <>
-              <p>{shardName}</p>
+              <p className="text-sm sm:text-base truncate max-w-[150px] sm:max-w-[200px]">
+                {shardName}
+              </p>
               <Pencil
                 onClick={onClick}
-                className={
-                  "size-5 fill-white hover:fill-slate-400 hover:cursor-pointer"
-                }
+                className="size-4 sm:size-5 fill-white hover:fill-slate-400 hover:cursor-pointer"
               />
             </>
           )}
@@ -280,25 +277,26 @@ const WorkCard = ({
           />
         </div>
       </div>
-      <div className="flex gap-2">
+      <div className="flex gap-2 flex-wrap">
         <Button
           onClick={handleLikes}
-          className="flex items-center bg-black hover:bg-red-500 text-white"
+          className="flex items-center bg-black hover:bg-red-500 text-white text-xs sm:text-sm py-1 px-2 sm:py-2 sm:px-3"
           id="likes"
         >
-          <Heart className="size-5 fill-white" /> <span>{likes}</span>
+          <Heart className="size-3 sm:size-4 fill-white mr-1" />{" "}
+          <span>{likes}</span>
         </Button>
         <Dialog>
           <DialogTrigger asChild>
             <Button
-              className="flex items-center hover:bg-blue-500 bg-black text-white"
+              className="flex items-center hover:bg-blue-500 bg-black text-white text-xs sm:text-sm py-1 px-2 sm:py-2 sm:px-3"
               id="comments"
             >
-              <Comment className="size-4 fill-white" />{" "}
+              <Comment className="size-3 sm:size-4 fill-white mr-1" />{" "}
               <span>{comments.length}</span>
             </Button>
           </DialogTrigger>
-          <DialogContent className="bg-white p-2 text-black">
+          <DialogContent className="bg-white p-2 text-black max-w-[90vw] sm:max-w-[500px]">
             <CommentTextBox />
             <CommentsArea comments={comments} isReplyArea={true} />
           </DialogContent>
