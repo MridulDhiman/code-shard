@@ -3,7 +3,6 @@
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import ObjectID from "bson-objectid";
 import { useEffect, useRef, useState } from "react";
 import Button from "@/components/ui/Button";
 import Avatar from "react-avatar";
@@ -19,7 +18,6 @@ import Close from "@/components/ui/icons/Close";
 import styles from "./PgModal.module.css";
 import clsx from "clsx";
 import { templates } from "@/utils";
-import { toast } from "sonner";
 
 export default function Navbar() {
   const { data: session } = useSession();
