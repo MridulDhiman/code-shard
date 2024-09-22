@@ -38,119 +38,20 @@ It is browser based collaborative code editor with built-in frontend templates s
 
 ## Demo
 
-
-<div class="carousel">
-    <div class="carousel-images">
-        <div class="carousel-item active">
-            <img src="images/image-10.png" alt="Image 1">
-        </div>
-        <div class="carousel-item">
-            <img src="images/shard.png" alt="Image 2">
-        </div>
-        <div class="carousel-item">
-            <img src="images/image-3.png" alt="Image 3">
-        </div>
-        <div class="carousel-item">
-            <img src="images/image-4.png" alt="Image 4">
-        </div>
-        <div class="carousel-item">
-            <img src="images/image-5.png" alt="Image 5">
-        </div>
-        <div class="carousel-item">
-            <img src="images/image-7.png" alt="Image 6">
-        </div>
-        <div class="carousel-item">
-            <img src="images/image-8.png" alt="Image 7">
-        </div>
-        <div class="carousel-item">
-            <img src="images/image-9.png" alt="Image 8">
-        </div>
-    </div>
-    <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
-    <button class="next" onclick="moveSlide(1)">&#10095;</button>
-</div>
-
-<style>
-.carousel {
-    position: relative;
-    max-width: 600px; /* Adjust as needed */
-    margin: auto;
-    border-radius: 10px; /* Rounded corners */
-    overflow: hidden;
-    /* border: 1px solid white; */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-}
-
-.carousel-images {
-    display: flex;
-    transition: transform 0.5s ease;
-}
-
-.carousel-item {
-    min-width: 100%; /* Show one image at a time */
-    display: flex; /* Use flexbox for centering */
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
-}
-
-.carousel-item img {
-    width: 100%; /* Full width of the container */
-    height: auto; /* Maintain aspect ratio */
-    object-fit: cover; /* Cover the entire area while maintaining aspect ratio */
-    border-radius: 10px; /* Rounded corners for images */
-}
-
-button {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: rgba(255, 255, 255, 0.8);
-    border: none;
-    cursor: pointer;
-    padding: 10px;
-    border-radius: 5px; /* Rounded button corners */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Button shadow */
-}
-
-.prev {
-    left: 10px;
-}
-
-.next {
-    right: 10px;
-}
-
-/* Optional hover effect for buttons */
-button:hover {
-    background-color: rgba(255, 255, 255, 1);
-}
-</style>
-
-
-<script>
-let currentSlide = 0;
-
-// Get all slides
-const slides = document.querySelectorAll('.carousel-item');
-const totalSlides = slides.length;
-
-function moveSlide(direction) {
-    // Remove active class from current slide
-    slides[currentSlide].classList.remove('active');
-
-    // Update current slide index using modulo for wrapping
-    currentSlide = (currentSlide + direction + totalSlides) % totalSlides;
-
-    // Add active class to the new current slide
-    slides[currentSlide].classList.add('active');
-    
-    // Update the transform property to show the current slide
-    const offset = -currentSlide * 100; // Move the slide
-    document.querySelector('.carousel-images').style.transform = `translateX(${offset}%)`;
-}
-
-// Initialize by showing the first slide
-slides[currentSlide].classList.add('active');
-</script>
-
-
+<table>
+  <tr>
+    <td><img src="images/image-10.png" alt="Image 1" width="200"/></td>
+    <td><img src="images/shard.png" alt="Image 2" width="200"/></td>
+    <td><img src="images/image-3.png" alt="Image 3" width="200"/></td>
+  </tr>
+  <tr>
+    <td><img src="images/image-4.png" alt="Image 4" width="200"/></td>
+    <td><img src="images/image-5.png" alt="Image 5" width="200"/></td>
+    <td><img src="images/image-7.png" alt="Image 6" width="200"/></td>
+  </tr>
+  <tr>
+    <td><img src="images/image-8.png" alt="Image 7" width="200"/></td>
+    <td><img src="images/image-9.png" alt="Image 8" width="200"/></td>
+    <td></td>
+  </tr>
+</table>
