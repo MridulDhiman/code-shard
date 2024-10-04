@@ -27,40 +27,49 @@ export function FeaturesSectionDemo() {
 const grid = [
   {
     title: "Browser-Based Collaborative Editor",
-    description: "Real-time collaboration directly in your browser with no setup required."
+    description:
+      "Real-time collaboration directly in your browser with no setup required.",
   },
   {
     title: "Built-In Frontend Templates",
-    description: "Quick start with popular frameworks, multi-file support, and easy dependency management."
+    description:
+      "Quick start with popular frameworks, multi-file support, and easy dependency management.",
   },
   {
     title: "In-Browser Code Execution",
-    description: "Instantly run code in isolated iframe environments within the browser."
+    description:
+      "Instantly run code in isolated iframe environments within the browser.",
   },
   {
     title: "No Login Required for Testing",
-    description: "Try editors without signup; code state saved permanently even after closing."
+    description:
+      "Try editors without signup; code state saved permanently even after closing.",
   },
   {
     title: "Signup/Login for Personalized Playgrounds",
-    description: "Create, save, and organize personal code shards with customizable visibility."
+    description:
+      "Create, save, and organize personal code shards with customizable visibility.",
   },
   {
     title: "Like, Comment, and Follow",
-    description: "Engage with the community through likes, comments, and following other developers."
+    description:
+      "Engage with the community through likes, comments, and following other developers.",
   },
   {
     title: "Personalized Activity Feed",
-    description: "Stay updated with coding activities, interactions, and comments from followed users."
+    description:
+      "Stay updated with coding activities, interactions, and comments from followed users.",
   },
   {
     title: "Real-Time Collaborative Rooms",
-    description: "Create rooms for simultaneous multi-file collaboration using CRDT-powered editors."
+    description:
+      "Create rooms for simultaneous multi-file collaboration using CRDT-powered editors.",
   },
   {
     title: "Code Synchronization with CRDTs",
-    description: "Real-time code updates synchronized using CRDTs for conflict-free collaboration."
-  }
+    description:
+      "Real-time code updates synchronized using CRDTs for conflict-free collaboration.",
+  },
 ];
 export const Grid = ({ pattern, size }) => {
   const p = pattern ?? [

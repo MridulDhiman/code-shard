@@ -8,7 +8,6 @@ import Footer from "@/components/Footer";
 import { BackgroundBeams } from "./ui/background-beams";
 import { FeaturesSectionDemo } from "./FeatureSection";
 
-
 const Main = () => {
   const router = useRouter();
   const { data: session } = useSession();
@@ -22,25 +21,16 @@ const Main = () => {
       <BackgroundBeams />
 
       {/* Main Container */}
-      <div className="flex flex-col lg:flex-row justify-center items-center min-h-[85vh] px-4 lg:px-10">
-        {/* Left Container */}
-        <div className="w-full lg:w-1/2 flex flex-col gap-2 relative mb-8 lg:mb-0">
-          {/* Headings */}
-          <h1 className="text-4xl lg:text-6xl font-semibold flex gap-2 text-white dark:text-white">
-            Code.
+      <main className="flex flex-col gap-4 justify-center items-center min-h-[85vh] px-4 lg:px-10">
+          <h1 className="text-center text-4xl lg:text-6xl font-semibol text-white dark:text-white">
+          Browser Based <br/> Collaborative Code Editor
           </h1>
-          <h1 className="text-4xl lg:text-6xl font-semibold flex gap-2 text-white dark:text-white">
-            Share.
-          </h1>
-          <h1 className="text-4xl lg:text-6xl font-semibold flex gap-2 mb-4 lg:mb-9 text-white dark:text-white">
-            Collaborate.
-          </h1>
-          <p className="text-sm lg:text-base text-gray-300">
+          <p className="text-sm font-semibold  text-gray-200 w-fit mx-[30%] text-center">
             Social Development Environment for building Frontend Snippets,
             allowing collaboration in rooms.
-          </p>
-
-          {/* Button */}
+        </p>
+        
+        
           <button
             onClick={() => {
               if (session) {
@@ -50,32 +40,17 @@ const Main = () => {
               }
               router.push("/register");
             }}
-            className="my-5 bg-white dark:bg-[#1F1F25] border border-transparent hover:bg-slate-300 dark:hover:bg-gray-700 text-md p-2 text-black dark:text-white rounded-lg w-full lg:w-auto"
+            className="my-5 bg-gray-400 dark:bg-[#1F1F25] border border-transparent hover:bg-slate-300 dark:hover:bg-gray-700 text-md p-2 text-black dark:text-white rounded-md  lg:w-[50%]"
           >
-            {session ? "START CODING" : "Signup for free"}
+            {session ? "Start Coding" : "Signup for free"}
           </button>
-
-          {/* Dark Cube */}
-          {/* <div className="absolute top-[48vh] right-0 z-10 hidden lg:block">
-            <Image width="200" height={"200"} src={darkCube} alt="Dark cube" />
-          </div> */}
-        </div>
-
-        {/* Right Container */}
-        <div className="w-full lg:w-1/2 flex justify-center">
-          <Image
-            width="500"
-            height="500"
-            src={laptopImage}
-            alt="Laptop"
-            className="w-full max-w-[300px] lg:max-w-[500px]"
-          />
-        </div>
-      </div>
+      
+       
+      </main>
 
       {/* Macbook Scroll Demo Section */}
       <FeaturesSectionDemo />
- 
+
       <Footer />
     </>
   );
