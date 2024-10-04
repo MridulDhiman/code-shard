@@ -141,7 +141,6 @@ export const Lid = ({ scaleX, scaleY, rotate, translate, src }) => {
           src={src}
           alt="aceternity logo"
           fill
-          objectFit="cover"
           className="object-cover object-left-top absolute rounded-lg inset-0 h-full w-full"
         />
       </motion.div>
