@@ -10,6 +10,7 @@ import laptopImage from "@/public/laptop2.svg";
 // import darkCube from "@/public/dark_cube.png";
 import ShardImg from "@/images/shard.png";
 import Footer from "@/components/Footer";
+import { BackgroundBeams } from "./ui/background-beams";
 
 const Badge = ({ className }) => {
   return (
@@ -46,7 +47,6 @@ export function MacbookScrollDemo() {
   return (
     <div className="overflow-hidden w-full py-12">
       <MacbookScroll
-       
         badge={
           <Link href="https://peerlist.io/manuarora">
             <Badge className="h-10 w-10 transform -rotate-12 hover:scale-110 transition-transform duration-300" />
@@ -69,6 +69,7 @@ const Main = () => {
       {/* <div className="absolute -z-10 -top-[28rem] right-[36rem] rotate-90 hidden lg:block">
         <Image width="200" height={"200"} src={sideDots} alt="Side dots" />
       </div> */}
+      <BackgroundBeams/>
 
       {/* Main Container */}
       <div className="flex flex-col lg:flex-row justify-center items-center min-h-[85vh] px-4 lg:px-10">
@@ -112,7 +113,6 @@ const Main = () => {
 
         {/* Right Container */}
         <div className="w-full lg:w-1/2 flex justify-center">
-      
           <Image
             width="500"
             height="500"
@@ -121,12 +121,11 @@ const Main = () => {
             className="w-full max-w-[300px] lg:max-w-[500px]"
           />
         </div>
-        
       </div>
 
       {/* Macbook Scroll Demo Section */}
       <MacbookScrollDemo />
-      <Footer/>
+      <Footer />
     </>
   );
 };

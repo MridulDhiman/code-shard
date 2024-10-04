@@ -1,10 +1,9 @@
-
-import Terms from "@/components/Terms"
+import Terms from "@/components/Terms";
 
 const TermsPage = () => {
   return (
     <>
-    <Terms/>
+      <Terms />
     </>
   );
 };

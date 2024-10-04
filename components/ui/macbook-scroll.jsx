@@ -50,7 +50,7 @@ export const MacbookScroll = ({ src, showGradient, badge }) => {
     [0, 0.3],
     [0.6, isMobile ? 1 : 1.5],
   );
-  const translate = useTransform(scrollYProgress, [0, 1], [0, 1500]);
+  const translate = useTransform(scrollYProgress, [0, 1], [0, 1700]);
   const rotate = useTransform(scrollYProgress, [0.1, 0.12, 0.3], [-28, -28, 0]);
   const textTransform = useTransform(scrollYProgress, [0, 0.3], [0, 100]);
   const textOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
@@ -66,9 +66,7 @@ export const MacbookScroll = ({ src, showGradient, badge }) => {
           opacity: textOpacity,
         }}
         className="dark:text-white text-neutral-800 text-3xl font-bold mb-20 text-center"
-      >
-      
-      </motion.h2>
+      ></motion.h2>
       {/* Lid */}
       <Lid
         src={src}
@@ -143,6 +141,7 @@ export const Lid = ({ scaleX, scaleY, rotate, translate, src }) => {
           src={src}
           alt="aceternity logo"
           fill
+          objectFit="cover"
           className="object-cover object-left-top absolute rounded-lg inset-0 h-full w-full"
         />
       </motion.div>
