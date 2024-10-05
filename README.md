@@ -1,8 +1,8 @@
 # CodeShard: browser based collaborative code editor
 
-## High Level Design
+<!-- ## High Level Design
 
-<img src="images/final high level design.png" alt="Image 1" />
+<img src="images/final high level design.png" alt="Image 1" /> -->
 
 ## Local Setup
 
