@@ -82,7 +82,6 @@ module.exports = {
             transform: "translate(-50%,-40%) scale(1)",
           },
         },
-
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",

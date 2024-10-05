@@ -4,9 +4,9 @@ import { useId } from "react";
 export function FeaturesSectionDemo() {
   return (
     <div className="py-20">
-       <h1 className="text-center text-2xl sm:text-4xl font-bold relative z-20 bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400 py-8">
-       Code with Confidence, Collaborate Seamlessly
-          </h1>
+      <h1 className="text-center text-2xl sm:text-4xl font-bold relative z-20 bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400 py-8">
+        Code with Confidence, Collaborate Seamlessly
+      </h1>
       <div className="grid grid-cols-1  p-4 sm:grid-cols-2 md:grid-cols-3  gap-10 md:gap-2 max-w-7xl mx-auto">
         {grid.map((feature) => (
           <div

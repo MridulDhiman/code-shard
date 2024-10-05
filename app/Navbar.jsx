@@ -80,7 +80,7 @@ export default function Navbar() {
       <dialog
         onClose={() => setPgModalOpen(false)}
         className={clsx(
-          "flex flex-col gap-5 w-[90%] h-[75vh absolute left-3 top-12 z-20 p-4 py-8   bg-[#090C08]",
+          "flex flex-col gap-5 w-[90%] h-[75vh absolute left-3 top-12 z-40 p-4 py-8   bg-[#090C08]",
           styles.container,
         )}
         ref={pgModalRef}

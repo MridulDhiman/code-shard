@@ -19,7 +19,7 @@ export default function RootLayout({ children }) {
       <head>
         <SandPackCSS />
       </head>
-      <body className="bg-[#0b0c0e] text-white" suppressHydrationWarning={true}>
+      <body className="bg-black text-white" suppressHydrationWarning={true}>
         <SocketProvider>
           <AuthProvider>
             <ReduxProvider>

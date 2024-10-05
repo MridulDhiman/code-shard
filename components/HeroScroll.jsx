@@ -5,7 +5,7 @@ import ShardImg from "@/images/shard.png";
 
 export function HeroScrollDemo() {
   return (
-    (<div className="flex flex-col overflow-hidden">
+    <div className="flex flex-col overflow-hidden">
       <ContainerScroll
         titleComponent={
           <>
@@ -16,15 +16,17 @@ export function HeroScrollDemo() {
               </span>
             </h1>
           </>
-        }>
+        }
+      >
         <Image
           src={ShardImg}
           alt="hero"
           height={720}
           width={1400}
           className="mx-auto rounded-2xl object-cover h-full object-left-top"
-          draggable={false} />
+          draggable={false}
+        />
       </ContainerScroll>
-    </div>)
+    </div>
   );
 }
