@@ -3,18 +3,21 @@ import { useId } from "react";
 
 export function FeaturesSectionDemo() {
   return (
-    <div className="py-20 lg:py-40">
+    <div className="py-20">
+       <h1 className="text-center text-2xl sm:text-4xl font-bold relative z-20 bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400 py-8">
+       Code with Confidence, Collaborate Seamlessly
+          </h1>
       <div className="grid grid-cols-1  p-4 sm:grid-cols-2 md:grid-cols-3  gap-10 md:gap-2 max-w-7xl mx-auto">
         {grid.map((feature) => (
           <div
             key={feature.title}
-            className="relative bg-gradient-to-b dark:from-neutral-900 from-gray-300 hover:from-gray-200 hover:to-white dark:to-neutral-950 to-white p-6 rounded-3xl overflow-hidden"
+            className="relative bg-gradient-to-b from-neutral-900 dark:from-gray-300 hover:from-neutral-800 border-1 border-gray-300 hover:to-neutral-900 to-neutral-950 dark:to-white p-6 rounded-3xl overflow-hidden cursor-pointer"
           >
             <Grid size={20} />
-            <p className="text-base font-bold text-neutral-800 dark:text-white relative z-20">
+            <p className="text-base font-bold dark:text-neutral-800 text-white relative z-20">
               {feature.title}
             </p>
-            <p className="text-neutral-600 dark:text-neutral-400 mt-4 text-base font-normal relative z-20">
+            <p className="dark:text-neutral-600 text-neutral-400 mt-4 text-base font-normal relative z-20">
               {feature.description}
             </p>
           </div>
@@ -80,15 +83,15 @@ export const Grid = ({ pattern, size }) => {
     [Math.floor(Math.random() * 4) + 7, Math.floor(Math.random() * 6) + 1],
   ];
   return (
-    <div className="pointer-events-none absolute left-1/2 top-0  -ml-20 -mt-2 h-full w-full [mask-image:linear-gradient(white,transparent)]">
-      <div className="absolute inset-0 bg-gradient-to-r  [mask-image:radial-gradient(farthest-side_at_top,white,transparent)] dark:from-zinc-900/30 from-zinc-100/30 to-zinc-300/30 dark:to-zinc-900/30 opacity-100">
+    <div className="pointer-events-none absolute left-1/2 top-0  -ml-20 -mt-2 h-full w-full [mask-image:linear-gradient(black,transparent)]">
+      <div className="absolute inset-0 bg-gradient-to-r  [mask-image:radial-gradient(farthest-side_at_top,black,transparent)] from-zinc-900/30 dark:from-zinc-100/30 dark:to-zinc-300/30 to-zinc-900/30 opacity-100">
         <GridPattern
           width={size ?? 20}
           height={size ?? 20}
           x="-12"
           y="4"
           squares={p}
-          className="absolute inset-0 h-full w-full  mix-blend-overlay dark:fill-white/10 dark:stroke-white/10 stroke-black/10 fill-black/10"
+          className="absolute inset-0 h-full w-full  mix-blend-overlay fill-white/10 stroke-white/15 dark:stroke-black/10 dark:fill-black/10"
         />
       </div>
     </div>

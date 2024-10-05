@@ -179,7 +179,7 @@ export default function Navbar() {
 
   return (
     <div className="flex mx-2 my-4  gap-4 items-center justify-between text-sm">
-      <h1 className="text-2xl tracking-widest">
+      <h1 className="text-2xl">
         <Link href="/">CODESHARD</Link>
       </h1>
 
