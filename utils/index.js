@@ -74,3 +74,7 @@ export const getThreadedComments = (comments) => {
   );
   return threadedComments;
 };
+
+export const marshalUsername = (username) => {
+  return username.toLowerCase().split(" ").join("-");
+};
