@@ -1,5 +1,9 @@
 # CodeShard: browser based collaborative code editor
 
+## High Level Design
+
+<img src="images/final high level design.png" alt="Image 1" />
+
 ## Local Setup
 
 1. Clone the repository into your system.
