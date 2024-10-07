@@ -10,14 +10,30 @@ const getComments = async (shard) => {
 };
 
 function ProfileContainer({ shards, id: userId }) {
+  console.log(shards);
   const shardsCollection =
     shards.length > 0
-      ? shards.map(async (shard, index) => {
+      ? shards.map( (shard, index) => {
           if (shard.mode === "collaboration") {
             return <Fragment key={index}></Fragment>;
+        }
+        
+        
+        let comments = [];
+        async function serverSupportFxn() {
+         
+          try {
+            comments = await getComments(shard._id.toString());
+            console.log("Comments: ", comments);
+            
+          } catch (error) {
+            console.log(error);
+            return [];
           }
+        
+        }
 
-        //   const comments = await getCommentsOfShard(shard._id.toString());
+        serverSupportFxn();
 
           const [files, dependencies, devDependencies] = shard.isTemplate
             ? makeFilesAndDependenciesUIStateLike(
@@ -33,7 +49,7 @@ function ProfileContainer({ shards, id: userId }) {
             <CommentContextProvider key={shard._id.toString()}>
               <ProfileCard
                 creator={shard.creator}
-                // comments={comments}
+                comments={comments}
                 likeStatus={likeStatus}
                 likes={shard.likedBy?.length ?? 0}
                 isTemplate={shard.isTemplate}

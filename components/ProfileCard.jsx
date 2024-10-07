@@ -42,8 +42,7 @@ const ProfileCard = ({
   const [likes, setLikes] = useState(initialLikes);
   const [isOwner, setIsOwner] = useState(false);
   const [likeStatus, setLikeStatus] = useState(initialLikeStatus);
-  const { comments, setComments, setShardId, parentComment, setParentComment } =
-    useActiveComment();
+  const { comments, setComments, setShardId, parentComment, setParentComment } =  useActiveComment();
   const { data: session } = useSession();
   const modal = useRef();
   const router = useRouter();
@@ -74,7 +73,7 @@ const ProfileCard = ({
   });
 
   useEffect(() => {
-    setComments(JSON.parse(initialComments));
+    setComments(initialComments);
     setShardId(id);
   }, []);
 
