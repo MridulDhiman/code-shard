@@ -41,7 +41,6 @@ async function Work() {
             return <Fragment key={index}></Fragment>;
           }
 
-          const comments = await getCommentsOfShard(shard._id);
           const [files, dependencies, devDependencies] = shard.isTemplate
             ? makeFilesAndDependenciesUIStateLike(
                 shard.files,
@@ -55,7 +54,6 @@ async function Work() {
           return (
             <CommentContextProvider key={shard._id.toString()}>
               <WorkCard
-                comments={comments}
                 likeStatus={likeStatus}
                 likes={shard.likedBy?.length ?? 0}
                 isTemplate={shard.isTemplate}

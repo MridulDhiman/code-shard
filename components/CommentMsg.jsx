@@ -21,8 +21,11 @@ const CommentMsg = ({
 
   useEffect(() => {
     if (parentComment) {
-      console.log("replies", parentComment.replies);
-      if (activeComment === _id) {
+      console.log("parent comment latest state: ", parentComment);
+      if (
+        activeComment === _id &&
+        parentComment?._id.toString() === activeComment
+      ) {
         setReplies(
           parentComment?.replies?.filter(
             (item, index, self) =>
@@ -32,7 +35,7 @@ const CommentMsg = ({
         );
       }
     }
-  }, [parentComment]);
+  }, [parentComment?.replies]);
 
   const viewReplies = () => {
     setAreRepliesOpen((prev) => !prev);
@@ -84,7 +87,17 @@ const CommentMsg = ({
               id="comments"
             >
               <Comment className={clsx("size-4 fill-black")} />{" "}
-              <span className={clsx("text-black")}>{replies.length}</span>
+              <span className={clsx("text-black")}>
+                {
+                  replies.filter(
+                    (item, index, self) =>
+                      index ===
+                      self.findIndex(
+                        (t) => JSON.stringify(t) === JSON.stringify(item),
+                      ),
+                  ).length
+                }
+              </span>
             </Button>
           )}
 
@@ -107,22 +120,29 @@ const CommentMsg = ({
         {areRepliesOpen &&
           replies &&
           replies.length > 0 &&
-          replies.map((reply, index) => {
-            return (
-              <Fragment key={reply._id}>
-                <CommentMsg
-                  key={reply._id}
-                  _id={reply._id}
-                  isReply={true}
-                  level={reply.level}
-                  msg={reply.message}
-                  creator={reply.user}
-                  replies={reply.replies}
-                />
-                <Separator className="my-2" />
-              </Fragment>
-            );
-          })}
+          replies
+            .filter(
+              (item, index, self) =>
+                index ===
+                self.findIndex(
+                  (t) => JSON.stringify(t) === JSON.stringify(item),
+                ),
+            )
+            .map((reply, index) => {
+              return (
+                <Fragment key={reply._id}>
+                  <CommentMsg
+                    key={reply._id}
+                    _id={reply._id}
+                    isReply={true}
+                    msg={reply.message}
+                    creator={reply.user}
+                    replies={reply.replies}
+                  />
+                  <Separator className="my-2" />
+                </Fragment>
+              );
+            })}
       </div>
     </div>
   );

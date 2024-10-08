@@ -12,7 +12,7 @@ import FullScreen from "./ui/icons/FullScreen";
 import HorizontalThreeDots from "./ui/icons/HorizontalThreeDots";
 import CustomSandpackPreview from "./CustomSandpackPreview";
 import Pencil from "./ui/icons/Pencil";
-import { saveShardName, updateLikes } from "@/lib/actions";
+import { getCommentsOfShard, saveShardName, updateLikes } from "@/lib/actions";
 import Button from "./ui/Button";
 import { toast } from "sonner";
 import { useSession } from "next-auth/react";
@@ -42,12 +42,13 @@ const ProfileCard = ({
   const [likes, setLikes] = useState(initialLikes);
   const [isOwner, setIsOwner] = useState(false);
   const [likeStatus, setLikeStatus] = useState(initialLikeStatus);
-  const { comments, setComments, setShardId, parentComment, setParentComment } =  useActiveComment();
+  const { comments, setComments, setShardId, parentComment, setParentComment } =
+    useActiveComment();
   const { data: session } = useSession();
   const modal = useRef();
   const router = useRouter();
 
-  console.log("Initial comments: ",  initialComments);
+  console.log("Initial comments: ", initialComments);
 
   useEffect(() => {
     if (session && creator) {
@@ -73,9 +74,19 @@ const ProfileCard = ({
   });
 
   useEffect(() => {
-    setComments(typeof initialComments === "string" ? JSON.parse(initialComments): initialComments);
-    setShardId(id);
-  }, [initialComments]);
+    if (id) {
+      getCommentsOfShard(id)
+        .then((result) => {
+          console.log("Comments: ", result);
+          setComments(JSON.parse(result));
+        })
+        .catch((error) => {
+          console.log("Comment fetching error: ", error);
+        });
+
+      setShardId(id);
+    }
+  }, [id]);
 
   useEffect(() => {
     if (parentComment) {

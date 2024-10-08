@@ -1,12 +1,9 @@
 "use client";
 import React, { useState } from "react";
 import CommentMsg from "./CommentMsg";
-import { getThreadedComments } from "@/utils";
 
 const CommentThread = ({ comments: initialComments }) => {
-  const [comments, setComments] = useState(
-    getThreadedComments(initialComments),
-  );
+  const [comments, setComments] = useState(initialComments);
 
   return (
     <div className="p-4">

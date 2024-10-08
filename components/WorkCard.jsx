@@ -12,7 +12,7 @@ import FullScreen from "./ui/icons/FullScreen";
 import HorizontalThreeDots from "./ui/icons/HorizontalThreeDots";
 import CustomSandpackPreview from "./CustomSandpackPreview";
 import Pencil from "./ui/icons/Pencil";
-import { saveShardName, updateLikes } from "@/lib/actions";
+import { getCommentsOfShard, saveShardName, updateLikes } from "@/lib/actions";
 import Button from "./ui/Button";
 import { toast } from "sonner";
 import { useSession } from "next-auth/react";
@@ -29,7 +29,6 @@ const WorkCard = ({
   type: initialType,
   likes: initialLikes,
   likeStatus: initialLikeStatus,
-  comments: initialComments,
 }) => {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [content, setContent] = useState(initialContent);
@@ -57,9 +56,21 @@ const WorkCard = ({
   });
 
   useEffect(() => {
-    setComments(JSON.parse(initialComments));
-    setShardId(id);
-  }, []);
+    if (id) {
+      getCommentsOfShard(id)
+        .then((result) => {
+          console.log("Comments: ", result);
+          setComments(JSON.parse(result));
+        })
+        .catch((error) => {
+          console.log("Comment fetching error: ", error);
+        });
+
+      setShardId(id);
+    }
+  }, [id]);
+
+  console.log("Comments: ", comments);
 
   useEffect(() => {
     if (parentComment) {
