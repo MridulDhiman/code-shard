@@ -19,7 +19,6 @@ export async function GET(req, { params }) {
       name: name,
     }).populate("shards");
 
-    
     if (!existingUser) {
       return NextResponse.json({ message: "User not found" }, { status: 404 });
     }

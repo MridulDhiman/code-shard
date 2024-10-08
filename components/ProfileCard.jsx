@@ -42,12 +42,13 @@ const ProfileCard = ({
   const [likes, setLikes] = useState(initialLikes);
   const [isOwner, setIsOwner] = useState(false);
   const [likeStatus, setLikeStatus] = useState(initialLikeStatus);
-  const { comments, setComments, setShardId, parentComment, setParentComment } =  useActiveComment();
+  const { comments, setComments, setShardId, parentComment, setParentComment } =
+    useActiveComment();
   const { data: session } = useSession();
   const modal = useRef();
   const router = useRouter();
 
-  console.log("Initial comments: ",  initialComments);
+  console.log("Initial comments: ", initialComments);
 
   useEffect(() => {
     if (session && creator) {
@@ -73,7 +74,11 @@ const ProfileCard = ({
   });
 
   useEffect(() => {
-    setComments(typeof initialComments === "string" ? JSON.parse(initialComments): initialComments);
+    setComments(
+      typeof initialComments === "string"
+        ? JSON.parse(initialComments)
+        : initialComments,
+    );
     setShardId(id);
   }, [initialComments]);
 

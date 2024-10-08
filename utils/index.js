@@ -58,11 +58,14 @@ export const makeFilesAndDependenciesUIStateLike = (
 export const getThreadedComments = (comments) => {
   // Process comments to create the thread structure
   let commentMap = new Map(
-    comments.map((comment) => [comment._id, { ...comment, replies: [] }]),
+    comments.map((comment) => [
+      comment._id.toString(),
+      { ...comment, replies: [] },
+    ]),
   );
   for (let comment of commentMap.values()) {
     if (comment.parentId !== null) {
-      let parentComment = commentMap.get(comment.parentId);
+      let parentComment = commentMap.get(comment.parentId.toString());
       if (parentComment) {
         parentComment.replies.push(comment);
       }
@@ -70,7 +73,7 @@ export const getThreadedComments = (comments) => {
   }
   // Filter out replies to get top-level comments
   let threadedComments = Array.from(commentMap.values()).filter(
-    (comment) => comment.parentId === null,
+    (comment) => !comment.parentId,
   );
   return threadedComments;
 };
@@ -78,3 +81,20 @@ export const getThreadedComments = (comments) => {
 export const marshalUsername = (username) => {
   return username.toLowerCase().split(" ").join("-");
 };
+
+
+export const findParentComment = (comments, parentId) => {
+
+  for (let comment of comments) {
+
+    if (comment._id.toString() === parentId.toString()) {
+      return comment;
+    }
+    else {
+      return findParentComment(comment?.replies, parentId);
+    }
+  }
+  
+  return null;
+
+}

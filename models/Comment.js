@@ -16,6 +16,7 @@ const commentSchema = new Schema(
     threadId: {
       type: Schema.Types.ObjectId,
       ref: "Comment",
+      index: true,
     },
     parentId: {
       type: Schema.Types.ObjectId,

@@ -1,7 +1,8 @@
 "use client";
 
 import { addCommentToShard } from "@/lib/actions";
-import { createContext, useContext, useEffect, useState } from "react";
+import { findParentComment } from "@/utils";
+import { createContext, useContext, useState } from "react";
 import { toast } from "sonner";
 
 const CommentContext = createContext(null);
@@ -17,7 +18,7 @@ export const useActiveComment = () => {
 export const CommentContextProvider = ({ children }) => {
   const [activeComment, setActiveComment] = useState(null);
   const [commentCreator, setCommentCreator] = useState(null);
-  const [comments, setComments] = useState([]);
+  let [comments, setComments] = useState([]);
   const [parentComment, setParentComment] = useState(null);
   const [shardId, setShardId] = useState(null);
 
@@ -31,8 +32,10 @@ export const CommentContextProvider = ({ children }) => {
           loading: "Adding New Comment...",
           success: (data) => {
             const parent = data.parentId;
+            console.log("newly created comment: ", data);
 
             if (!parent) {
+              console.log("idhar ni aya ma ka loda");
               setComments((prev) => [
                 {
                   ...data,
@@ -41,33 +44,29 @@ export const CommentContextProvider = ({ children }) => {
                 ...prev,
               ]);
             } else {
-              setComments((prev) => {
-                const parentInd = prev.findIndex(
-                  (comment) => comment?._id === parent,
-                );
-                if (parentInd === -1) {
-                  return prev;
-                }
-
-                if (!prev[parentInd].replies) {
-                  prev[parentInd].replies = [];
-                }
-
-                if (!prev[parentInd].replies.includes(data)) {
-                  prev[parentInd].replies.push({
+              console.log("wtf is happening");
+              const temp = findParentComment(comments, parent);
+              console.log("aaja bhosdike");
+              console.log(temp);
+              if (temp !== null) {
+                if (!temp.replies.includes(data)) {
+                  temp.replies.push({
                     ...data,
                     replies: [],
                   });
                 }
 
-                setParentComment(prev[parentInd]);
-                return prev;
-              });
+                setParentComment(temp);
+                setComments(comments);
+              }
             }
 
-            return "Shard saved successfully";
+            return "Comment saved successfully";
           },
-          error: "Could not add new comment",
+          error: (ctx) => {
+            console.log(ctx);
+            return "Could not add new Comment";
+          },
         },
       );
     } catch (error) {

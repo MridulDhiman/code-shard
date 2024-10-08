@@ -1,14 +1,10 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import CommentMsg from "./CommentMsg";
-import { Fragment, useState } from "react";
-import { useActiveComment } from "@/context/CommentContext";
-import { getThreadedComments } from "@/utils";
+import { Fragment } from "react";
 
 export function CommentsArea({ comments, isReplyArea = false }) {
-  // const { comments } = useActiveComment();
-  const messages = getThreadedComments(comments);
-  console.log(comments);
+  const messages = comments;
 
   return (
     <ScrollArea className={"h-72 rounded-md border"}>
