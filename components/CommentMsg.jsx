@@ -22,7 +22,10 @@ const CommentMsg = ({
   useEffect(() => {
     if (parentComment) {
       console.log("parent comment latest state: ", parentComment);
-      if (activeComment === _id && parentComment?._id.toString() === activeComment) {
+      if (
+        activeComment === _id &&
+        parentComment?._id.toString() === activeComment
+      ) {
         setReplies(
           parentComment?.replies?.filter(
             (item, index, self) =>

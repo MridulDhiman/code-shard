@@ -82,19 +82,14 @@ export const marshalUsername = (username) => {
   return username.toLowerCase().split(" ").join("-");
 };
 
-
 export const findParentComment = (comments, parentId) => {
-
   for (let comment of comments) {
-
     if (comment._id.toString() === parentId.toString()) {
       return comment;
-    }
-    else {
+    } else {
       return findParentComment(comment?.replies, parentId);
     }
   }
-  
-  return null;
 
-}
+  return null;
+};

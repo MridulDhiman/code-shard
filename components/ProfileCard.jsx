@@ -12,7 +12,7 @@ import FullScreen from "./ui/icons/FullScreen";
 import HorizontalThreeDots from "./ui/icons/HorizontalThreeDots";
 import CustomSandpackPreview from "./CustomSandpackPreview";
 import Pencil from "./ui/icons/Pencil";
-import { saveShardName, updateLikes } from "@/lib/actions";
+import { getCommentsOfShard, saveShardName, updateLikes } from "@/lib/actions";
 import Button from "./ui/Button";
 import { toast } from "sonner";
 import { useSession } from "next-auth/react";
@@ -74,13 +74,19 @@ const ProfileCard = ({
   });
 
   useEffect(() => {
-    setComments(
-      typeof initialComments === "string"
-        ? JSON.parse(initialComments)
-        : initialComments,
-    );
-    setShardId(id);
-  }, [initialComments]);
+    if (id) {
+      getCommentsOfShard(id)
+        .then((result) => {
+          console.log("Comments: ", result);
+          setComments(JSON.parse(result));
+        })
+        .catch((error) => {
+          console.log("Comment fetching error: ", error);
+        });
+
+      setShardId(id);
+    }
+  }, [id]);
 
   useEffect(() => {
     if (parentComment) {
