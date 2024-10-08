@@ -47,7 +47,7 @@ const ProfileCard = ({
   const modal = useRef();
   const router = useRouter();
 
-  console.log("Initial comments: ", initialComments);
+  console.log("Initial comments: ",  initialComments);
 
   useEffect(() => {
     if (session && creator) {
@@ -73,9 +73,9 @@ const ProfileCard = ({
   });
 
   useEffect(() => {
-    setComments(initialComments);
+    setComments(typeof initialComments === "string" ? JSON.parse(initialComments): initialComments);
     setShardId(id);
-  }, []);
+  }, [initialComments]);
 
   useEffect(() => {
     if (parentComment) {

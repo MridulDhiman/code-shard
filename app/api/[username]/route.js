@@ -16,9 +16,10 @@ export async function GET(req, { params }) {
     connectToDB();
     const name = username.split("-").join(" ");
     const existingUser = await User.findOne({
-      name: { $regex: new RegExp(name, "i") },
+      name: name,
     }).populate("shards");
 
+    
     if (!existingUser) {
       return NextResponse.json({ message: "User not found" }, { status: 404 });
     }

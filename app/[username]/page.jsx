@@ -40,8 +40,9 @@ export default async function UserProfile({ params }) {
     ? userDetails.shards
     : userDetails.shards.filter(
         (shard) => shard.mode === "normal" && shard.type === "public",
-      );
-
+    );
+  
+  
   return (
     <>
       <Navbar />

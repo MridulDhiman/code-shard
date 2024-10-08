@@ -3,6 +3,7 @@ import { CommentContextProvider } from "@/context/CommentContext";
 import { getCommentsOfShard } from "@/lib/actions";
 import ProfileCard from "./ProfileCard";
 import { Fragment } from "react";
+import { useEffect, useState } from "react";
 
 const getComments = async (shard) => {
   const comments = await getCommentsOfShard(shard);
@@ -10,30 +11,38 @@ const getComments = async (shard) => {
 };
 
 function ProfileContainer({ shards, id: userId }) {
-  console.log(shards);
+  console.log("Shards from profile: ", shards);
+  const [shardComments, setShardComments] = useState({});
+
+  useEffect(() => {
+    const fetchComments = async () => {
+      const commentPromises = shards.length > 0 && shards.map(async (shard) => {
+        if (shard.mode !== "collaboration") {
+          try {
+            const comments = await getComments(shard._id.toString());
+            return { [shard._id]: comments };
+          } catch (error) {
+            console.error("Error fetching comments for shard", shard._id, error);
+            return { [shard._id]: [] };
+          }
+        }
+        return null;
+      });
+
+      const commentsResults = await Promise.all(commentPromises);
+      const newShardComments = Object.assign({}, ...commentsResults.filter(Boolean));
+      setShardComments(newShardComments);
+    };
+
+    fetchComments();
+  }, [shards]);
+
   const shardsCollection =
     shards.length > 0
       ? shards.map( (shard, index) => {
           if (shard.mode === "collaboration") {
             return <Fragment key={index}></Fragment>;
         }
-        
-        
-        let comments = [];
-        async function serverSupportFxn() {
-         
-          try {
-            comments = await getComments(shard._id.toString());
-            console.log("Comments: ", comments);
-            
-          } catch (error) {
-            console.log(error);
-            return [];
-          }
-        
-        }
-
-        serverSupportFxn();
 
           const [files, dependencies, devDependencies] = shard.isTemplate
             ? makeFilesAndDependenciesUIStateLike(
@@ -49,7 +58,7 @@ function ProfileContainer({ shards, id: userId }) {
             <CommentContextProvider key={shard._id.toString()}>
               <ProfileCard
                 creator={shard.creator}
-                comments={comments}
+                comments={shardComments[shard._id] || []}
                 likeStatus={likeStatus}
                 likes={shard.likedBy?.length ?? 0}
                 isTemplate={shard.isTemplate}
