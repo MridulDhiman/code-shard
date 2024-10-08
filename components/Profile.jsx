@@ -5,8 +5,7 @@ import ProfileIcon from "./ui/icons/Profile";
 import { useSession } from "next-auth/react";
 import { handleFollowersOfUser } from "@/lib/actions";
 import { useOptimistic } from "react";
-import ProfileCard from "./ProfileCard";
-import { makeFilesAndDependenciesUIStateLike } from "@/utils";
+import ProfileContainer from "./ProfileContainer";
 
 const Profile = ({
   shards,
@@ -14,9 +13,10 @@ const Profile = ({
   followers: initialFollowers,
   followersCount: initialFollowerCount,
   following: initialFollowing,
+  id,
 }) => {
   const { data: session } = useSession();
-  const [name, setName] = useState(initialName);
+  const [name] = useState(initialName);
   const [followers, setFollowers] = useState(initialFollowerCount);
   const [optimisticFollowers, setOptimisticFollowers] =
     useOptimistic(followers);
@@ -78,45 +78,7 @@ const Profile = ({
         </div>
         <div></div>
       </div>
-
-      <div className="grid grid-cols-4 gap-3">
-        {shards.length === 0 && <>No Shards</>}
-        {shards.length > 0 &&
-          shards.map((shard, index) => {
-            const [files, dependencies, devDependencies] =
-              makeFilesAndDependenciesUIStateLike(
-                shard.files,
-                shard.dependencies,
-              );
-
-            return (
-              <ProfileCard
-                title={shard.title}
-                isTemplate={shard.isTemplate}
-                creator={shard.creator}
-                key={index}
-                content={
-                  !shard.isTemplate
-                    ? {
-                        html: shard.html,
-                        css: shard.css,
-                        js: shard.js,
-                      }
-                    : {
-                        templateType: shard.templateType,
-                        files,
-                        dependencies,
-                        devDependencies,
-                      }
-                }
-                html={shard.html}
-                css={shard.css}
-                js={shard.js}
-                id={shard._id.toString()}
-              />
-            );
-          })}
-      </div>
+      <ProfileContainer shards={shards} id={id} />
     </>
   );
 };
