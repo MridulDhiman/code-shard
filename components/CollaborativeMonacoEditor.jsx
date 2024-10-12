@@ -110,7 +110,7 @@ const CollaborativeMonacoEditor = ({ theme, roomId }) => {
         const ytext = ydoc.getText("monaco");
 
         const wsProvider = new WebsocketProvider(
-          "ws://localhost:8080",
+          process.env.NEXT_PUBLIC_WS_ENDPOINT,
           roomId,
           ydoc,
         );

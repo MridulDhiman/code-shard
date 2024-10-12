@@ -122,7 +122,7 @@ export default function Navbar() {
     <>
       <ul
         ref={modal}
-        className="text-xs p-2 rounded-md absolute flex flex-col right-[3.7rem] text-black top-14 cursor-pointer bg-white"
+        className="text-xs p-2 z-50 rounded-md absolute flex flex-col right-[3.7rem] text-black top-14 cursor-pointer bg-white"
       >
         <li
           onClick={() => {
@@ -130,7 +130,7 @@ export default function Navbar() {
           }}
           className="bg-white px-2 p-1  flex gap-2 hover:bg-slate-200"
         >
-          <Code className={"size-4 fill-white"} /> New Shard
+          <Code className={"size-4 fill-white"} />  New Shard
         </li>
         <li
           onClick={() => {
