@@ -44,7 +44,6 @@ export default function SandpackEditor({
   const modalRef = useRef(null);
   const [theme, setTheme] = useState("vs-dark");
   useModal(isModalOpen, setIsModalOpen, modalRef);
-  const storageWorker = new Worker()
 
   useEffect(() => {
     if (initialShardDetails) {
@@ -79,12 +78,6 @@ export default function SandpackEditor({
       </>
     );
   }
-
-  useEffect(() => {
-    if (domLoaded) {
-    
-  }
-}, [domLoaded])
 
 
   const addNewFile = (fileName, fileCode = "") => {

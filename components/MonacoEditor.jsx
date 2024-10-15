@@ -5,6 +5,7 @@ import {
   useSandpack,
 } from "@codesandbox/sandpack-react";
 import { useCallback, useEffect, useState } from "react";
+import { useLocalStorageHandler } from "@/customHooks/useLocalStorageHandler";
 
 export function snakeCase(fname) {
   return fname.toLowerCase().replace(/[_() ]/g, "-");
@@ -14,6 +15,7 @@ export default function MonacoEditor({ theme, readOnly = false }) {
   const { files, activeFile, updateCurrentFile } = sandpack;
   const monaco = useMonaco();
   const [isThemeLoaded, setIsThemeLoaded] = useState(false);
+  const { } = useLocalStorageHandler();
   const [editor, setEditor] = useState();
 
   useEffect(() => {
@@ -27,6 +29,8 @@ export default function MonacoEditor({ theme, readOnly = false }) {
         .then((_) => monaco.editor.setTheme(snakeCase(theme)));
     }
   }, [monaco, theme]);
+
+  
 
   useEffect(() => {
     if (editor) {

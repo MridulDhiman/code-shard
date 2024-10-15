@@ -4,11 +4,10 @@ const nextConfig = {
     if (!isServer) {
       config.module.rules.push({
         test: /lzma_worker\.js$/,
-        use: ['worker-loader'],
+        use: ["worker-loader"],
       });
     }
     return config;
-
   },
   images: {
     remotePatterns: [
