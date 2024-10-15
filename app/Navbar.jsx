@@ -130,7 +130,7 @@ export default function Navbar() {
           }}
           className="bg-white px-2 p-1  flex gap-2 hover:bg-slate-200"
         >
-          <Code className={"size-4 fill-white"} />  New Shard
+          <Code className={"size-4 fill-white"} /> New Shard
         </li>
         <li
           onClick={() => {
