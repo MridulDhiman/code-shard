@@ -15,7 +15,7 @@ export default function MonacoEditor({ theme, readOnly = false }) {
   const { files, activeFile, updateCurrentFile } = sandpack;
   const monaco = useMonaco();
   const [isThemeLoaded, setIsThemeLoaded] = useState(false);
-  const { } = useLocalStorageHandler();
+  const {} = useLocalStorageHandler();
   const [editor, setEditor] = useState();
 
   useEffect(() => {
@@ -29,8 +29,6 @@ export default function MonacoEditor({ theme, readOnly = false }) {
         .then((_) => monaco.editor.setTheme(snakeCase(theme)));
     }
   }, [monaco, theme]);
-
-  
 
   useEffect(() => {
     if (editor) {

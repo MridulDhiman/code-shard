@@ -1,39 +1,63 @@
 import { compressData, decompressData } from "@/lib/utils";
 
 self.onmessage = function (e) {
-  const { action, fileId, content, files } = e.data;
+  const { status,  action, fileId, content, files, template, error } = e.data;
 
-  switch (action) {
-    case "save":
-      handleSave(fileId, content);
-      break;
-    case "load":
-      handleLoad(fileId);
-      break;
-    case "delete":
-      handleDelete(fileId);
-      break;
-    case "list":
-      handleList();
-      break;
-    case "init":
-      initializeTemplate(template, files);
-      break;
-    default:
-      self.postMessage({ status: "error", error: "Unknown action" });
+  
+    switch (action) {
+      case "save":
+        handleSave(fileId, template, content);
+        break;
+      case "init":
+        initializeTemplate(template, files);
+        break;
+    } 
+  
+  
+  if (status && status === "success") {
+    handleSuccess(action, template, fileId);
+  }
+  else if(status && status === "error") {
+    handleError(action, template, fileId, error);
   }
 };
 
+function handleError(action, template, fileId, error) {
+  const saveErrorMessageLiteral = action === "save" && `, File ID: ${fileId}`;
+      console.error(`Error ${error}, Action ${action}, Template ${template}${saveErrorMessageLiteral}`)
+}
+
+function handleSuccess(action, template, fileId) {
+  const saveSuccessMessageLiteral = action === "save" && `, File ID: ${fileId}`;
+      console.error(`Action ${action}, Template ${template}${saveSuccessMessageLiteral}`)
+}
+
+
 function handleSave(fileId, template, content) {
   try {
-    const compressedContent = compressData(content);
-    localStorage.setItem(`${template}_file_${fileId}`, compressedContent);
-    self.postMessage({ status: "success", action: "save", fileId });
+    
+    const globalState = localStorage.getItem("try-editor");
+    if (!globalState) {
+      throw new Error("Could not find `try-editor` key in the local storage.");
+    }
+    let { state } = globalState;
+    console.log("State: ", state);
+    const ind = state.findIndex((st) => st.template === template);
+    if (ind === -1) {
+      throw new Error(`Could not find template ${template}.`);
+    }
+    let { files } = state[ind];
+    const decompressedFiles = JSON.parse(decompressData(files));
+    console.log("Decompressed Files: ", decompressedFiles);
+    decompressedFiles[fileId] = content;
+    state[ind].files = compressData(JSON.stringify(decompressedFiles));
+    self.postMessage({ status: "success", action: "save", fileId, template });
   } catch (error) {
     self.postMessage({
       status: "error",
       action: "save",
-      fileId,
+      template, 
+      fileId, 
       error: error.message,
     });
   }
@@ -41,26 +65,25 @@ function handleSave(fileId, template, content) {
 
 function initializeTemplate(template, files) {
   try {
-    
     const content = compressData(JSON.stringify(files));
     const globalState = localStorage.getItem("try-editor");
     if (!globalState) {
-      throw new Error("Could not find `try-editor` key in the local storage.")
+      throw new Error("Could not find `try-editor` key in the local storage.");
     }
 
     console.log("global state: ", globalState);
     const { state } = JSON.parse(globalState);
-    
+
     const ind = state.findIndex((el) => el.template === template);
     if (ind === -1) {
       state.push({
         template,
-        files: content
-      })
-    }
-    else {
+        files: content,
+      });
+    } else {
       throw new Error(`Template ${template} already initialized`);
     }
+    self.postMessage({ status: "success", action: "init", template });
   } catch (error) {
     self.postMessage({
       status: "error",
@@ -71,51 +94,3 @@ function initializeTemplate(template, files) {
   }
 }
 
-function handleLoad(template, fileId) {
-  try {
-    const compressedContent = localStorage.getItem(
-      `${template}_file_${fileId}`,
-    );
-    if (compressedContent === null) {
-      throw new Error("File not found");
-    }
-    const content = decompressData(compressedContent);
-    self.postMessage({ status: "success", action: "load", fileId, content });
-  } catch (error) {
-    self.postMessage({
-      status: "error",
-      action: "load",
-      fileId,
-      error: error.message,
-    });
-  }
-}
-
-function handleDelete(template, fileId) {
-  try {
-    localStorage.removeItem(`${template}_file_${fileId}`);
-    self.postMessage({ status: "success", action: "delete", fileId });
-  } catch (error) {
-    self.postMessage({
-      status: "error",
-      action: "delete",
-      fileId,
-      error: error.message,
-    });
-  }
-}
-
-function handleList(template) {
-  try {
-    const files = [];
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
-      if (key.startsWith("${template}_file_")) {
-        files.push(key.substring(template.length + 6)); // Remove 'file_' prefix
-      }
-    }
-    self.postMessage({ status: "success", action: "list", files });
-  } catch (error) {
-    self.postMessage({ status: "error", action: "list", error: error.message });
-  }
-}

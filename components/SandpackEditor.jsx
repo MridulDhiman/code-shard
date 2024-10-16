@@ -79,7 +79,6 @@ export default function SandpackEditor({
     );
   }
 
-
   const addNewFile = (fileName, fileCode = "") => {
     const filePath = `/${fileName}`;
 

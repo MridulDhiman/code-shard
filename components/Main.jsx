@@ -13,9 +13,11 @@ const Main = () => {
 
   useEffect(() => {
     if (localStorage && !localStorage.getItem("try-editor")) {
-      localStorage.setItem(JSON.stringify({
-        state: []
-      }));
+      localStorage.setItem(
+        JSON.stringify({
+          state: [],
+        }),
+      );
     }
   }, []);
 

@@ -33,30 +33,18 @@ export function useLocalStorageHandler() {
     }
   };
 
-  const loadFile = (template, fileId) => {
-    if (worker) {
-      worker.postMessage({ action: "load", template, fileId });
-    }
-  };
-
-  const deleteFile = (template, fileId) => {
-    if (worker) {
-      worker.postMessage({ action: "delete", fileId, template });
-    }
-  };
-
-  const listFiles = (template) => {
-    if (worker) {
-      worker.postMessage({ action: "list", template });
-    }
-  };
-
-
   const initializeTemplate = (template, files) => {
     if (worker) {
       worker.postMessage({ action: "init", template, files });
     }
-  }
+  };
 
-  return { saveFile, loadFile, deleteFile, listFiles, result, initializeTemplate };
+  return {
+    saveFile,
+    loadFile,
+    deleteFile,
+    listFiles,
+    result,
+    initializeTemplate,
+  };
 }
