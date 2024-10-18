@@ -8,11 +8,12 @@ import {
   // SandpackCodeEditor,
   SandpackStack,
   useSandpack,
+  useSandpackClient,
 } from "@codesandbox/sandpack-react";
 
 import { Toaster, toast } from "sonner";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 import File from "./ui/icons/File";
 
 import React from "react";
@@ -28,6 +29,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Avatar from "react-avatar";
 import Settings from "./ui/icons/Settings";
+import useIndexedDB from "@/customHooks/useIndexedDB";
 
 export default function SandpackEditor({
   id,
@@ -44,6 +46,7 @@ export default function SandpackEditor({
   const modalRef = useRef(null);
   const [theme, setTheme] = useState("vs-dark");
   useModal(isModalOpen, setIsModalOpen, modalRef);
+  
 
   useEffect(() => {
     if (initialShardDetails) {
@@ -138,8 +141,9 @@ export default function SandpackEditor({
             addNewDependency={addNewDependency}
             addNewDevDependency={addNewDevDependency}
           />
-          <MonacoEditor theme={theme} />
+          <MonacoEditor theme={theme} template={template} />
           <SandpackPreview
+            key={files}
             showOpenInCodeSandbox={false}
             showOpenNewtab={true}
             style={{ height: "100vh" }}

@@ -3,20 +3,66 @@ import {
   SandpackStack,
   FileTabs,
   useSandpack,
+  useSandpackNavigation
 } from "@codesandbox/sandpack-react";
 import { useCallback, useEffect, useState } from "react";
-import { useLocalStorageHandler } from "@/customHooks/useLocalStorageHandler";
+import useStorageHandler from "@/customHooks/useStorageHandler";
+import useIndexedDB from "@/customHooks/useIndexedDB";
+
 
 export function snakeCase(fname) {
   return fname.toLowerCase().replace(/[_() ]/g, "-");
 }
-export default function MonacoEditor({ theme, readOnly = false }) {
+export default function MonacoEditor({ theme, template, readOnly = false }) {
   const { sandpack } = useSandpack();
-  const { files, activeFile, updateCurrentFile } = sandpack;
+  const { files, activeFile, updateCurrentFile, closeFile } = sandpack;
   const monaco = useMonaco();
   const [isThemeLoaded, setIsThemeLoaded] = useState(false);
-  const {} = useLocalStorageHandler();
+  const { worker, initializeTemplate, saveFile } = useStorageHandler();
+  const { refresh } = useSandpackNavigation();
   const [editor, setEditor] = useState();
+  
+  useEffect(() => {
+    console.log(Object.keys(files), activeFile);
+    
+    Object.keys(files).filter((file) => file !== activeFile).forEach((file) => {
+      closeFile(file);
+      refresh();
+    })
+
+  }, []);
+
+  const { db, getItem } = useIndexedDB("TryEditorDB", 1, "editorState");
+
+
+  useEffect(() => {
+    
+    if (db) {
+      getItem(template)
+        .then((result) => {
+          console.log("fetched result from indexeddb: ", result.value);
+          Object.fromEntries(result.value.files).forEach(([path, content]) => {
+            console.log("Path: ", path);
+            console.log("Content: ", content);
+          })
+        })
+        .catch((error) => {
+          console.log("error from indexed db: ", error);
+        });
+    }
+  }, [db]);
+
+
+  useEffect(() => {
+    if (!template) {
+      return;
+    }
+    console.log("we are reaching here...");
+
+    if (worker) {
+      initializeTemplate(template, files);
+    }
+  }, [template, worker]);
 
   useEffect(() => {
     if (monaco && theme !== "vs-dark" && theme !== "light") {
@@ -39,10 +85,10 @@ export default function MonacoEditor({ theme, readOnly = false }) {
   const code = files[activeFile]?.code || "";
   const handleChange = useCallback((value) => {
     updateCurrentFile(value, true);
+    saveFile(activeFile, template, value);
   });
 
   const handleMount = useCallback((node) => {
-    // console.log(monaco)
     setEditor(node);
   });
 

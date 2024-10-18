@@ -5,21 +5,10 @@ import ObjectID from "bson-objectid";
 import Footer from "@/components/Footer";
 import { FeaturesSectionDemo } from "./FeatureSection";
 import { HeroScrollDemo } from "./HeroScroll";
-import { useEffect } from "react";
 
 const Main = () => {
   const router = useRouter();
   const { data: session } = useSession();
-
-  useEffect(() => {
-    if (localStorage && !localStorage.getItem("try-editor")) {
-      localStorage.setItem(
-        JSON.stringify({
-          state: [],
-        }),
-      );
-    }
-  }, []);
 
   return (
     <>

@@ -20,6 +20,7 @@ import { useRouter } from "next/navigation";
 import Avatar from "react-avatar";
 import Settings from "./ui/icons/Settings";
 import CollaborativeMonacoEditor from "./CollaborativeMonacoEditor";
+import SocketProvider from "@/context/SocketContext";
 
 export default function CollaborativeSandpackEditor({
   id,
@@ -121,35 +122,37 @@ export default function CollaborativeSandpackEditor({
   console.log(files);
   return (
     <>
-      <SandpackProvider
-        files={files}
-        template={template}
-        theme={"dark"}
-        customSetup={{
-          dependencies,
-          devDependencies,
-        }}
-      >
-        <SandpackLayout>
-          <SandpackSidebar
-            id={id}
-            theme={theme}
-            setTheme={setTheme}
-            template={template}
-            addNewFile={addNewFile}
-            dependencies={dependencies}
-            devDependencies={devDependencies}
-            addNewDependency={addNewDependency}
-            addNewDevDependency={addNewDevDependency}
-          />
-          <CollaborativeMonacoEditor roomId={id} theme={theme} />
-          <SandpackPreview
-            showOpenInCodeSandbox={false}
-            showOpenNewtab={true}
-            style={{ height: "100vh" }}
-          />
-        </SandpackLayout>
-      </SandpackProvider>
+      <SocketProvider>
+        <SandpackProvider
+          files={files}
+          template={template}
+          theme={"dark"}
+          customSetup={{
+            dependencies,
+            devDependencies,
+          }}
+        >
+          <SandpackLayout>
+            <SandpackSidebar
+              id={id}
+              theme={theme}
+              setTheme={setTheme}
+              template={template}
+              addNewFile={addNewFile}
+              dependencies={dependencies}
+              devDependencies={devDependencies}
+              addNewDependency={addNewDependency}
+              addNewDevDependency={addNewDevDependency}
+            />
+            <CollaborativeMonacoEditor roomId={id} theme={theme} />
+            <SandpackPreview
+              showOpenInCodeSandbox={false}
+              showOpenNewtab={true}
+              style={{ height: "100vh" }}
+            />
+          </SandpackLayout>
+        </SandpackProvider>
+      </SocketProvider>
     </>
   );
 }
