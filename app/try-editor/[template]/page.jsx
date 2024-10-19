@@ -1,4 +1,4 @@
-import SandpackEditor from "@/components/SandpackEditor";
+import PreSandpackEditor from "@/components/PreSandpackEditor";
 import { templates } from "@/utils";
 import { redirect } from "next/navigation";
 export const generateMetadata = ({ params }) => {
@@ -27,7 +27,7 @@ export default function templatePage({ params }) {
   const template = params.template;
   return (
     <>
-      <SandpackEditor template={template} shard={false} />
+      <PreSandpackEditor template={template} shard={false} />
     </>
   );
 }

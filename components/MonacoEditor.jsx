@@ -2,71 +2,48 @@ import Editor, { useMonaco } from "@monaco-editor/react";
 import {
   SandpackStack,
   FileTabs,
-  useSandpack,
-  useSandpackNavigation
+  useSandpack
 } from "@codesandbox/sandpack-react";
 import { useCallback, useEffect, useState } from "react";
 import useStorageHandler from "@/customHooks/useStorageHandler";
-import useIndexedDB from "@/customHooks/useIndexedDB";
 
 
 export function snakeCase(fname) {
   return fname.toLowerCase().replace(/[_() ]/g, "-");
 }
-export default function MonacoEditor({ theme, template, readOnly = false }) {
+export default function MonacoEditor({  theme, template, readOnly = false }) {
   const { sandpack } = useSandpack();
   const { files, activeFile, updateCurrentFile, closeFile } = sandpack;
   const monaco = useMonaco();
   const [isThemeLoaded, setIsThemeLoaded] = useState(false);
   const { worker, initializeTemplate, saveFile } = useStorageHandler();
-  const { refresh } = useSandpackNavigation();
   const [editor, setEditor] = useState();
-  
-  useEffect(() => {
-    console.log(Object.keys(files), activeFile);
-    
-    Object.keys(files).filter((file) => file !== activeFile).forEach((file) => {
-      closeFile(file);
-      refresh();
-    })
 
-  }, []);
-
-  const { db, getItem } = useIndexedDB("TryEditorDB", 1, "editorState");
 
 
   useEffect(() => {
-    
-    if (db) {
-      getItem(template)
-        .then((result) => {
-          console.log("fetched result from indexeddb: ", result.value);
-          Object.fromEntries(result.value.files).forEach(([path, content]) => {
-            console.log("Path: ", path);
-            console.log("Content: ", content);
-          })
-        })
-        .catch((error) => {
-          console.log("error from indexed db: ", error);
-        });
+    if (files) {
+      Object.entries(files).forEach(([path, content]) => {   
+        if (path !== activeFile) {
+          closeFile(path);
+        }
+      
+      });
     }
-  }, [db]);
-
+  }, [files]);
 
   useEffect(() => {
     if (!template) {
       return;
     }
-    console.log("we are reaching here...");
 
     if (worker) {
       initializeTemplate(template, files);
     }
-  }, [template, worker]);
+  }, [template, worker, files]);
 
   useEffect(() => {
     if (monaco && theme !== "vs-dark" && theme !== "light") {
-      console.log(theme);
       import(`monaco-themes/themes/${theme}.json`)
         .then((data) => {
           monaco.editor.defineTheme(snakeCase(theme), data);
@@ -111,7 +88,6 @@ export default function MonacoEditor({ theme, template, readOnly = false }) {
   return (
     <SandpackStack style={{ height: "100vh", margin: 0 }}>
       <FileTabs />
-      {/* {provider ? <Cursors yProvider={provider} /> : null} */}
       <div style={{ flex: 1, background: "#1e1e1e" }}>
         <Editor
           key={activeFile}

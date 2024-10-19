@@ -29,12 +29,13 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Avatar from "react-avatar";
 import Settings from "./ui/icons/Settings";
-import useIndexedDB from "@/customHooks/useIndexedDB";
+
 
 export default function SandpackEditor({
   id,
   shardDetails: initialShardDetails,
   template = "react",
+  files: initialFiles, 
   room = false,
 }) {
   const [shardDetails, setShardDetails] = useState(null);
@@ -46,16 +47,27 @@ export default function SandpackEditor({
   const modalRef = useRef(null);
   const [theme, setTheme] = useState("vs-dark");
   useModal(isModalOpen, setIsModalOpen, modalRef);
-  
+ 
+
+  useEffect(() => {
+    if (initialFiles) {
+      console.log("abhi aya");
+      setFiles(initialFiles);
+    }
+    else {
+      setFiles({});
+    }
+  }, [initialFiles]);
 
   useEffect(() => {
     if (initialShardDetails) {
       const data = JSON.parse(initialShardDetails);
-      console.log(data);
+   
       const [f, dep, devDep] = makeFilesAndDependenciesUIStateLike(
         data.files,
         data.dependencies,
       );
+
       setFiles(f);
       setDependencies(dep);
       setDevDependencies(devDep);
@@ -117,7 +129,7 @@ export default function SandpackEditor({
     }
   };
 
-  console.log(files);
+  
   return (
     <>
       <SandpackProvider
@@ -141,9 +153,9 @@ export default function SandpackEditor({
             addNewDependency={addNewDependency}
             addNewDevDependency={addNewDevDependency}
           />
-          <MonacoEditor theme={theme} template={template} />
+          <MonacoEditor latestFiles={files} id={id} theme={theme} template={template} />
           <SandpackPreview
-            key={files}
+           
             showOpenInCodeSandbox={false}
             showOpenNewtab={true}
             style={{ height: "100vh" }}
@@ -225,7 +237,7 @@ function SandpackSidebar({
   const { sandpack } = useSandpack();
   const { data: session } = useSession();
   const router = useRouter();
-  console.log("Sandpacksidebar: ", session);
+ 
   const modalRef = useRef(null);
   const [isClicked, setIsClicked] = useState(false);
   useModal(isClicked, setIsClicked, modalRef);
@@ -259,7 +271,7 @@ function SandpackSidebar({
   );
 
   const handleSave = async () => {
-    console.log(files, id);
+   
     let loadingId = null;
     if (session?.user) {
       try {
@@ -273,7 +285,7 @@ function SandpackSidebar({
           session?.user?.name,
         );
 
-        console.log(status);
+        
         if (status === 500) {
           toast.dismiss(loadingId);
           toast.error("Could not save shard. Try Again!");
@@ -285,7 +297,7 @@ function SandpackSidebar({
           router.push(`/shard/${id}`);
         }
       } catch (error) {
-        console.log("error occurred", error);
+        
       } finally {
         toast.dismiss(loadingId);
       }
@@ -329,7 +341,7 @@ function SandpackSidebar({
             />
             <Settings
               onClick={() => {
-                console.log("clicked on settings");
+              
                 setIsClicked(true);
               }}
               className={
