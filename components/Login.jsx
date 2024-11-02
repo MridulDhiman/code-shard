@@ -18,7 +18,8 @@ const Login = () => {
 
   useEffect(() => {
     if (session) {
-      router.replace("/your-work");
+      console.log("session not found", session);
+      router.replace("/");
     }
   }, [session]);
 
@@ -36,8 +37,6 @@ const Login = () => {
         password,
         callbackUrl: `/your-work`,
       });
-
-      // router.push("/your-work");
     } catch (error) {
       setError("Invalid Credentials!");
       // throw error;
